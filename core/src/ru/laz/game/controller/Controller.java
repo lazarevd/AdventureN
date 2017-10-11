@@ -15,6 +15,8 @@ import ru.laz.game.model.things.Thing;
 import ru.laz.game.model.things.Trunk;
 import ru.laz.game.view.ui.UI;
 
+import static ru.laz.game.controller.Controller.getCursor;
+
 
 class SceneGestureListener implements GestureDetector.GestureListener {
 
@@ -33,8 +35,8 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		Gdx.app.log("TAP", x+" "+ y + " " + count + " " + button);
-		Vector2 touchPos = new Vector2();
-		touchPos.set(x, y);
+		Vector2 touchPos = getCursor(new Vector2(x,y),true);
+
 		String curThingName = Controller.getHitActor(touchPos);
 
 		Thing curThing = gameLevel.getThings().get(curThingName);
@@ -158,20 +160,34 @@ public class Controller {
 	private GestureDetector sceneGestureDetector;
 
 
-	/*
-	public static Vector2 getCursor(boolean world) {	
+
+	public static Vector2 getCursor(Vector2 input, boolean world) {
+		Vector3 vec3 = new Vector3();
+
+		if (!world) {
+			vec3.set(new Vector3(input.x, input.y, 0));
+		} else {
+			vec3.set(UI.getViewportScene().unproject(new Vector3(input.x, input.y, 0)));
+		}
+		Vector2 ret = new Vector2(vec3.x, vec3.y);
+		return ret;
+	}
+
+
+
+	public static Vector2 getCursor(boolean world) {
 		Vector3 vec3 = new Vector3();
 		
 		if (!world) {
-		vec3.set(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));	
+		vec3.set(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 		} else {
-		vec3.set(UI.getViewportScene().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));	
+		vec3.set(UI.getViewportScene().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
 		}
 		
 		Vector2 ret = new Vector2(vec3.x, vec3.y);
 		return ret;
 	}
-*/
+
 
 	public static String getHitActor(Vector2 xy) {
 		if (gameLevel != null) {

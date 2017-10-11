@@ -49,6 +49,7 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	@Override
 	public void render(float delta) {
 		ui.act(delta);
+		this.gameLevel.act(delta);
 		render.drawObjects(this.gameLevel);
 	}
 

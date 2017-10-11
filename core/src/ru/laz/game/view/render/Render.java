@@ -459,16 +459,11 @@ public class Render {
 
 
 
-/*
+
 		for (Entry<String, Polygon4Game> entry : gameLevel.getGraph().getPolygons().entrySet()) {
-			if (entry.getValue().isPointInside(Controller.getCursor(true))) {
-				entry.getValue().drawStat = DrawStat.HIGHLIGHT;				
-			}
-			else {entry.getValue().drawStat = DrawStat.NORMAL;
-			}
 			drawPolygon(entry.getValue(), Colour.BLUE);
 		}
-		*/
+
 
 		}
 

@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -113,6 +112,8 @@ public class UI {
 	}
 	
 	public void act(float delta) {
+
+
 	}
 
 
@@ -169,17 +170,8 @@ public class UI {
 		    }
 		});
 		
-		Button save = createButton("Save");
-		save.addListener(new ChangeListener() {
-		    public void changed (ChangeEvent event, Actor actor) {
-		    	Json json = new Json();
-			    String saveGraph = json.prettyPrint(AGame.getGame().getGameScreen().getGameLevel().getGraph());	
-			    Gdx.app.log("SAVE", saveGraph);
-		    }
-		});
 
-		
-		
+
 		
         mainTable.add(but1).maxWidth(60);
         mainTable.row();
@@ -187,9 +179,6 @@ public class UI {
         mainTable.row();
         mainTable.add(trunk).maxWidth(60);
         mainTable.row();
-        mainTable.add(save).maxWidth(60);
-        mainTable.row();
-
         
 	}
 	

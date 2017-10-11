@@ -73,7 +73,8 @@ public class Level implements GameLevel {
 
 
 @Override
-public void act(float delta) {  
+public void act(float delta) {
+	mainActor.act(delta);
 }
 
 

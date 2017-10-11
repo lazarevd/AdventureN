@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import ru.laz.game.view.render.Render;
+
+
 public class Polygon4Game extends Polygon {
 	
 	
@@ -283,12 +286,12 @@ public class Polygon4Game extends Polygon {
 			proj = false;	
 		}
 		
-		/*
-		RenderShapes.drawPoint(new Vector2(getEdge(getClosestEdgeId(xy))[0].x + ab.x, getEdge(getClosestEdgeId(xy))[0].y + ab.y), 7, Colour.RED);
-		RenderShapes.drawPoint(new Vector2(getEdge(getClosestEdgeId(xy))[0].x + ap.x, getEdge(getClosestEdgeId(xy))[0].y + ap.y), 7, Colour.GREEN);
-		RenderShapes.drawLine((int)getEdge(getClosestEdgeId(xy))[0].x, (int)getEdge(getClosestEdgeId(xy))[0].y, (int)ab.x + (int)getEdge(getClosestEdgeId(xy))[0].x, (int)ab.y + (int)getEdge(getClosestEdgeId(xy))[0].y, Colour.RED);
-		RenderShapes.drawLine((int)getEdge(getClosestEdgeId(xy))[0].x, (int)getEdge(getClosestEdgeId(xy))[0].y, (int)ap.x + (int)getEdge(getClosestEdgeId(xy))[0].x, (int)ap.y + (int)getEdge(getClosestEdgeId(xy))[0].y, Colour.GREEN);
-		*/
+
+		Render.drawPoint(new Vector2(getEdge(getClosestEdgeId(xy))[0].x + ab.x, getEdge(getClosestEdgeId(xy))[0].y + ab.y), 7, Render.Colour.RED);
+		Render.drawPoint(new Vector2(getEdge(getClosestEdgeId(xy))[0].x + ap.x, getEdge(getClosestEdgeId(xy))[0].y + ap.y), 7, Render.Colour.GREEN);
+		Render.drawLine((int)getEdge(getClosestEdgeId(xy))[0].x, (int)getEdge(getClosestEdgeId(xy))[0].y, (int)ab.x + (int)getEdge(getClosestEdgeId(xy))[0].x, (int)ab.y + (int)getEdge(getClosestEdgeId(xy))[0].y, Render.Colour.RED);
+		Render.drawLine((int)getEdge(getClosestEdgeId(xy))[0].x, (int)getEdge(getClosestEdgeId(xy))[0].y, (int)ap.x + (int)getEdge(getClosestEdgeId(xy))[0].x, (int)ap.y + (int)getEdge(getClosestEdgeId(xy))[0].y, Render.Colour.GREEN);
+
 		
 
 		return proj;

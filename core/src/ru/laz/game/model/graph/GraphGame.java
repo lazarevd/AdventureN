@@ -448,7 +448,8 @@ public void addStartFinishNodes(Vector2 sxy, Vector2 fxy, float scale) {
 		for(Entry<String, Polygon4Game> poly : polygons.entrySet()) { //ќпределе¤ем стартовый и финишный полигоны, если они есть
 	
 			if (poly.getValue().isPointInside(fxy)) {//if cursor clicked on a poly, get this poly
-					polf = poly.getKey();
+				polf = poly.getKey();
+				Gdx.app.log("IN POLY ", polf);
 			}
 			if (poly.getValue().isPointInside(sxy)) {//get polygon with start position
 					pols = poly.getKey();
