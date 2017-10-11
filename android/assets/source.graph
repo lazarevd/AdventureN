@@ -1,0 +1,126 @@
+{
+nodes: {
+	node4: {
+		poeList: [
+			poe5
+			poe6
+		]
+		nodeType: POE
+		x: 1085
+		y: 67
+		renderScale: 0.8
+	}
+	nodeRope: {
+		nodeType: STANDART
+		x: 999
+		y: 100
+		renderScale: 1
+	}
+	node2: {
+		poeList: [
+			poe3
+			poe4
+		]
+		nodeType: POE
+		x: 1164
+		y: 67
+		renderScale: 1
+	}
+	nodeMug: {
+		nodeType: STANDART
+		x: 501
+		y: 40
+		renderScale: 1
+	}
+	node1: {
+		poeList: [
+			poe1
+			poe2
+		]
+		nodeType: POE
+		x: 1005
+		y: 67
+		renderScale: 1
+	}
+}
+poes: {
+	poe6: {
+		parentEdge: 3
+		edgePosition: 0.13766217
+		parentPoly: poly2
+	}
+	poe2: {
+		parentEdge: 3
+		edgePosition: 0.21492204
+		parentPoly: poly2
+	}
+	poe3: {
+		parentEdge: 1
+		edgePosition: 0.7929404
+		parentPoly: poly1
+	}
+	poe4: {
+		parentEdge: 3
+		edgePosition: 0.058496073
+		parentPoly: poly2
+	}
+	poe5: {
+		parentEdge: 1
+		edgePosition: 0.46968868
+		parentPoly: poly1
+	}
+	poe1: {
+		parentEdge: 1
+		edgePosition: 0.1378542
+		parentPoly: poly1
+	}
+}
+edges: {
+	edge5: {
+		nodesToLink: [
+			nodeRope
+			node4
+		]
+	}
+	edge6: {
+		nodesToLink: [
+			nodeRope
+			node2
+		]
+	}
+	edge3: {
+		nodesToLink: [
+			node4
+			node2
+		]
+	}
+	edge4: {
+		nodesToLink: [
+			nodeRope
+			node1
+		]
+	}
+	edge1: {
+		nodesToLink: [
+			nodeMug
+			node1
+		]
+	}
+	edge2: {
+		nodesToLink: [
+			node1
+			node4
+		]
+	}
+}
+polys: {
+	poly2: {
+		localVertices: [ 103, 6, 1235, 7, 1233, 63, 172, 55 ]
+		renderScale: 1
+	}
+	poly1: {
+		localVertices: [ 975, 74, 1207, 73, 1168, 103, 976, 103 ]
+		renderScale: 0.8
+	}
+}
+}

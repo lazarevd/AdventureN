@@ -1,0 +1,563 @@
+{
+nodes: {
+	node31: {
+		x: 873
+		y: 165
+		nodeType: 2
+		poes: [
+			poe53
+			poe54
+		]
+	}
+	node21: {
+		x: 1330
+		y: 46
+		nodeType: 2
+		poes: [
+			poe33
+			poe34
+		]
+	}
+	node32: {
+		x: 929
+		y: 162
+		nodeType: 2
+		poes: [
+			poe55
+			poe56
+		]
+	}
+	node22: {
+		x: 1292
+		y: 76
+		nodeType: 2
+		poes: [
+			poe35
+			poe36
+		]
+	}
+	node33: {
+		x: 248
+		y: 60
+		nodeType: 2
+		poes: [
+			poe57
+			poe58
+		]
+	}
+	node12: {
+		x: 1316
+		y: 131
+		nodeType: 2
+		poes: [
+			poe21
+			poe22
+		]
+	}
+	node23: {
+		x: 975
+		y: 141
+		nodeType: 2
+		poes: [
+			poe37
+			poe38
+		]
+	}
+	node13: {
+		x: 1371
+		y: 139
+		nodeType: 2
+		poes: [
+			poe23
+			poe24
+		]
+	}
+	node24: {
+		x: 960
+		y: 109
+		nodeType: 2
+		poes: [
+			poe39
+			poe40
+		]
+	}
+	node14: {
+		x: 1356
+		y: 167
+		nodeType: 2
+		poes: [
+			poe25
+			poe26
+		]
+	}
+	node25: {
+		x: 577
+		y: 161
+		nodeType: 2
+		poes: [
+			poe41
+			poe42
+		]
+	}
+	node26: {
+		x: 561
+		y: 117
+		nodeType: 2
+		poes: [
+			poe43
+			poe44
+		]
+	}
+	node16: {
+		x: 344
+		y: 208
+		nodeType: 1
+	}
+	node27: {
+		x: 421
+		y: 177
+		nodeType: 2
+		poes: [
+			poe45
+			poe46
+		]
+	}
+	node17: {
+		x: 292
+		y: 207
+		nodeType: 1
+	}
+	node28: {
+		x: 408
+		y: 138
+		nodeType: 2
+		poes: [
+			poe47
+			poe48
+		]
+	}
+	node18: {
+		x: 249
+		y: 179
+		nodeType: 1
+	}
+	node29: {
+		x: 382
+		y: 192
+		nodeType: 2
+		poes: [
+			poe49
+			poe50
+		]
+	}
+	node19: {
+		x: 139
+		y: 221
+		nodeType: 2
+		poes: [
+			poe29
+			poe30
+		]
+	}
+	node4: {
+		x: 726
+		y: 153
+		nodeType: 2
+		poes: [
+			poe5
+			poe6
+		]
+	}
+	node5: {
+		x: 728
+		y: 120
+		nodeType: 2
+		poes: [
+			poe7
+			poe8
+		]
+	}
+	node8: {
+		x: 1165
+		y: 94
+		nodeType: 2
+		poes: [
+			poe13
+			poe14
+		]
+	}
+	node9: {
+		x: 1159
+		y: 61
+		nodeType: 2
+		poes: [
+			poe15
+			poe16
+		]
+	}
+	node30: {
+		x: 207
+		y: 168
+		nodeType: 2
+		poes: [
+			poe51
+			poe52
+		]
+	}
+}
+poes: {
+	poe6: {
+		parentEdge: 4
+		parentPoly: poly4
+		position: 0.22714934
+	}
+	poe7: {
+		parentEdge: 2
+		parentPoly: poly3
+		position: 0.4
+	}
+	poe8: {
+		parentEdge: 4
+		parentPoly: poly4
+		position: 0.6939365
+	}
+	poe29: {
+		parentEdge: 1
+		parentPoly: poly11
+		position: 0.4147171
+	}
+	poe26: {
+		parentEdge: 1
+		parentPoly: poly9
+		position: 0.4003206
+	}
+	poe48: {
+		parentEdge: 4
+		parentPoly: poly2
+		position: 0.7537359
+	}
+	poe49: {
+		parentEdge: 3
+		parentPoly: poly1
+		position: 0.64259315
+	}
+	poe24: {
+		parentEdge: 1
+		parentPoly: poly8
+		position: 0.5680331
+	}
+	poe46: {
+		parentEdge: 4
+		parentPoly: poly2
+		position: 0.22558849
+	}
+	poe25: {
+		parentEdge: 2
+		parentPoly: poly8
+		position: 0.5729336
+	}
+	poe47: {
+		parentEdge: 2
+		parentPoly: poly1
+		position: 0.26608607
+	}
+	poe22: {
+		parentEdge: 1
+		parentPoly: poly8
+		position: 0.19098343
+	}
+	poe44: {
+		parentEdge: 4
+		parentPoly: poly3
+		position: 0.74339604
+	}
+	poe23: {
+		parentEdge: 3
+		parentPoly: poly7
+		position: 0.24510948
+	}
+	poe45: {
+		parentEdge: 2
+		parentPoly: poly1
+		position: 0.7556845
+	}
+	poe42: {
+		parentEdge: 4
+		parentPoly: poly3
+		position: 0.19562261
+	}
+	poe5: {
+		parentEdge: 2
+		parentPoly: poly3
+		position: 0.7375
+	}
+	poe21: {
+		parentEdge: 3
+		parentPoly: poly7
+		position: 0.7773646
+	}
+	poe43: {
+		parentEdge: 2
+		parentPoly: poly2
+		position: 0.32843134
+	}
+	poe40: {
+		parentEdge: 4
+		parentPoly: poly5
+		position: 0.7870969
+	}
+	poe41: {
+		parentEdge: 2
+		parentPoly: poly2
+		position: 0.777451
+	}
+	poe39: {
+		parentEdge: 2
+		parentPoly: poly4
+		position: 0.24142024
+	}
+	poe15: {
+		parentEdge: 2
+		parentPoly: poly5
+		position: 0.48720583
+	}
+	poe37: {
+		parentEdge: 2
+		parentPoly: poly4
+		position: 0.73017764
+	}
+	poe16: {
+		parentEdge: 4
+		parentPoly: poly6
+		position: 0.6182157
+	}
+	poe38: {
+		parentEdge: 4
+		parentPoly: poly5
+		position: 0.27741915
+	}
+	poe13: {
+		parentEdge: 2
+		parentPoly: poly5
+		position: 1
+	}
+	poe35: {
+		parentEdge: 2
+		parentPoly: poly6
+		position: 0.82089084
+	}
+	poe57: {
+		parentEdge: 1
+		parentPoly: poly10
+		position: 0.43451777
+	}
+	poe14: {
+		parentEdge: 4
+		parentPoly: poly6
+		position: 0.30260232
+	}
+	poe36: {
+		parentEdge: 1
+		parentPoly: poly7
+		position: 0.19186951
+	}
+	poe58: {
+		parentEdge: 3
+		parentPoly: poly13
+		position: 0.5429183
+	}
+	poe33: {
+		parentEdge: 2
+		parentPoly: poly6
+		position: 0.28827813
+	}
+	poe55: {
+		parentEdge: 1
+		parentPoly: poly12
+		position: 0.60510963
+	}
+	poe34: {
+		parentEdge: 1
+		parentPoly: poly7
+		position: 0.70193356
+	}
+	poe56: {
+		parentEdge: 3
+		parentPoly: poly4
+		position: 0.2059052
+	}
+	poe53: {
+		parentEdge: 1
+		parentPoly: poly12
+		position: 0.18119085
+	}
+	poe54: {
+		parentEdge: 3
+		parentPoly: poly4
+		position: 0.43267632
+	}
+	poe51: {
+		parentEdge: 2
+		parentPoly: poly10
+		position: 0.6673685
+	}
+	poe30: {
+		parentEdge: 3
+		parentPoly: poly10
+		position: 0.44801885
+	}
+	poe52: {
+		parentEdge: 2
+		parentPoly: poly10
+		position: 0.5662574
+	}
+	poe50: {
+		parentEdge: 3
+		parentPoly: poly1
+		position: 0.45123708
+	}
+}
+edges: {
+	edge27: {
+		node1: node13
+		node2: node21
+	}
+	edge28: {
+		node1: node21
+		node2: node9
+	}
+	edge25: {
+		node1: node22
+		node2: node12
+	}
+	edge26: {
+		node1: node12
+		node2: node13
+	}
+	edge29: {
+		node1: node9
+		node2: node24
+	}
+	edge30: {
+		node1: node24
+		node2: node5
+	}
+	edge31: {
+		node1: node5
+		node2: node26
+	}
+	edge34: {
+		node1: node18
+		node2: node30
+	}
+	edge35: {
+		node1: node16
+		node2: node29
+	}
+	edge32: {
+		node1: node26
+		node2: node28
+	}
+	edge33: {
+		node1: node28
+		node2: node29
+	}
+	edge9: {
+		node1: node13
+		node2: node14
+	}
+	edge38: {
+		node1: node32
+		node2: node23
+	}
+	edge17: {
+		node1: node18
+		node2: node17
+	}
+	edge39: {
+		node1: node33
+		node2: node30
+	}
+	edge14: {
+		node1: node12
+		node2: node14
+	}
+	edge36: {
+		node1: node19
+		node2: node30
+	}
+	edge37: {
+		node1: node31
+		node2: node4
+	}
+	edge18: {
+		node1: node17
+		node2: node16
+	}
+	edge19: {
+		node1: node29
+		node2: node27
+	}
+	edge20: {
+		node1: node27
+		node2: node25
+	}
+	edge23: {
+		node1: node23
+		node2: node8
+	}
+	edge24: {
+		node1: node8
+		node2: node22
+	}
+	edge21: {
+		node1: node25
+		node2: node4
+	}
+	edge22: {
+		node1: node4
+		node2: node23
+	}
+}
+polys: {
+	poly12: {
+		vertices: [ 851, 167, 981, 160, 912, 273, 869, 275 ]
+	}
+	poly11: {
+		vertices: [ 114, 221, 165, 228, 82, 275, 67, 265 ]
+	}
+	poly13: {
+		vertices: [ 256, 1, 314, 21, 295, 52, 231, 39 ]
+	}
+	poly10: {
+		vertices: [ 207, 73, 277, 78, 165, 225, 116, 214 ]
+	}
+	poly8: {
+		vertices: [ 1289, 128, 1413, 146, 1300, 187, 1267, 167 ]
+	}
+	poly9: {
+		vertices: [ 1332, 177, 1412, 149, 1421, 220, 1374, 206 ]
+	}
+	poly6: {
+		vertices: [ 1154, 27, 1352, 28, 1279, 86, 1169, 106 ]
+	}
+	poly7: {
+		vertices: [ 1280, 88, 1352, 31, 1413, 144, 1293, 128 ]
+	}
+	poly4: {
+		vertices: [ 731, 92, 952, 96, 983, 160, 727, 173 ]
+	}
+	poly5: {
+		vertices: [ 954, 94, 1151, 29, 1166, 106, 985, 158 ]
+	}
+	poly2: {
+		vertices: [ 402, 118, 551, 93, 571, 180, 429, 196 ]
+	}
+	poly3: {
+		vertices: [ 554, 90, 728, 92, 725, 173, 597, 179 ]
+	}
+	poly1: {
+		vertices: [ 304, 166, 401, 120, 425, 195, 348, 191 ]
+	}
+}
+}
