@@ -27,7 +27,7 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 
 
 	public Level_01 () {	
-		super(1240, 540);
+		super(710, 510);
 	}	
 	
 	@Override

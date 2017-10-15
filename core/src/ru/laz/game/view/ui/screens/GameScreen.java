@@ -32,10 +32,9 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	
 	public void init() {
 		this.level = LevelBuilder.createGameLevel(1);
-		ui.setGameLevel(this.level);
-        Gdx.app.log("GAME LEVEL", level.toString());
-        Controller.setSceneControls(level);
-		//Gdx.input.setInputProcessor(UI.getUIStage());//????????? ???? ????? UI ??? InputProcessor - ?????????? ???????.
+		ui.setLevel(this.level);
+		Controller.setLevel(this.level);
+		Controller.setSceneControls();
 		render.setLevel(level);
 	}
 	

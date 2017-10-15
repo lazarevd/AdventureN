@@ -34,7 +34,7 @@ public class UI {
 	private static Viewport viewportUI;
 	private static UI ui; //singletone
 	private static Trunk trunk;
-	public final static int WIDTH = 1024;
+	public final static int WIDTH = 500;
 	public final static int HEIGHT = 768;
 	public static boolean GRAPH = true;
 	public static boolean BACK = false;
@@ -78,7 +78,7 @@ public class UI {
 	}
 
 
-	public void setGameLevel(Level level) {
+	public void setLevel(Level level) {
 		viewportScene = new ScalingViewport(Scaling.fill, level.getWidth(), level.getHeight(), scCam);
 	}
 	

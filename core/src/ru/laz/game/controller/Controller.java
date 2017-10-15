@@ -38,7 +38,7 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 		Vector2 touchPosL = getCursor(new Vector2(x,y),false);
 
-		Controller.getHitButton(touchPosL);
+		if (Controller.getHitButton(touchPosL) != null) return true;
 
 
 		Vector2 touchPosW = getCursor(new Vector2(x,y),true);
@@ -100,6 +100,11 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 }
 
 class TrunkGestureListener implements GestureDetector.GestureListener {
+
+	Level level;
+
+	public TrunkGestureListener(Level level) {this.level = level;}
+
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Gdx.app.log("TOUCH DOWN", x+ " " + y + " " + pointer + " " + button);
@@ -110,6 +115,7 @@ class TrunkGestureListener implements GestureDetector.GestureListener {
 	public boolean tap(float x, float y, int count, int button) {
 		Gdx.app.log("TAP", x+" "+ y + " " + count + " " + button);
 		if(x > 1800) UI.setTRUNK(false);
+		Controller.setSceneControls();
 		return false;
 	}
 
@@ -162,7 +168,9 @@ class TrunkGestureListener implements GestureDetector.GestureListener {
 
 
 public class Controller {
-	
+
+
+
 	private static Level level;
 	private static Trunk trunk;
 
@@ -184,8 +192,13 @@ public class Controller {
 	}
 
 
+	public static void setLevel(Level level) {
+		Controller.level = level;
+	}
 
-
+	public static Level getLevel() {
+		return level;
+	}
 
 	public static String getHitButton(Vector2 xy) {
 		for (Map.Entry<String,UIButton> entry : UI.uiButtons.entrySet()) {
@@ -212,74 +225,12 @@ public class Controller {
 	}
 
 	public static void setTrunkControls() {
-		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new TrunkGestureListener()));
+		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new TrunkGestureListener(Controller.getLevel())));
 	}
 
-	public static void setSceneControls(Level gl) {
-		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new SceneGestureListener(gl)));
+	public static void setSceneControls() {
+		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new SceneGestureListener(Controller.getLevel())));
 	}
 
-
-/*
-	private void processTrunk() {
-
-		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new TrunkGestureListener()));
-
-		Vector2 touchPos = new Vector2();
-		touchPos.set(getCursor(true).x, getCursor(true).y);
-		String curThingName = getHitThingTrunk(touchPos);
-		Thing curThing = gameLevel.getThings().get(curThingName);
-		Gdx.app.log("TRUNK ", curThingName+"");
-		if (curThing != null) {
-			curThing.setX(getCursor(true).x);
-			curThing.setY(getCursor(true).y);
-		}
-
-	}
-
-
-	private void processScene() {
-
-		Vector2 touchPos = new Vector2();
-		touchPos.set(getCursor(true).x, getCursor(true).y);
-		String curThingName = getHitActor(touchPos);
-		Thing curThing = gameLevel.getThings().get(curThingName);
-		if (curThing != null) {
-			gameLevel.getMainActor().addWork(new TakeWork(curThingName, gameLevel));
-			gameLevel.getMainActor().addWork(new MoveWork(curThing, touchPos, gameLevel));
-		}
-		else {
-			gameLevel.getMainActor().addWork(new MoveWork(touchPos, gameLevel));
-		}
-		Vector3 vec3 = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		Vector3 vecOrg = vec3.cpy();
-	}
-
-
-
-
-
-
-
-	public String getHitThingTrunk(Vector2 xy) {
-		if (trunk != null) {
-			for (Entry<String, Thing> entry : trunk.getThings().entrySet()) {
-                Gdx.app.log("HIT ", entry.getKey()+ " "+ getCursor(true).x+":"+getCursor(true).y + " " + entry.getValue().getXY().toString());
-                if (entry.getValue().isHit(xy)) {
-					return entry.getKey();
-				}
-			}
-		}
-		return null;
-	}
-	
-	
-
-	
-	public void setGameLevel (GameLevel gameLevel) {
-		this.gameLevel = gameLevel;
-	}
-
-*/
 
 	}

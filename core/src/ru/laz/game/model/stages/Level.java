@@ -24,8 +24,8 @@ public abstract class Level {
 
 
 
-	private float width = 2048;
-	private float height = 512;
+	private float width;
+	private float height;
 
 	private Sprite backgroundSpt;
 	OrthographicCamera scCam;
