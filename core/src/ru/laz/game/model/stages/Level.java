@@ -15,13 +15,18 @@ import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.render.RenderObject;
 import ru.laz.game.view.ui.UI;
 
-public class Level implements GameLevel {
+public abstract class Level {
 
 	
 	private MainActor mainActor;
 	private GraphGame graph;
 
-	float camAngle = 0.5f;
+
+
+
+	private float width = 2048;
+	private float height = 512;
+
 	private Sprite backgroundSpt;
 	OrthographicCamera scCam;
 
@@ -29,7 +34,6 @@ public class Level implements GameLevel {
 
 	private Vector2 initalSceneCameraPosition; //need for parallax calculating
 	OrthographicCamera uiCam;
-	private UI ui;
 	
 	HashMap<String, Thing> things;
 	HashMap<String, StaticObject> staticObjects;
@@ -37,23 +41,19 @@ public class Level implements GameLevel {
 
 	
 	
-	public Level() {
+	public Level(float width, float height) {
+		this.width = width;
+		this.height = height;
 		staticObjects = new HashMap<String, StaticObject>();
 		renderObjects = new Array<RenderObject>();
 
 	}
-	
-	
-	
-	
+
+
+
 	
 
-@Override
-	public void init(UI ui) {
-		this.ui = ui;
-		
-
-		
+	public void init() {
 		graph = new GraphGame();// create graph here (it belongs to this stage)
 		graph.loadGraph();
 		
@@ -69,16 +69,18 @@ public class Level implements GameLevel {
 
 
 
-
-
-
-@Override
 public void act(float delta) {
 	mainActor.act(delta);
 }
 
 
+	public float getWidth() {
+		return width;
+	}
 
+	public float getHeight() {
+		return height;
+	}
 
 
 
@@ -125,30 +127,10 @@ do {
 }
 
 
-	
-	
-	@Override
-	public void setCamAngle(float angle) {
-		this.camAngle = angle;
-		
-	}
-
-
-	@Override
-	public float getCamAngle() {
-		return camAngle;
-	}
-	
-	
-	@Override
 	public void draw() {
 	}
 	
 
-
-
-	
-	@Override
 	public MainActor getMainActor() {
 		return this.mainActor;
 	}
@@ -173,27 +155,22 @@ do {
 
 
 
-	@Override
 	public Sprite getBackground() {
 		return backgroundSpt;
 	}
 
 
 
-	@Override
 	public HashMap<String, Thing> getThings() {
 		return this.things;
 	}
 
 
-
-	@Override
 	public HashMap<String, StaticObject> getStaticObjects() {
 		return this.staticObjects;
 	}
 
 
-	@Override
 	public void setMainActor(MainActor mainActor) {
 		this.mainActor = mainActor;
 		renderObjects.add(this.mainActor);
@@ -203,9 +180,6 @@ do {
 
 
 
-
-
-	@Override
 	public void addThing(String name, Thing thing) {
 		things.put(name, thing);
 		renderObjects.add(thing);
@@ -213,8 +187,6 @@ do {
 	}
 
 
-
-	@Override
 	public boolean removeThing(String name) {
 		boolean ret = false;
 		Thing thing = things.get(name);
@@ -226,9 +198,6 @@ do {
 
 
 
-
-
-	@Override
 	public void addStaticObject(String name, StaticObject sObj) {
 		staticObjects.put(name, sObj);
 		//stage.addActor(sObj);
@@ -236,7 +205,6 @@ do {
 		
 	}
 
-	@Override
 	public void removeStaticObject(String name) {
 				staticObjects.remove(name);
 	}
@@ -244,20 +212,16 @@ do {
 
 
 
-
-
-	@Override
 	public Array<RenderObject> getRenderObjects() {
 		return this.renderObjects;
 	}
 
 
-	@Override
 	public Vector2 getInitalSceneCameraPosition() {
 		return initalSceneCameraPosition;
 	}
 
-	@Override
+
 	public void setInitalSceneCameraPosition(Vector2 initalSceneCameraPosition) {
 		Gdx.app.log("Setting cam pos ", initalSceneCameraPosition.toString());
 		this.initalSceneCameraPosition = initalSceneCameraPosition;

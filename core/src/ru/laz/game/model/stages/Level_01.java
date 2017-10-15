@@ -11,14 +11,13 @@ import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.things.Mug;
 import ru.laz.game.model.things.Rope;
 import ru.laz.game.model.things.StaticObject;
-import ru.laz.game.view.ui.UI;
 
 
 
 
 
 
-public class Level_01 extends Level implements GameLevel {//Wrapper for Gdx Stage, Graph and all stage stuff.
+public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
 
 	public static int BACKGROUND_HEIGHT = 540;
 	public static int BACKGROUND_WIDTH = 1240;
@@ -28,12 +27,12 @@ public class Level_01 extends Level implements GameLevel {//Wrapper for Gdx Stag
 
 
 	public Level_01 () {	
-		super();
+		super(1240, 540);
 	}	
 	
 	@Override
-	public void init(UI ui) {
-		super.init(ui);
+	public void init() {
+		super.init();
 
 	    rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
 	    rainMusic.setLooping(true);
@@ -54,7 +53,6 @@ public class Level_01 extends Level implements GameLevel {//Wrapper for Gdx Stag
 	    
 	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
 
-	    this.camAngle = 0.5f;
 	    scCam.zoom = 1.0f;
 	    scCam.position.x = 1000.0f;
 		scCam.position.y = 255.0f;

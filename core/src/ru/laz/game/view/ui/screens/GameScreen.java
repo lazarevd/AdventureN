@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 
 import ru.laz.game.controller.Controller;
-import ru.laz.game.model.stages.GameLevel;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.stages.LevelBuilder;
 import ru.laz.game.view.render.Render;
 import ru.laz.game.view.ui.UI;
@@ -15,7 +15,7 @@ import ru.laz.game.view.ui.UI;
 public class GameScreen extends ScreenAdapter implements Screen {
 
 
-	GameLevel gameLevel;
+	Level level;
 
 	static Render render;
 	static UI ui;
@@ -25,17 +25,18 @@ public class GameScreen extends ScreenAdapter implements Screen {
 		render = new Render(ui);
 	}
 	
-	public GameLevel getGameLevel() {
-		return this.gameLevel;
+	public Level getLevel() {
+		return this.level;
 	}
 	
 	
 	public void init() {
-		this.gameLevel = LevelBuilder.createGameLevel(1, ui);
-        Gdx.app.log("GAME LEVEL", gameLevel.toString());
-        Controller.setSceneControls(gameLevel);
+		this.level = LevelBuilder.createGameLevel(1);
+		ui.setGameLevel(this.level);
+        Gdx.app.log("GAME LEVEL", level.toString());
+        Controller.setSceneControls(level);
 		//Gdx.input.setInputProcessor(UI.getUIStage());//????????? ???? ????? UI ??? InputProcessor - ?????????? ???????.
-		render.setGameLevel(gameLevel);
+		render.setLevel(level);
 	}
 	
 
@@ -49,8 +50,8 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	@Override
 	public void render(float delta) {
 		ui.act(delta);
-		this.gameLevel.act(delta);
-		render.drawObjects(this.gameLevel);
+		this.level.act(delta);
+		render.drawObjects(this.level);
 	}
 
 

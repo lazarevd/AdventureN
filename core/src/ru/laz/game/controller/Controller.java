@@ -10,20 +10,21 @@ import java.util.Map;
 
 import ru.laz.game.model.actors.MoveWork;
 import ru.laz.game.model.actors.TakeWork;
-import ru.laz.game.model.stages.GameLevel;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.model.things.Trunk;
 import ru.laz.game.view.ui.UI;
+import ru.laz.game.view.ui.UIButton;
 
 import static ru.laz.game.controller.Controller.getCursor;
 
 
 class SceneGestureListener implements GestureDetector.GestureListener {
 
-	private GameLevel gameLevel;
+	private Level level;
 
-	protected SceneGestureListener(GameLevel gl) {
-		gameLevel = gl;
+	protected SceneGestureListener(Level gl) {
+		level = gl;
 	}
 
 	@Override
@@ -34,18 +35,27 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		Gdx.app.log("TAP", x+" "+ y + " " + count + " " + button);
-		Vector2 touchPos = getCursor(new Vector2(x,y),true);
 
-		String curThingName = Controller.getHitActor(touchPos);
+		Vector2 touchPosL = getCursor(new Vector2(x,y),false);
 
-		Thing curThing = gameLevel.getThings().get(curThingName);
+		Controller.getHitButton(touchPosL);
+
+
+		Vector2 touchPosW = getCursor(new Vector2(x,y),true);
+
+
+		Gdx.app.log("TAP(", x+" "+ y + "); L: " + touchPosL.toString() + "; W: " + touchPosW.toString());
+
+
+		String curThingName = Controller.getHitActor(touchPosW);
+
+		Thing curThing = level.getThings().get(curThingName);
 		if (curThing != null) {
-			gameLevel.getMainActor().addWork(new TakeWork(curThingName, gameLevel));
-			gameLevel.getMainActor().addWork(new MoveWork(curThing, touchPos, gameLevel));
+			level.getMainActor().addWork(new TakeWork(curThingName, level));
+			level.getMainActor().addWork(new MoveWork(curThing, touchPosW, level));
 		}
 		else {
-			gameLevel.getMainActor().addWork(new MoveWork(touchPos, gameLevel));
+			level.getMainActor().addWork(new MoveWork(touchPosW, level));
 		}
 		Vector3 vec3 = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 		Vector3 vecOrg = vec3.cpy();
@@ -153,7 +163,7 @@ class TrunkGestureListener implements GestureDetector.GestureListener {
 
 public class Controller {
 	
-	private static GameLevel gameLevel;
+	private static Level level;
 	private static Trunk trunk;
 
 	private GestureDetector trunkGestureDetector;
@@ -165,7 +175,7 @@ public class Controller {
 		Vector3 vec3 = new Vector3();
 
 		if (!world) {
-			vec3.set(new Vector3(input.x, input.y, 0));
+			vec3.set(UI.getViewportUI().unproject(new Vector3(input.x, input.y, 0)));
 		} else {
 			vec3.set(UI.getViewportScene().unproject(new Vector3(input.x, input.y, 0)));
 		}
@@ -175,23 +185,23 @@ public class Controller {
 
 
 
-	public static Vector2 getCursor(boolean world) {
-		Vector3 vec3 = new Vector3();
-		
-		if (!world) {
-		vec3.set(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-		} else {
-		vec3.set(UI.getViewportScene().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
+
+
+	public static String getHitButton(Vector2 xy) {
+		for (Map.Entry<String,UIButton> entry : UI.uiButtons.entrySet()) {
+			if(entry.getValue().isHit(xy)) {
+				entry.getValue().clicked();
+				return entry.getKey();
+			}
 		}
-		
-		Vector2 ret = new Vector2(vec3.x, vec3.y);
-		return ret;
+		return null;
 	}
 
 
+
 	public static String getHitActor(Vector2 xy) {
-		if (gameLevel != null) {
-			HashMap<String, Thing> things = gameLevel.getThings();
+		if (level != null) {
+			HashMap<String, Thing> things = level.getThings();
 			for (Map.Entry<String, Thing> entry : things.entrySet()) {
 				if (entry.getValue().isHit(xy)) {
 					return entry.getKey();
@@ -205,7 +215,7 @@ public class Controller {
 		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new TrunkGestureListener()));
 	}
 
-	public static void setSceneControls(GameLevel gl) {
+	public static void setSceneControls(Level gl) {
 		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new SceneGestureListener(gl)));
 	}
 

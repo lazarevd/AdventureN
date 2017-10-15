@@ -45,6 +45,13 @@ public class Polygon4Game extends Polygon {
 	}
 
 
+	public String getPrintable() {
+		return "[" + getVertices()[0] + ";" + getVertices()[1] +"] " +
+				"[" + getVertices()[2] + ";" + getVertices()[3] +"] " +
+				"[" + getVertices()[4] + ";" + getVertices()[5] +"] " +
+				"[" + getVertices()[6] + ";" + getVertices()[7] +"] ";
+	}
+
 	public void setGraph(GraphGame graph) {
 		this.graph = graph;
 	}

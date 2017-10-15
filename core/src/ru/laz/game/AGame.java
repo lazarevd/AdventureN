@@ -5,9 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.utils.Array;
 
-import ru.laz.game.model.graph.MathGame;
 import ru.laz.game.view.ui.screens.GameScreen;
 
 public class AGame extends Game {
@@ -21,31 +19,21 @@ public class AGame extends Game {
 	private static AGame game;
 	private GameScreen gameScreen;
 	
-	public static final float W_WIDTH = 2048;
-	public static final float W_HEIGHT = 512;
+
 	
 	
 	FPSLogger fps;
 	
 	private AGame() {//Singletone
 		super();
-
-
-		
 		fps = new FPSLogger();
 	}
 	
 	public static AGame getGame() {
-
-
-
-
 		if(game == null) {
 
 			game = new AGame();
 		}
-
-
 		return game;
 	}
 	
@@ -59,12 +47,6 @@ public class AGame extends Game {
 		gameScreen = new GameScreen();
 		gameScreen.init();
 		this.setScreen(gameScreen);
-
-
-		Array<Float> scales = MathGame.getArrayOfFloats(1.0f, 0.8f, 10);
-
-		Gdx.app.log("SCALES ", scales.toString());
-
 	}
 
 	@Override

@@ -21,9 +21,10 @@ import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.graph.PointOnEdgeGame;
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.graph.Polygon4Game.DrawStat;
-import ru.laz.game.model.stages.GameLevel;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
+import ru.laz.game.view.ui.UIButton;
 
 public class Render {
 	
@@ -33,15 +34,10 @@ public class Render {
     static BitmapFont font;    
     CharSequence str = "default name";
 	Sprite trunkSprite;
-	private GameLevel gameLevel;
+	private Level level;
 	private UI ui;
 
 
-
-
-
-	
-	
 	
 	public enum Colour {YELLOW, BLUE, RED, WHITE, GREEN};
 	
@@ -53,8 +49,8 @@ public class Render {
 	    this.ui = ui;//В конструкторе, потому что UI рисуем всегда
 	}
 	
-	public void setGameLevel(GameLevel gameLevel) {
-		this.gameLevel = gameLevel;
+	public void setLevel(Level level) {
+		this.level = level;
 	    trunkSprite = new Sprite(ui.getTrunkTex());
 	}
 
@@ -362,14 +358,14 @@ public class Render {
 
 	
 	
-	public static void setUISBCameraMatrix() {
+	public static void setUICameraMatrix() {
 		spriteBatch.setProjectionMatrix(UI.getUICamera().combined);//Set default stage camera here
-		//Gdx.app.log("UI CAM MATRIX ", UI.getUICamera().combined.toString());
-		//Gdx.app.log("SCEME CAM MATRIX ", UI.getSceneCamera().combined.toString());
+		shapeRenderer.setProjectionMatrix(UI.getUICamera().combined);//Set default stage camera here
 	}
 	
-	public static void setUISRCameraMatrix() {
-		shapeRenderer.setProjectionMatrix(UI.getUICamera().combined);//Set default stage camera here
+	public static void setSceneCameraMatrix() {
+		spriteBatch.setProjectionMatrix(UI.getSceneCamera().combined);//Set default stage camera here
+		shapeRenderer.setProjectionMatrix(UI.getSceneCamera().combined);//Set default stage camera here
 	}
 
 
@@ -420,24 +416,25 @@ public class Render {
 
 		sceneCamera.update();
 		uiCamera.update();
+		//Gdx.app.log("MATRIX UI", uiCamera.projection.toString());
+		//Gdx.app.log("MATRIX SCENE", sceneCamera.projection.toString());
 	}
 
 
-	public void drawObjects(GameLevel gameLevel) {
+	public void drawObjects(Level level) {
 
 
 
-		if (gameLevel != null) {
+		if (level != null) {
 
 			setCamKeyPosition(UI.getSceneCamera(), UI.getUICamera(), getCameraSpeed());
-			spriteBatch.setProjectionMatrix(UI.getSceneCamera().combined);//Set my scene camera here;
-			shapeRenderer.setProjectionMatrix(UI.getSceneCamera().combined);//Set my scene camera here;
+			setSceneCameraMatrix();
 
-			
-			gameLevel.QSortRender();
-			for (RenderObject ro : gameLevel.getRenderObjects()) {
+
+			level.QSortRender();
+			for (RenderObject ro : level.getRenderObjects()) {
 				Vector2 tmpCurrentPositionVector = new Vector2(UI.getSceneCamera().position.x, UI.getSceneCamera().position.y);
-				Vector2 finalPosition = gameLevel.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
+				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
 				TextureRegion tex = ro.getTexture();
 				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
 				//drawPoint(new Vector2(ro.getRenderX(), ro.getRenderY()), 5, Colour.WHITE);
@@ -446,34 +443,31 @@ public class Render {
 
 
 		if (UI.GRAPH) {	
-		for (Entry<String, EdgeGame> entry : gameLevel.getGraph().getEdges().entrySet()) {
+		for (Entry<String, EdgeGame> entry : level.getGraph().getEdges().entrySet()) {
 			drawEdge(entry.getValue(), Colour.WHITE);
 		}	
-		for (Entry<String, NodeGame> entry : gameLevel.getGraph().getNodes().entrySet()) {
+		for (Entry<String, NodeGame> entry : level.getGraph().getNodes().entrySet()) {
 			drawNode(entry.getValue(), Colour.GREEN, 2);
 		}		
 
 
-		drawNode(gameLevel.getGraph().getStart(), Colour.RED, 3);
-		drawNode(gameLevel.getGraph().getFinish(), Colour.BLUE, 3);
+		drawNode(level.getGraph().getStart(), Colour.RED, 3);
+		drawNode(level.getGraph().getFinish(), Colour.BLUE, 3);
 
 
 
 
-		for (Entry<String, Polygon4Game> entry : gameLevel.getGraph().getPolygons().entrySet()) {
+		for (Entry<String, Polygon4Game> entry : level.getGraph().getPolygons().entrySet()) {
 			drawPolygon(entry.getValue(), Colour.BLUE);
 		}
 
 
 		}
 
-		//setUISBCameraMatrix();
-		//UI.getSceneStage().draw();//Перерисовываем сцену с персонажами
-		UI.getUIStage().draw();//Перерисовываем сцену с интерфейсом
+			setUICameraMatrix();
+			drawButtons();
 
-		
-		
-		/**Возвращаем дефолтную матрицу камеры, чтобы не двигался интерфейс и т.п. **/
+		//UI.getUIStage().draw();//Перерисовываем сцену с интерфейсом
 		if (UI.isTRUNK()) {
 			drawTrunk();
 		}
@@ -483,7 +477,7 @@ public class Render {
 }
 	
 	public void drawTrunk() {
-		setUISBCameraMatrix();
+		setUICameraMatrix();
 		drawTrunkBack();
 		int x0 = 100;
 		for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
@@ -491,9 +485,16 @@ public class Render {
 			Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
 			x0+=100;
 		}
-		//setUISBCameraMatrix();
 	}
 
+
+
+	public static void drawButtons() {
+		for (Entry<String, UIButton> entry : UI.uiButtons.entrySet()) {
+			UIButton tButton = entry.getValue();
+			drawActor(tButton.getButtonTex(), tButton.getPosition().x, tButton.getPosition().y, tButton.getSize().x, tButton.getSize().y);
+		}
+	}
 
 	
 	public static void drawActor(TextureRegion tr, float x, float y, float w, float h) {
@@ -501,8 +502,6 @@ public class Render {
 		 * Для того, чтобы камера действовала на объект нужн оприменить к Batch объекта
 		 * матрицу трансформации координат требуемой камеры.
 		**/
-		//setSceneSBCameraMatrix();// Назначаем матрицу своей камеры из сцены, чтобы актеров действовало смещение камеры и т.п.
-
 		getSpriteBatch().begin();
 		getSpriteBatch().draw(tr,x, y, w, h);
 		getSpriteBatch().end();

@@ -86,7 +86,7 @@ public class PointOnEdgeGame {
 	Vector2[] edVec = new Vector2[2];
 	Vector2 tmp;
 		
-	edVec = AGame.getGame().getGameScreen().getGameLevel().getGraph().getPolygons().get(this.parentPoly).getEdge(edge);
+	edVec = AGame.getGame().getGameScreen().getLevel().getGraph().getPolygons().get(this.parentPoly).getEdge(edge);
 	tmp = new Vector2(edVec[1].x - edVec[0].x, edVec[1].y - edVec[0].y);
 	
 	tmp = tmp.scl(length);

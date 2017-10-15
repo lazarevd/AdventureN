@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 
 import ru.laz.game.model.graph.Polygon4Game;
-import ru.laz.game.model.stages.GameLevel;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.view.render.Render;
 import ru.laz.game.view.render.Render.Colour;
 import ru.laz.game.view.render.RenderObject;
@@ -35,11 +35,11 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 	TextureRegion actorTex;
 	Array<Polygon4Game> bodyPolysLocal;//Координаты в локальной системе
 	Array<Polygon4Game> bodyPolysGlobal;//Координаты в родительской
-	GameLevel gameLevel;
+	Level level;
 	//private float heigth;
 	
 	
-	public Thing(float x, float y, float zDepth, float h, float w, String nodeName, GameLevel gameLevel) {
+	public Thing(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
 		
 		this.setX(x);
 		this.setY(y);
@@ -51,7 +51,7 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		this.zDepth = zDepth;
 		bodyPolysLocal = new Array<Polygon4Game>();
 		bodyPolysGlobal = new Array<Polygon4Game>();
-		this.gameLevel = gameLevel;
+		this.level = level;
 		defineBody();
 		convertCoords();
 
@@ -61,19 +61,21 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 	
 	public void defineBody() {//Массив вершина относительно объекта  (ноль координат вершин там, где XY вещи)
 		float[] nvertices = new float[]{0,0,this.getWidth(), 0, this.getWidth(), this.getHeight(), 0, this.getHeight()};
-		Polygon4Game poly = new Polygon4Game(nvertices,gameLevel.getGraph());
+		Polygon4Game poly = new Polygon4Game(nvertices, level.getGraph());
 		updateVertices(poly.getVertices());
 		bodyPolysLocal.add(poly);
 	}
 	
 	
 	public void defineBody(float[] vertices) {//Массив вершина относительно объекта  (ноль координат вершин там, где XY вещи)
-		Polygon4Game poly = new Polygon4Game(vertices, gameLevel.getGraph());
+		Polygon4Game poly = new Polygon4Game(vertices, level.getGraph());
 		poly.setVertices(updateVertices(poly.getVertices()));
 		bodyPolysLocal.add(poly);
 	}
 	
-	
+
+
+	//TODO Тут надо подумать, а то что-то геморно с конвертацией полигонов
 	public boolean isHit(Vector2 xy) {	
 		boolean ret = false;
 		 convertCoords();
@@ -89,7 +91,7 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		bodyPolysGlobal.clear();
 		for (Polygon4Game poly : bodyPolysLocal) {		
 			float[] src = poly.getVertices();
-			bodyPolysGlobal.add(new Polygon4Game(updateVertices(src), gameLevel.getGraph()));
+			bodyPolysGlobal.add(new Polygon4Game(updateVertices(src), level.getGraph()));
 		}	
 	}
 	
@@ -142,13 +144,7 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 			//Gdx.app.log("print ret", " x1 " + ret[0] + " y1 " + ret[1] + ", x2 " + ret[2] + " y2 " + ret[3] + ", x3 " + ret[4] + " y3 " + ret[5] + ", x4 " + ret[6] + " y4 " + ret[7] + " ");
 		return ret; 
 	}
-	
-	
-	/*
-	public void act(float delta) {
 
-	}
-*/
 
 
 	@Override

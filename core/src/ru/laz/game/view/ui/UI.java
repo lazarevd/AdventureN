@@ -6,20 +6,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ru.laz.game.AGame;
+import java.util.HashMap;
+
 import ru.laz.game.controller.Controller;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Trunk;
 
 
@@ -29,20 +27,19 @@ public class UI {
 	private BitmapFont font;
 	private Skin skin;
 	private TextureAtlas buttonAtlas;
-	//private static GameLevel gameLevel;
-	private Table mainTable;
 	private static OrthographicCamera uiCam;
 	private static OrthographicCamera  scCam;
 	private static Texture trunkTex;
 	private static Viewport viewportScene;
 	private static Viewport viewportUI;
-	private static Stage stageUi;
 	private static UI ui; //singletone
 	private static Trunk trunk;
 	public final static int WIDTH = 1024;
 	public final static int HEIGHT = 768;
 	public static boolean GRAPH = true;
 	public static boolean BACK = false;
+
+	public static HashMap<String, UIButton> uiButtons;
 
 
 
@@ -66,33 +63,29 @@ public class UI {
 	
 	private UI() {
        // renderShapes.setBackgroundSprite(gameLevel.getBackground());
+		uiButtons = new HashMap<String, UIButton>();
         trunk = new Trunk();
         UI.trunkTex = new Texture(Gdx.files.internal("ui/trunk.png"));
-       // renderShapes.setTrunkSprite(trunkTex);
-        mainTable = new Table();
-        mainTable.setFillParent(true);
-        mainTable.left().top();
 		uiCam = new OrthographicCamera(WIDTH, HEIGHT);
 		uiCam.setToOrtho(false);
         scCam = new OrthographicCamera(WIDTH,HEIGHT);
         scCam.setToOrtho(false);
-		viewportScene = new ScalingViewport(Scaling.fill, AGame.W_WIDTH, AGame.W_HEIGHT, scCam);
-		viewportUI = new ScalingViewport(Scaling.fill, AGame.W_WIDTH, AGame.W_HEIGHT, uiCam);
-
-		stageUi = new Stage();
-		stageUi.setViewport(UI.getViewportUI());
-	    stageUi.addActor(mainTable);
+		viewportScene = new ScalingViewport(Scaling.fill, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), scCam);
+		viewportUI = new ScalingViewport(Scaling.fill, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), uiCam);
+		//Gdx.app.log("MATRIX SCENE", scCam.projection.toString());
+		//Gdx.app.log("MATRIX UI", uiCam.projection.toString());
 		fillUI();
 	}
 
+
+	public void setGameLevel(Level level) {
+		viewportScene = new ScalingViewport(Scaling.fill, level.getWidth(), level.getHeight(), scCam);
+	}
 	
 	public Texture getTrunkTex() {
 		return UI.trunkTex;
 	}
-	
-	public Table getMainTable() {
-		return this.mainTable;
-	}
+
 
 
 	public static Viewport getViewportScene() {
@@ -102,7 +95,7 @@ public class UI {
 	public static Viewport getViewportUI() {
 		return UI.viewportUI;
 	}
-	
+
 	public static OrthographicCamera getSceneCamera() {
 		return UI.scCam;
 	}
@@ -122,64 +115,23 @@ public class UI {
     }
 
 
-
-	public static Stage getUIStage() {		
-		return stageUi;
-	}
-	
-
 	
 	private void fillUI() {
-		//mainTable.setDebug(true);
-		Button but1 = createButton("Graph");
-		but1.addListener(new ChangeListener() {
-		    public void changed (ChangeEvent event, Actor actor) {
-		    	if (GRAPH) {
-		    		GRAPH = false;
-		        } else {
-		        	GRAPH = true;
-		        }
-		    }
-		});
-		
-		
-		Button but2 = createButton("Back");
-		but2.addListener(new ChangeListener() {
-		    public void changed (ChangeEvent event, Actor actor) {
-		    	if (BACK) {
-		    		BACK = false;
-		        } else {
-		        	BACK = true;
-		        }
-		    }
-		});
-		
 
-
-			
-		Button trunk = createButton("Trunk");
-		trunk.addListener(new ChangeListener() {
-		    public void changed (ChangeEvent event, Actor actor) {
-		    	if (TRUNK) {
-		    		TRUNK = false;
-		        } else {
-		        	TRUNK = true;
+		UIButton uib = new UIButton(new Texture(Gdx.files.internal("backpack.png")), 0, 450, 60, 60) {
+			@Override
+			public void clicked() {
+				if (TRUNK) {
+					TRUNK = false;
+				} else {
+					TRUNK = true;
 					Controller.setTrunkControls();
+				}
+			}
+		};
 
-		        }
-		    }
-		});
-		
+		uiButtons.put("mugButton", uib);
 
-
-		
-        mainTable.add(but1).maxWidth(60);
-        mainTable.row();
-        mainTable.add(but2).maxWidth(60);
-        mainTable.row();
-        mainTable.add(trunk).maxWidth(60);
-        mainTable.row();
-        
 	}
 	
 	

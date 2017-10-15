@@ -1,22 +1,17 @@
 package ru.laz.game.model.stages;
 
-import ru.laz.game.view.ui.UI;
-
-
-
-
 public class LevelBuilder {
 
 	
 	
-	public static GameLevel createGameLevel(int number, UI ui) {
+	public static Level createGameLevel(int number) {
 		
-		GameLevel level = null;
+		Level level = null;
 		
 		if (number == 1) {
 			level = new Level_01();
 		}		
-		level.init(ui);
+		level.init();
 		return level;
 	}
 	

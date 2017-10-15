@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 import ru.laz.game.model.graph.MathGame;
 import ru.laz.game.model.graph.NodeGame;
-import ru.laz.game.model.stages.GameLevel;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.render.RenderObject;
 
@@ -46,7 +46,7 @@ public class MainActor extends Actor implements RenderObject {
 
 	private Array<WalkData> targetWalkDatas;
 
-    private GameLevel gameLevel;
+    private Level level;
 
 	private boolean isMoving;
     private float zDepth;
@@ -63,7 +63,7 @@ public class MainActor extends Actor implements RenderObject {
 
 	float stateTime;
 
-	private MainActor(GameLevel gameLevel) {
+	private MainActor(Level level) {
 		this.zDepth = 1;
 		targetWalkDatas = new Array<WalkData>();
 		targetWalkDatas.ordered = true;
@@ -77,13 +77,13 @@ public class MainActor extends Actor implements RenderObject {
 		works = new Array<Work>();
 		currentFrame = getCurrentFrameTexture();
 		printVec = new Array<Vector2>();//DEBUG
-		this.gameLevel = gameLevel;
+		this.level = level;
 	}
 
 
 
-	public MainActor(GameLevel gameLevel, float x, float y, float zDepth, float scaleFactor) {
-		this(gameLevel);
+	public MainActor(Level level, float x, float y, float zDepth, float scaleFactor) {
+		this(level);
 		this.oX = x;
 		this.oY = y;
 		this.zDepth = zDepth;
@@ -135,16 +135,16 @@ public class MainActor extends Actor implements RenderObject {
 
 	public void genMovePath(float x, float y) {//Fills path (targetPos array)
 
-		gameLevel.getGraph().updateStatus();//Update edges, etc..
+		level.getGraph().updateStatus();//Update edges, etc..
 
-		ArrayList<String> astarPath = gameLevel.getGraph().AStarSearch();// Запускаем расчет AStar
+		ArrayList<String> astarPath = level.getGraph().AStarSearch();// Запускаем расчет AStar
 		targetWalkDatas.clear();
 
-		NodeGame curNode = gameLevel.getGraph().nodes.get("start");
+		NodeGame curNode = level.getGraph().nodes.get("start");
 
 		for (String nod : astarPath) {
 			//Цикл по всем нодам из astar
-			NodeGame nexNode = gameLevel.getGraph().nodes.get(nod);
+			NodeGame nexNode = level.getGraph().nodes.get(nod);
 
 			Array<Vector2> moveVectors = MathGame.separateVector(new Vector2(curNode.getX(),curNode.getY()), new Vector2(nexNode.getX(), nexNode.getY()), speed);
 			Array<Float> scales = MathGame.getArrayOfFloats(curNode.getRenderScale(), nexNode.getRenderScale(), moveVectors.size);
@@ -219,7 +219,7 @@ public class MainActor extends Actor implements RenderObject {
 		//Gdx.app.log("moveLoop", System.nanoTime() + "");
 
 		if (isMoving == true) {
-			gameLevel.QSortRender();//Сортируем слои, чтобы актер перекрывал те что дальше него и перекрывался теми что ближе
+			level.QSortRender();//Сортируем слои, чтобы актер перекрывал те что дальше него и перекрывался теми что ближе
 			if (targetWalkDatas.size > 0) {
 					WalkData twd = targetWalkDatas.first();
 					oX = twd.getTargetPosition().x;
@@ -227,7 +227,7 @@ public class MainActor extends Actor implements RenderObject {
 					direction = twd.getTargetDirection();
 					renderScale = twd.getRenderScale();
 
-				Gdx.app.log("Walker: ", direction + ":" + renderScale);
+				//Gdx.app.log("Walker: ", direction + ":" + renderScale);
 				targetWalkDatas.removeValue(twd, true);
 				stateTime += delta;
 			}

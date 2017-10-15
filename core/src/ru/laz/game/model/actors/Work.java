@@ -1,7 +1,6 @@
 package ru.laz.game.model.actors;
 
-import ru.laz.game.model.actors.MainActor;
-import ru.laz.game.model.stages.GameLevel;
+import ru.laz.game.model.stages.Level;
 
 
 
@@ -9,15 +8,15 @@ import ru.laz.game.model.stages.GameLevel;
 public class Work{
 
 	protected MainActor mActor;
-	protected GameLevel gameLevel;
+	protected Level level;
 
 	public enum WorkStatus {INIT, PROCESS, FINISHED};
 	
 	private WorkStatus status;
 
 	
-	public Work(GameLevel gameLevel) {
-		this.gameLevel = gameLevel;
+	public Work(Level level) {
+		this.level = level;
 		setStatus(WorkStatus.INIT);
 	}
 	
