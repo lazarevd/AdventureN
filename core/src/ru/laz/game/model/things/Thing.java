@@ -1,6 +1,5 @@
 package ru.laz.game.model.things;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -10,14 +9,16 @@ import com.badlogic.gdx.utils.Array;
 
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.view.render.Render;
-import ru.laz.game.view.render.Render.Colour;
 import ru.laz.game.view.render.RenderObject;
 
-public abstract class Thing extends Group implements RenderObject {//Наследуем от Group т.к. там есть удобные методы для трансформации объектов с помощью матриц
+public abstract class Thing implements RenderObject {//Наследуем от Group т.к. там есть удобные методы для трансформации объектов с помощью матриц
 
 	private float oX;
 	private float oY;
+
+
+	private float xShift;
+	private float yShift;
 	private float width = 30;
 	private float height = 30;
 	private float renderWidth = 30;
@@ -33,8 +34,7 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 
 	
 	TextureRegion actorTex;
-	Array<Polygon4Game> bodyPolysLocal;//Координаты в локальной системе
-	Array<Polygon4Game> bodyPolysGlobal;//Координаты в родительской
+	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
 	Level level;
 	//private float heigth;
 	
@@ -49,8 +49,7 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		this.renderHeight = h;
 		this.renderWidth = w;
 		this.zDepth = zDepth;
-		bodyPolysLocal = new Array<Polygon4Game>();
-		bodyPolysGlobal = new Array<Polygon4Game>();
+		bodyPolys = new Array<Polygon4Game>();
 		this.level = level;
 		defineBody();
 		convertCoords();
@@ -63,14 +62,14 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		float[] nvertices = new float[]{0,0,this.getWidth(), 0, this.getWidth(), this.getHeight(), 0, this.getHeight()};
 		Polygon4Game poly = new Polygon4Game(nvertices, level.getGraph());
 		updateVertices(poly.getVertices());
-		bodyPolysLocal.add(poly);
+		bodyPolys.add(poly);
 	}
 	
 	
 	public void defineBody(float[] vertices) {//Массив вершина относительно объекта  (ноль координат вершин там, где XY вещи)
 		Polygon4Game poly = new Polygon4Game(vertices, level.getGraph());
 		poly.setVertices(updateVertices(poly.getVertices()));
-		bodyPolysLocal.add(poly);
+		bodyPolys.add(poly);
 	}
 	
 
@@ -78,8 +77,9 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 	//TODO Тут надо подумать, а то что-то геморно с конвертацией полигонов
 	public boolean isHit(Vector2 xy) {	
 		boolean ret = false;
-		 convertCoords();
-		for (Polygon4Game poly : bodyPolysGlobal) {
+		 //convertCoords();
+
+		for (Polygon4Game poly : bodyPolys) {
 			if (poly.isPointInside(xy))
 				return true;
 		}	
@@ -100,14 +100,7 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		return this.actorTex;
 	}
 	
-	public void printPoly(Polygon4Game poly) {
-		float[] dest = poly.getVertices();		
-		Gdx.app.log("Draw thing", " x1 " + dest[0] + " y1 " + dest[1] + ", x2 " + dest[2] + " y2 " + dest[3] + ", x3 " + dest[4] + " y3 " + dest[5] + ", x4 " + dest[6] + " y4 " + dest[7] + " ");
-		Render.drawPoint(new Vector2(dest[0], dest[1]), 3, Colour.BLUE);
-		Render.drawPoint(new Vector2(dest[2], dest[3]), 3, Colour.BLUE);
-		Render.drawPoint(new Vector2(dest[4], dest[5]), 3, Colour.BLUE);
-		Render.drawPoint(new Vector2(dest[6], dest[7]), 3, Colour.BLUE);
-	}
+
 	
 	
 	public float[] updateVertices(float[] vertices) {//Чтобы полигон поддерживал все трансформации актера
@@ -157,20 +150,20 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		this.parallaxFactor = parallaxFactor;
 	}
 
-	@Override
+
 	public void setWidth(float w) {
 		this.width = w;
 	}
-	@Override
+
 	public void setHeight(float h) {
 		this.height = h;
 	}
 
-	@Override
+
 	public float getWidth() {
 		return this.width;
 	}
-	@Override
+
 	public float getHeight() {
 		return this.height;
 	}
@@ -192,22 +185,22 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		return new Vector2(oX,oY);
 	}
 
-    @Override
+
     public void setX(float x) {
         this.oX = x;
     }
 
-    @Override
+
     public void setY(float y) {
         this.oY = y;
     }
 
-	@Override
+
 	public float getX() {
 		return oX;
 	}
 
-	@Override
+
 	public float getY() {
 		return oY;
 	}
@@ -220,22 +213,38 @@ public abstract class Thing extends Group implements RenderObject {//Насле�
 		this.nodeName = nodeName;
 	}
 
-	@Override
+
 	public float getZDepth() {
 		return this.zDepth;
 	}
 
 
-	@Override
+
 	public float getRenderX() {
-		return super.getX();
+		return oX+xShift;
 	}
 	
-	@Override
+
 	public float getRenderY() {
-		return super.getY();
+		return oY+yShift;
 	}
 
+
+	public float getxShift() {
+		return xShift;
+	}
+
+	public float getyShift() {
+		return yShift;
+	}
+
+	public void setxShift(float xShift) {
+		this.xShift = xShift;
+	}
+
+	public void setyShift(float yShift) {
+		this.yShift = yShift;
+	}
 
 	@Override
 	public void setRenderScale(float scale) {

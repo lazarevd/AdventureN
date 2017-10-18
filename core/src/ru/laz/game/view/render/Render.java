@@ -68,7 +68,16 @@ public class Render {
 				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
 				TextureRegion tex = ro.getTexture();
 				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
-				//drawPoint(new Vector2(ro.getRenderX(), ro.getRenderY()), 5, Colour.WHITE);
+
+				for (Entry<String, Thing> th : level.getThings().entrySet()) {
+
+					for (Polygon4Game poly : th.getValue().bodyPolysLocal) {
+						drawPolygon(poly, Colour.BLUE);
+					}
+					for (Polygon4Game poly : th.getValue().bodyPolysGlobal) {
+						drawPolygon(poly, Colour.RED);
+					}
+				}
 			}
 
 			if (UI.GRAPH) {
@@ -372,7 +381,7 @@ public class Render {
 		shapeRenderer.end();
 		
 		
-		/*
+
 		shapeRenderer.begin(ShapeType.Filled); //And this draw vertices.
 		shapeRenderer.setColor(1, 1, 0, 1);
 		shapeRenderer.circle(vertices[0], vertices[1], 5);
@@ -381,7 +390,7 @@ public class Render {
 		shapeRenderer.circle(vertices[6], vertices[7], 5);
 		  
 		shapeRenderer.end();
-		*/
+
 	
 	}
 	
@@ -478,6 +487,12 @@ public class Render {
 		for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
 			TextureRegion tex = entry.getValue().getTexture();
 			Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
+			for (Polygon4Game poly : entry.getValue().bodyPolysLocal) {
+				drawPolygon(poly, Colour.BLUE);
+			}
+			for (Polygon4Game poly : entry.getValue().bodyPolysGlobal) {
+				drawPolygon(poly, Colour.RED);
+			}
 			x0+=100;
 		}
 	}

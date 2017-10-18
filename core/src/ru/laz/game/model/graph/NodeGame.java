@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import static ru.laz.game.model.graph.MathGame.getMiddleOfLine;
+import static ru.laz.game.model.math.MathGame.getMiddleOfLine;
 
 public class NodeGame {
 	

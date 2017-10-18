@@ -54,7 +54,7 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 
 	    scCam.position.x = 1000.0f;
 		scCam.position.y = 255.0f;
-		scCam.zoom = 0.4f;
+		scCam.zoom = 0.35f;
 		this.setInitalSceneCameraPosition(new Vector2(scCam.position.x,scCam.position.y));
 
 

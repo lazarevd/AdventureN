@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 
-import ru.laz.game.model.graph.MathGame;
+import ru.laz.game.model.math.MathGame;
 import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;

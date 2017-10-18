@@ -387,7 +387,7 @@ public class Polygon4Game extends Polygon {
 					edge = i;
 					minDist = distances.get(i);
 				}
-				Vector2 xyN = MathGame.lineToVector(getEdge(i)[0], xy);
+				Vector2 xyN = ru.laz.game.model.math.MathGame.lineToVector(getEdge(i)[0], xy);
 	 			xyN.nor();
 			}
 			
@@ -404,7 +404,7 @@ public class Polygon4Game extends Polygon {
 			int edge1 = edges[0];
 			int edge2 = edges[1];
 			
-			Vector2 xyN = MathGame.lineToVector(getEdge(edge2)[0], xy);
+			Vector2 xyN = ru.laz.game.model.math.MathGame.lineToVector(getEdge(edge2)[0], xy);
  			xyN.nor();
 			dot.put(edge1, getEdgeNormal(edge1).dot(xyN));
 			dot.put(edge2, getEdgeNormal(edge2).dot(xyN));
