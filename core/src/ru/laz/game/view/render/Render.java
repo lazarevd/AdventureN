@@ -54,6 +54,55 @@ public class Render {
 	    trunkSprite = new Sprite(ui.getTrunkTex());
 	}
 
+
+	public void drawObjects(Level level) {
+
+
+
+		if (level != null) {
+			setSceneCameraMatrix();
+			setCamKeyPosition(UI.getSceneCamera(), getCameraSpeed());
+			level.QSortRender();
+			for (RenderObject ro : level.getRenderObjects()) {
+				Vector2 tmpCurrentPositionVector = new Vector2(UI.getSceneCamera().position.x, UI.getSceneCamera().position.y);
+				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
+				TextureRegion tex = ro.getTexture();
+				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
+				//drawPoint(new Vector2(ro.getRenderX(), ro.getRenderY()), 5, Colour.WHITE);
+			}
+
+			if (UI.GRAPH) {
+				for (Entry<String, EdgeGame> entry : level.getGraph().getEdges().entrySet()) {
+					drawEdge(entry.getValue(), Colour.WHITE);
+				}
+				for (Entry<String, NodeGame> entry : level.getGraph().getNodes().entrySet()) {
+					drawNode(entry.getValue(), Colour.GREEN, 2);
+				}
+
+				//drawNode(level.getGraph().getStart(), Colour.RED, 3);
+				//drawNode(level.getGraph().getFinish(), Colour.BLUE, 3);
+				for (Entry<String, Polygon4Game> entry : level.getGraph().getPolygons().entrySet()) {
+					drawPolygon(entry.getValue(), Colour.BLUE);
+				}
+
+
+			}
+
+			setUICameraMatrix();
+			drawButtons();
+
+			//UI.getUIStage().draw();//Перерисовываем сцену с интерфейсом
+			if (UI.isTRUNK()) {
+				drawTrunk();
+			}
+
+
+		}
+	}
+
+
+
+
 	
 	
 	public static void drawPoint(Vector2 xy, int r, Colour colour) {
@@ -405,7 +454,7 @@ public class Render {
 
 
 
-	public void setCamKeyPosition(OrthographicCamera sceneCamera, OrthographicCamera uiCamera, Vector2 speedVector) {
+	public void setCamKeyPosition(OrthographicCamera sceneCamera, Vector2 speedVector) {
 
 		float x = sceneCamera.position.x;
 		float y = sceneCamera.position.y;
@@ -415,66 +464,12 @@ public class Render {
 		//uiCamera.position.add(new Vector3(speedVector.x*0.5f, speedVector.y*0.5f, 0));
 
 		sceneCamera.update();
-		uiCamera.update();
 		//Gdx.app.log("MATRIX UI", uiCamera.projection.toString());
 		//Gdx.app.log("MATRIX SCENE", sceneCamera.projection.toString());
 	}
 
 
-	public void drawObjects(Level level) {
 
-
-
-		if (level != null) {
-
-			setCamKeyPosition(UI.getSceneCamera(), UI.getUICamera(), getCameraSpeed());
-			setSceneCameraMatrix();
-
-
-			level.QSortRender();
-			for (RenderObject ro : level.getRenderObjects()) {
-				Vector2 tmpCurrentPositionVector = new Vector2(UI.getSceneCamera().position.x, UI.getSceneCamera().position.y);
-				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
-				TextureRegion tex = ro.getTexture();
-				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
-				//drawPoint(new Vector2(ro.getRenderX(), ro.getRenderY()), 5, Colour.WHITE);
-			}
-
-
-
-		if (UI.GRAPH) {	
-		for (Entry<String, EdgeGame> entry : level.getGraph().getEdges().entrySet()) {
-			drawEdge(entry.getValue(), Colour.WHITE);
-		}	
-		for (Entry<String, NodeGame> entry : level.getGraph().getNodes().entrySet()) {
-			drawNode(entry.getValue(), Colour.GREEN, 2);
-		}		
-
-
-		drawNode(level.getGraph().getStart(), Colour.RED, 3);
-		drawNode(level.getGraph().getFinish(), Colour.BLUE, 3);
-
-
-
-
-		for (Entry<String, Polygon4Game> entry : level.getGraph().getPolygons().entrySet()) {
-			drawPolygon(entry.getValue(), Colour.BLUE);
-		}
-
-
-		}
-
-			setUICameraMatrix();
-			drawButtons();
-
-		//UI.getUIStage().draw();//Перерисовываем сцену с интерфейсом
-		if (UI.isTRUNK()) {
-			drawTrunk();
-		}
-			
-		
-		}
-}
 	
 	public void drawTrunk() {
 		setUICameraMatrix();

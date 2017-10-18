@@ -33,7 +33,6 @@ public abstract class Level {
 
 
 	private Vector2 initalSceneCameraPosition; //need for parallax calculating
-	OrthographicCamera uiCam;
 	
 	HashMap<String, Thing> things;
 	HashMap<String, StaticObject> staticObjects;
@@ -60,7 +59,6 @@ public abstract class Level {
 	    things = new HashMap<String, Thing>();
 	    
 	    scCam = UI.getSceneCamera();
-	    uiCam = UI.getUICamera();
 	    
 
 		

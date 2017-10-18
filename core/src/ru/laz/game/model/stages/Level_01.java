@@ -19,15 +19,14 @@ import ru.laz.game.model.things.StaticObject;
 
 public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
 
-	public static int BACKGROUND_HEIGHT = 540;
 	public static int BACKGROUND_WIDTH = 1240;
-
+	public static int BACKGROUND_HEIGHT = 540;
 
 	Music rainMusic;
 
 
 	public Level_01 () {	
-		super(710, 510);
+		super(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 	}	
 	
 	@Override
@@ -53,14 +52,12 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 	    
 	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
 
-	    scCam.zoom = 1.0f;
 	    scCam.position.x = 1000.0f;
 		scCam.position.y = 255.0f;
+		scCam.zoom = 0.4f;
 		this.setInitalSceneCameraPosition(new Vector2(scCam.position.x,scCam.position.y));
-		
-		uiCam.zoom = 1.0f;
-	    uiCam.position.x = 350.0f;
-		uiCam.position.y = 255.0f;
+
+
 		
 
 	}
