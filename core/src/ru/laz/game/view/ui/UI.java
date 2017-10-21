@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.HashMap;
 
 import ru.laz.game.controller.Controller;
+import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Trunk;
 
 
@@ -35,6 +36,8 @@ public class UI {
 	//public final static int HEIGHT = 334;
 	public static boolean GRAPH = true;
 	public static boolean BACK = false;
+
+	private static Level level;
 
 	public static HashMap<String, UIButton> uiButtons;
 
@@ -75,7 +78,10 @@ public class UI {
 		//Gdx.app.log("MATRIX UI", uiCam.projection.toString());
 		fillUI();
 	}
- 
+
+	public static void setLevel (Level lvl) {
+	UI.level = lvl;
+	}
 
 	
 	public Texture getTrunkTex() {
