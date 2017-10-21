@@ -75,8 +75,8 @@ public class UI {
 		//Gdx.app.log("MATRIX UI", uiCam.projection.toString());
 		fillUI();
 	}
-
  
+
 	
 	public Texture getTrunkTex() {
 		return UI.trunkTex;
