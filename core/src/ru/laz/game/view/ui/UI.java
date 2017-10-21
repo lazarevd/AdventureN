@@ -76,7 +76,7 @@ public class UI {
 		fillUI();
 	}
 
-
+ 
 	
 	public Texture getTrunkTex() {
 		return UI.trunkTex;
