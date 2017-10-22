@@ -33,4 +33,9 @@ public class Matrix3 {
         System.arraycopy(values, 0, val, 0, val.length);
         return this;
     }
+
+
+    public String toString() {
+        return  "|" + M00 + "\t" + M01 + "\t" + M02 +"|\n" + "|" + M10 + "\t" + M11 + "\t" + M12 +"|\n" + "|" + M20 + "\t" + M21 + "\t" + M22 +"|\n";
+    }
 }

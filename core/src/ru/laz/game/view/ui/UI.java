@@ -76,10 +76,8 @@ public class UI {
 		viewportUI = new ScalingViewport(Scaling.fill, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), uiCam);
 		//Gdx.app.log("MATRIX SCENE", scCam.projection.toString());
 		//Gdx.app.log("MATRIX UI", uiCam.projection.toString());
-
-
-
 		fillUI();
+
 	}
 
 	public static void setLevel (Level lvl) {

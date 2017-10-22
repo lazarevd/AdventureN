@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 
+import ru.laz.game.model.math.Matrix3;
 import ru.laz.game.view.ui.screens.GameScreen;
 
 public class AGame extends Game {
@@ -43,7 +44,10 @@ public class AGame extends Game {
 	
 	@Override
 	public void create () {
-		
+
+		Matrix3 mtr = new Matrix3();
+		Gdx.app.log("MY MATRIX ", mtr.toString());
+
 		gameScreen = new GameScreen();
 		gameScreen.init();
 		this.setScreen(gameScreen);
