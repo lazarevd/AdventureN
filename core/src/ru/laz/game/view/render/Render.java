@@ -74,6 +74,11 @@ public class Render {
 					for (Polygon4Game poly : th.getValue().bodyPolys) {
 						drawPolygon(poly, Colour.BLUE);
 					}
+
+					for (Polygon4Game poly : th.getValue().getWorldPolygons()) {
+						drawPolygon(poly, Colour.RED);
+					}
+
 				}
 			}
 
@@ -347,7 +352,6 @@ public class Render {
 		
 		float[] vertices = polygon4Game.getVertices();
 		
-		
 		if(polygon4Game.drawStat == DrawStat.HIGHLIGHT) {
 			shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);	
 			} else {
@@ -470,10 +474,10 @@ public class Render {
 		//uiCamera.position.add(new Vector3(speedVector.x*0.5f, speedVector.y*0.5f, 0));
 
 		sceneCamera.update();
-		Gdx.app.log("MATRIX UI", sceneCamera.projection.toString());
+		//Gdx.app.log("MATRIX UI", sceneCamera.projection.toString());
 		//Gdx.app.log("MATRIX SCENE", sceneCamera.projection.toString());
 
-		Gdx.app.log("MATRIX ", " proj: \n" + sceneCamera.projection.toString() + " view: \n" + sceneCamera.view);
+		//Gdx.app.log("MATRIX ", " proj: \n" + sceneCamera.projection.toString() + " view: \n" + sceneCamera.view);
 	}
 
 

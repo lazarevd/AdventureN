@@ -157,7 +157,6 @@ public class GraphGame {
 	
 	public void addPolygon(String name, Polygon4Game polygon) {
 		if (polygon != null) {
-			polygon.setGraph(this);
 			this.polygons.put(name, polygon);
 		}
 	}
