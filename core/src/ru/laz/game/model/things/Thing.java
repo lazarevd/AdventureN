@@ -1,8 +1,10 @@
 package ru.laz.game.model.things;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import ru.laz.game.model.graph.Polygon4Game;
@@ -23,6 +25,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	private float renderHeight = 30;
 	public float zDepth = 0;
 	private float renderScale = 1.0f;
+	private Matrix4 transformMatrix;
 
 
 
@@ -30,15 +33,15 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 
 	private String nodeName = "";
 
-	
+
 	TextureRegion actorTex;
 	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
 	Level level;
 	//private float heigth;
-	
-	
+
+
 	public Thing(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
-		
+
 		this.setX(x);
 		this.setY(y);
 		this.width = w;
@@ -50,92 +53,78 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		bodyPolys = new Array<Polygon4Game>();
 		this.level = level;
 		defineBody();
-		convertCoords();
-
 
 	}
-	
-	
+
+
 	public void defineBody() {//Массив вершина относительно объекта  (ноль координат вершин там, где XY вещи)
 		float[] nvertices = new float[]{0,0,this.getWidth(), 0, this.getWidth(), this.getHeight(), 0, this.getHeight()};
-		Polygon4Game poly = new Polygon4Game(nvertices, level.getGraph());
-		updateVertices(poly.getVertices());
+		Polygon4Game poly = new Polygon4Game(nvertices);
 		bodyPolys.add(poly);
 	}
-	
-	
-	public void defineBody(float[] vertices) {//Массив вершина относительно объекта  (ноль координат вершин там, где XY вещи)
-		Polygon4Game poly = new Polygon4Game(vertices, level.getGraph());
-		poly.setVertices(updateVertices(poly.getVertices()));
-		bodyPolys.add(poly);
-	}
-	
 
 
-	//TODO Тут надо подумать, а то что-то геморно с конвертацией полигонов
-	public boolean isHit(Vector2 xy) {	
+
+	public boolean isHit(Vector2 xy) {
 		boolean ret = false;
-		 //convertCoords();
 
 		for (Polygon4Game poly : bodyPolys) {
-			if (poly.isPointInside(xy))
+			if (getWorldPolygon(poly).isPointInside(xy))
 				return true;
-		}	
-	return ret;
-	}
-	
-	
-	public void convertCoords() {//Из координат локальной в координаты предка
-		/*
-		bodyPolysGlobal.clear();
-		for (Polygon4Game poly : bodyPolysLocal) {		
-			float[] src = poly.getVertices();
-			bodyPolysGlobal.add(new Polygon4Game(updateVertices(src), level.getGraph()));
 		}
-		*/
+		return ret;
 	}
-	
-	
+
+
+
+
 	public TextureRegion getTexture() {
 		return this.actorTex;
 	}
-	
 
-	
-	
-	public float[] updateVertices(float[] vertices) {//Чтобы полигон поддерживал все трансформации актера
-		
-	//	Matrix4 transform = computeTransform();//Получаем переходную матрицу (transformation matrix) родительской группы
 
-		int n = vertices.length/2;//количество точек в полигоне
-		Vector3[] newVec = new Vector3[n];//Создаем массив точек полигона. Vector3 т.к. его удобнее умножать на 4x4 матрицу переноса.
-			
-			int j = 0;
-			for (int i = 0; i < newVec.length; i++) {
-				newVec[i] = new Vector3(vertices[j], vertices[j+1], 0);//Создаем новый массив векторов (точек) заполняем его из массива координат
-				//Gdx.app.log("Print vec", newVec[i].toString() + ", i " + i + ", j " + j);
-				j+=2;
-			}
-			
-			//ZZ commit
-			
-			for (int i = 0; i < newVec.length; i++) {
-				Vector3 curVec = new Vector3(newVec[i]);
-			//	newVec[i] = curVec.mul(transform);
-				//Gdx.app.log("Vectors", newVec[i].toString());
-			}
-			
-			float[] ret = new float[n*2];//Создаем новый массив для вывода. Он вдвое больше массива векторов
-			
-			int k = 0;
-			for (int i = 0; i < newVec.length; i++) {				
-				ret[k] = newVec[i].x;
-				ret[k+1] = newVec[i].y;
-				//Gdx.app.log("Print vec", newVec[i].toString() + ", i " + i + ", j " + j);
-				k+=2;
-			} 
-			//Gdx.app.log("print ret", " x1 " + ret[0] + " y1 " + ret[1] + ", x2 " + ret[2] + " y2 " + ret[3] + ", x3 " + ret[4] + " y3 " + ret[5] + ", x4 " + ret[6] + " y4 " + ret[7] + " ");
-		return ret; 
+
+	public Array<Polygon4Game> getWorldPolygons() {
+		Array<Polygon4Game> ret = new Array<Polygon4Game>();
+
+		for (Polygon4Game poly : bodyPolys) {
+			ret.add(getWorldPolygon(poly));
+		}
+		return ret;
+	}
+
+
+	public Polygon4Game getWorldPolygon(Polygon4Game poly) {
+		float[] tmpVertices = verticesToGlobal(poly.getVertices());
+
+		return new Polygon4Game(tmpVertices);
+	}
+
+
+	public float[] verticesToGlobal(float[] vertices) {//Чтобы полигон поддерживал все трансформации актера
+
+		Matrix3 translateMatrix2d = new Matrix3().setToTranslation(oX, oY);
+
+		Gdx.app.log("Thing Translate matrix ", translateMatrix2d.toString());
+
+		float[] ret = new float[vertices.length];//Создаем новый массив для вывода. Он вдвое больше массива векторов
+
+		int polyPoints = vertices.length/2;
+		Vector2[] tmpVectors = new Vector2[polyPoints];
+
+		int j = 0;
+		for (int i = 0; i < tmpVectors.length; i++) {//fill initial coords
+			tmpVectors[i] = new Vector2(vertices[j], vertices[j+1]);
+			j+=2;
+		}
+
+		for (int i = 0; i < tmpVectors.length; i++) {
+			Vector2 tmpResult = tmpVectors[i].mul(translateMatrix2d);
+
+			ret[i*2] = tmpResult.x;
+			ret[i*2+1] = tmpResult.y;
+		}
+		return ret;
 	}
 
 
@@ -176,24 +165,24 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 
 
 	public void setXY(Vector2 xy) {
-        this.oX = xy.x;
-        this.oY = xy.y;
-    }
+		this.oX = xy.x;
+		this.oY = xy.y;
+	}
 
 
-    public Vector2 getXY() {
+	public Vector2 getXY() {
 		return new Vector2(oX,oY);
 	}
 
 
-    public void setX(float x) {
-        this.oX = x;
-    }
+	public void setX(float x) {
+		this.oX = x;
+	}
 
 
-    public void setY(float y) {
-        this.oY = y;
-    }
+	public void setY(float y) {
+		this.oY = y;
+	}
 
 
 	public float getX() {
@@ -223,7 +212,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	public float getRenderX() {
 		return oX+xShift;
 	}
-	
+
 
 	public float getRenderY() {
 		return oY+yShift;
@@ -249,7 +238,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	@Override
 	public void setRenderScale(float scale) {
 		this.renderScale = scale;
-		
+
 	}
 
 	@Override
