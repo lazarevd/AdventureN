@@ -1,10 +1,8 @@
 package ru.laz.game.model.things;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 
 import ru.laz.game.model.graph.Polygon4Game;
@@ -88,11 +86,13 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	
 	
 	public void convertCoords() {//Из координат локальной в координаты предка
+		/*
 		bodyPolysGlobal.clear();
 		for (Polygon4Game poly : bodyPolysLocal) {		
 			float[] src = poly.getVertices();
 			bodyPolysGlobal.add(new Polygon4Game(updateVertices(src), level.getGraph()));
-		}	
+		}
+		*/
 	}
 	
 	
@@ -105,7 +105,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	
 	public float[] updateVertices(float[] vertices) {//Чтобы полигон поддерживал все трансформации актера
 		
-		Matrix4 transform = computeTransform();//Получаем переходную матрицу (transformation matrix) родительской группы
+	//	Matrix4 transform = computeTransform();//Получаем переходную матрицу (transformation matrix) родительской группы
 
 		int n = vertices.length/2;//количество точек в полигоне
 		Vector3[] newVec = new Vector3[n];//Создаем массив точек полигона. Vector3 т.к. его удобнее умножать на 4x4 матрицу переноса.
@@ -121,7 +121,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 			
 			for (int i = 0; i < newVec.length; i++) {
 				Vector3 curVec = new Vector3(newVec[i]);
-				newVec[i] = curVec.mul(transform);
+			//	newVec[i] = curVec.mul(transform);
 				//Gdx.app.log("Vectors", newVec[i].toString());
 			}
 			

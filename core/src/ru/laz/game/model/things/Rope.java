@@ -15,6 +15,11 @@ public class Rope extends Thing {
         super(x, y, zDepth, h, w, nodeName, level);
         Texture tex = new Texture(Gdx.files.internal("rope.png"));
         this.actorTex = new TextureRegion(tex);
-        this.setBounds(x, y, w, h);
+       // this.setBounds(x, y, w, h);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+
     }
 }

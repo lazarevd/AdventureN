@@ -71,11 +71,8 @@ public class Render {
 
 				for (Entry<String, Thing> th : level.getThings().entrySet()) {
 
-					for (Polygon4Game poly : th.getValue().bodyPolysLocal) {
+					for (Polygon4Game poly : th.getValue().bodyPolys) {
 						drawPolygon(poly, Colour.BLUE);
-					}
-					for (Polygon4Game poly : th.getValue().bodyPolysGlobal) {
-						drawPolygon(poly, Colour.RED);
 					}
 				}
 			}
@@ -468,13 +465,15 @@ public class Render {
 		float x = sceneCamera.position.x;
 		float y = sceneCamera.position.y;
 
-
+//
 		sceneCamera.position.add(new Vector3(speedVector.x, speedVector.y, 0));
 		//uiCamera.position.add(new Vector3(speedVector.x*0.5f, speedVector.y*0.5f, 0));
 
 		sceneCamera.update();
-		//Gdx.app.log("MATRIX UI", uiCamera.projection.toString());
+		Gdx.app.log("MATRIX UI", sceneCamera.projection.toString());
 		//Gdx.app.log("MATRIX SCENE", sceneCamera.projection.toString());
+
+		Gdx.app.log("MATRIX ", " proj: \n" + sceneCamera.projection.toString() + " view: \n" + sceneCamera.view);
 	}
 
 
@@ -487,11 +486,8 @@ public class Render {
 		for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
 			TextureRegion tex = entry.getValue().getTexture();
 			Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
-			for (Polygon4Game poly : entry.getValue().bodyPolysLocal) {
+			for (Polygon4Game poly : entry.getValue().bodyPolys) {
 				drawPolygon(poly, Colour.BLUE);
-			}
-			for (Polygon4Game poly : entry.getValue().bodyPolysGlobal) {
-				drawPolygon(poly, Colour.RED);
 			}
 			x0+=100;
 		}
