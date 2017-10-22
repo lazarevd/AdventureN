@@ -26,6 +26,8 @@ import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
 
+import static javax.swing.text.html.HTML.Tag.HEAD;
+
 public class Render {
 	
 	private static ShapeRenderer shapeRenderer;//single instance

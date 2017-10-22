@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Java\Android\AdventureGame\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cbfcdd43e1ce5e7a05b0915130c79a78dbada4e7">
+        <dex dex="C:\Java\Android\AdventureGame\android\build\intermediates\pre-dexed\debug\core-1.0_1f7e0c661dbbd2fcec18e568fee8f6be5e2db8e2.jar" />
+    </item>
+
+</items>

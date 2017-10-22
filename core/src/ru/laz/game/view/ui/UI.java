@@ -86,7 +86,6 @@ public class UI {
 
 	UI.level = lvl;
 	}
-
 	
 	public Texture getTrunkTex() {
 		return UI.trunkTex;
