@@ -1,6 +1,7 @@
 package ru.laz.game.model.things;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -23,6 +24,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	private float renderHeight = 30;
 	public float zDepth = 0;
 	private float renderScale = 1.0f;
+	private Matrix4 transformMatrix;
 
 
 
@@ -99,10 +101,18 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	public TextureRegion getTexture() {
 		return this.actorTex;
 	}
-	
 
-	
-	
+
+
+
+
+
+	private Matrix4 recomputeTransformMatrix(float x, float y, float rotate, float sclX, float sclY){
+
+		return new Matrix4();
+	}
+
+
 	public float[] updateVertices(float[] vertices) {//Чтобы полигон поддерживал все трансформации актера
 		
 	//	Matrix4 transform = computeTransform();//Получаем переходную матрицу (transformation matrix) родительской группы
