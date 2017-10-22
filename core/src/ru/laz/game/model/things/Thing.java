@@ -117,7 +117,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 				j+=2;
 			}
 			
-
+			//ZZ commit
 			
 			for (int i = 0; i < newVec.length; i++) {
 				Vector3 curVec = new Vector3(newVec[i]);
