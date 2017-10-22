@@ -43,7 +43,7 @@ public class AGame extends Game {
 	
 	@Override
 	public void create () {
-		
+
 		gameScreen = new GameScreen();
 		gameScreen.init();
 		this.setScreen(gameScreen);

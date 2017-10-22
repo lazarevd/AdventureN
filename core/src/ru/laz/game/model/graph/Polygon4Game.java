@@ -19,7 +19,6 @@ public class Polygon4Game extends Polygon {
 
 	private float renderScale = 1.0f;
 
-	GraphGame graph;
 	float zHeight; //Use height for ladders for example
 	private float distance;//the same for hero size
 	private Array<String> childNodes = new Array<String>();
@@ -29,18 +28,9 @@ public class Polygon4Game extends Polygon {
 		pointsOnEdges = new Array<String>();
 	}
 
-
-	public Polygon4Game(GraphGame graph) {
-		this();
-		drawStat = DrawStat.NORMAL;
-		this.graph = graph;
-		this.zHeight = 0;
-	}
 	
 	
-	
-	public Polygon4Game(float[] vertices, GraphGame graph) {
-		this(graph);
+	public Polygon4Game(float[] vertices) {
 		this.setVertices(vertices);
 	}
 
@@ -52,9 +42,7 @@ public class Polygon4Game extends Polygon {
 				"[" + getVertices()[6] + ";" + getVertices()[7] +"] ";
 	}
 
-	public void setGraph(GraphGame graph) {
-		this.graph = graph;
-	}
+
 
 	public void addChildNode(String name) {
 		childNodes.add(name);
@@ -90,20 +78,6 @@ public class Polygon4Game extends Polygon {
 	
 	
 
-	
-	
-	public String getThisId() {
-		String ret = null;
-		
-		for (Entry<String, Polygon4Game> entry : graph.getPolygons().entrySet()) {
-			if (entry.getValue().equals(this)) {
-				ret = entry.getKey();
-				break;
-			}
-		}
-		
-		return ret;
-	}
 
 	
 
@@ -129,41 +103,7 @@ public class Polygon4Game extends Polygon {
 		
 	}
 	
-	
-	public Array<String> getConnectedNodes() {
-		
-		Array<String> snodes = new Array<String>();
-		
-		for (String poe : getPointsOnEdge()) {
-			
-		
-		for (Entry<String,NodeGame> nod : graph.getNodes().entrySet()) {
-			if (nod.getValue().getListOfPOE().size == 2) {
-			String nodPoe1 = nod.getValue().getListOfPOE().get(0);
-			String nodPoe2 = nod.getValue().getListOfPOE().get(1);
-			
-			if(snodes.contains(nod.getKey(), true) == false && (nodPoe1.equals(poe) || nodPoe2.equals(poe)))
-				snodes.add(nod.getKey());//add node to list
-			}
-		}
-		
-		
-		}		
-		return snodes;
-	}
 
-	
-	
-	public void setVertexXY (int vertex, int x, int y) {
-		
-		float[] vertices = this.getVertices();
-		
-		vertices[getVertexId(vertex)[0]] = x;
-		vertices[getVertexId(vertex)[1]] = y;
-		
-		this.setVertices(vertices);
-		
-	}
 	
 	
 	public int[] getVertexId(int i) {
