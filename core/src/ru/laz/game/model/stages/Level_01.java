@@ -19,14 +19,12 @@ import ru.laz.game.model.things.StaticObject;
 
 public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
 
-	public static int BACKGROUND_WIDTH = 1240;
-	public static int BACKGROUND_HEIGHT = 540;
 
 	Music rainMusic;
 
 
 	public Level_01 () {	
-		super(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+		super(1024, 768);
 	}	
 	
 	@Override
@@ -38,7 +36,7 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 	   // rainMusic.play();
 
 	    
-	    StaticObject back = new StaticObject(new TextureRegion(new Texture(Gdx.files.internal("back.png"))), 0, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+	    StaticObject back = new StaticObject(new TextureRegion(new Texture(Gdx.files.internal("back.png"))), 0, 0, 0, 1240, 540);
 	    addStaticObject("back", back);
 	    StaticObject fr3 = new StaticObject(new TextureRegion(new Texture(Gdx.files.internal("fr3.png"))), 908, 6, 30, 512, 256);
 		fr3.setParallaxFactor(0.5f);
@@ -54,7 +52,7 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 
 	    scCam.position.x = 1000.0f;
 		scCam.position.y = 255.0f;
-		scCam.zoom = 0.35f;
+		scCam.zoom = 1.0f;
 		this.setInitalSceneCameraPosition(new Vector2(scCam.position.x,scCam.position.y));
 
 
