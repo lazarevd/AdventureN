@@ -30,8 +30,8 @@ public class UI {
 	private static Viewport viewportUI;
 	private static UI ui; //singletone
 	private static Trunk trunk;
-	public final static int UI_WIDTH = 640;
-	public final static int UI_HEIGHT = 480;
+	public final static int UI_WIDTH = 640;//4x3 aspectratio i don`t know why, but it works
+	public final static int UI_HEIGHT = 480;//4x3 aspectratio i don`t know why, but it works
 	public static boolean GRAPH = true;
 	public static boolean BACK = false;
 
@@ -114,11 +114,12 @@ public class UI {
 	
 	private void fillUI() {
 
-		UIButton uib = new UIButton(new Texture(Gdx.files.internal("backpack.png")), 320, 240, 120, 120) {
+		UIButton uib = new UIButton(new Texture(Gdx.files.internal("backpack.png")), 0, 360, 60, 60) {
 			@Override
 			public void clicked() {
 				if (TRUNK) {
 					TRUNK = false;
+					Controller.setSceneControls();
 				} else {
 					TRUNK = true;
 					Controller.setTrunkControls();

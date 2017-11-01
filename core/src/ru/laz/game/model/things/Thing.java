@@ -1,6 +1,5 @@
 package ru.laz.game.model.things;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -104,9 +103,6 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	public float[] verticesToGlobal(float[] vertices) {//Чтобы полигон поддерживал все трансформации актера
 
 		Matrix3 translateMatrix2d = new Matrix3().setToTranslation(oX, oY);
-
-		Gdx.app.log("Thing Translate matrix ", translateMatrix2d.toString());
-
 		float[] ret = new float[vertices.length];//Создаем новый массив для вывода. Он вдвое больше массива векторов
 
 		int polyPoints = vertices.length/2;
