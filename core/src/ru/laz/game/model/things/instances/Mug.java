@@ -1,4 +1,4 @@
-package ru.laz.game.model.things;
+package ru.laz.game.model.things.instances;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,8 +8,6 @@ import ru.laz.game.model.stages.Level;
 
 
 public class Mug extends Thing {
-	
-	
 
 	public Mug(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
 		super(x, y, zDepth, h, w, nodeName, level);
@@ -18,15 +16,4 @@ public class Mug extends Thing {
 		//this.setBounds(x, y, w, h);
 	}
 
-	@Override
-	public void setPosition(float x, float y) {
-
-	}
-/*
-	@Override
-	public void act(float delta) {
-		//Gdx.app.log("transform matrix", computeTransform().toString());
-		super.act(delta);
-	}
-	*/
 }

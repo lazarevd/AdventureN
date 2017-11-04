@@ -2,31 +2,13 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="C:\Java\Android\AdventureGame\android\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="abe595ee169b9ec077628716a3f4ccd4bb948041">
-        <dex dex="C:\Java\Android\AdventureGame\android\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_15403d875cb51e8898370c02d82916bd70b5f63d\classes.dex" />
-    </item>
-    <item
         is-multidex="false"
         jar="C:\Java\Android\AdventureGame\core\build\libs\core-1.0.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="24b5343af8bc010676781ec89eeb0541fb36f2f1">
+        sha1="f947ad13136a5a96190e5e13906f1e8b36efb812">
         <dex dex="C:\Java\Android\AdventureGame\android\build\intermediates\pre-dexed\debug\core-1.0_1f7e0c661dbbd2fcec18e568fee8f6be5e2db8e2.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Java\Android\AdventureGame\android\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="C:\Java\Android\AdventureGame\android\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_691cee5e224d5eddfd87aa92238bc0570a4c10ae\classes.dex" />
     </item>
 
 </items>

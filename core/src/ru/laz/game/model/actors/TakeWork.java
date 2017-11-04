@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 
 import ru.laz.game.AGame;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.instances.Thing;
 import ru.laz.game.view.ui.UI;
 
 public class TakeWork extends Work {

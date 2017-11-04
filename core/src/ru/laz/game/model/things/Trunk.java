@@ -3,7 +3,10 @@ package ru.laz.game.model.things;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
+import ru.laz.game.model.things.instances.Thing;
+
 
 public class Trunk {
 
@@ -13,7 +16,8 @@ public class Trunk {
     private int COLUMN_SHIFT = 100;
     private int ROWS_SHIFT = 100;
 
-    private HashMap<String, Thing> things  = new HashMap<String, Thing>();
+    private HashMap<String, ru.laz.game.model.things.instances.Thing> things  = new HashMap<String, ru.laz.game.model.things.instances.Thing>();
+    ThingsFabric thingsFabric = new ThingsFabric();
 
     public Trunk() {
 
@@ -25,21 +29,41 @@ public class Trunk {
     }
 
 
-    public HashMap<String, Thing> getThings(){
+    public HashMap<String, ru.laz.game.model.things.instances.Thing> getThings(){
         return things;
     }
 
 
+
+    public Thing genCompositeThing(String firstThing, String secondThing) {
+        Thing returnTh = null;
+        String newThingName = thingsFabric.getCompositeThingName(firstThing, secondThing);
+        returnTh = thingsFabric.genThing(newThingName);
+        things.remove(firstThing);
+        things.remove(secondThing);
+        addToTrunk (newThingName, returnTh);
+        return returnTh;
+    }
+
+
+    public String getHitActor(Vector2 xy) {
+            for (Map.Entry<String, ru.laz.game.model.things.instances.Thing> entry : things.entrySet()) {
+                //Gdx.app.log("TRUNK", "hit actor " + entry.getKey() + " " + entry.getValue().getX() + ":" + entry.getValue().getY());
+                if (entry.getValue().isHit(xy)) {
+                    return entry.getKey();
+                }
+            }
+
+        return null;
+    }
+
     public void arrangeThings() {
-
-
-
         int tmpRShift = ROWS_SHIFT;
         int tmpCShift = COLUMN_SHIFT;
         int tmpRowCount = 0;
         int tmpColCount = 0;
 
-        for(Entry<String, Thing> entry : things.entrySet()) {
+        for(Entry<String, ru.laz.game.model.things.instances.Thing> entry : things.entrySet()) {
                     entry.getValue().setXY(new Vector2(tmpCShift, tmpRShift));
                     tmpCShift+=COLUMN_SHIFT;
                     tmpColCount+=1;

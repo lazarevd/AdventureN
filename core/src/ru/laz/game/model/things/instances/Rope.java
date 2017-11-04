@@ -1,4 +1,4 @@
-package ru.laz.game.model.things;
+package ru.laz.game.model.things.instances;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,8 +18,4 @@ public class Rope extends Thing {
        // this.setBounds(x, y, w, h);
     }
 
-    @Override
-    public void setPosition(float x, float y) {
-
-    }
 }

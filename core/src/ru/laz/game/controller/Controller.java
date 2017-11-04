@@ -5,13 +5,12 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import ru.laz.game.model.actors.MoveWork;
 import ru.laz.game.model.actors.TakeWork;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.instances.Thing;
 import ru.laz.game.model.things.Trunk;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
@@ -42,7 +41,7 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 		if (Controller.getHitButton(touchPosL) != null) return false;
 		Vector2 touchPosW = convertCoordinates(x,y,true);
 
-		String curThingName = Controller.getHitActor(touchPosW);
+		String curThingName = level.getHitActor(touchPosW);
 		Thing curThing = level.getThings().get(curThingName);
 		if (curThing != null) {
 			level.getMainActor().addWork(new TakeWork(curThingName, level));
@@ -94,11 +93,15 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 class TrunkGestureListener implements GestureDetector.GestureListener {
 
 	Level level;
+	Thing pickThing = null;
+	String pickThingName = null;
 
 	public TrunkGestureListener(Level level) {this.level = level;}
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
+		pickThing = null;
+		pickThingName = "";
 		Vector2 uiCoords = convertCoordinates(x,y,false);
 		Gdx.app.log("TRUNK TOUCH DOWN", x+ " " + y + " scene : " + uiCoords.x + ";" + uiCoords.y + " " + pointer + " " + button);
 		return false;
@@ -120,6 +123,8 @@ class TrunkGestureListener implements GestureDetector.GestureListener {
 	@Override
 	public boolean longPress(float x, float y) {
 		Gdx.app.log("TRUNK LONG PRESS", x+" "+ y);
+		pickThingName = UI.getTrunk().getHitActor(convertCoordinates(x,y,false));
+		pickThing = UI.getTrunk().getThings().get(pickThingName);
 		return false;
 	}
 
@@ -131,13 +136,29 @@ class TrunkGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		Gdx.app.log("TRUNK PAN ", x + " " + y + " " + deltaX + " " + deltaY);
+		Gdx.app.log("TRUNK PAN ", pickThing + " " + x + " " + y + " " + deltaX + " " + deltaY);
+		if (pickThing != null) {
+			Vector2 uiCoords = convertCoordinates(x,y,false);
+			pickThing.setX(uiCoords.x);
+			pickThing.setY(uiCoords.y);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean panStop(float x, float y, int pointer, int button) {
 		Gdx.app.log("TRUNK PAN STOP ", x + " " + y + " " + pointer + " " + button);
+		//pickThing=null;
+		//UI.getTrunk().arrangeThings();
+		String secondPickThingName = UI.getTrunk().getHitActor(convertCoordinates(x,y,false));
+		if(pickThingName !=null && pickThingName!="" && secondPickThingName !=null && secondPickThingName!="") {
+			Thing newThing = UI.getTrunk().genCompositeThing(pickThingName, secondPickThingName);
+		} else {
+			UI.getTrunk().arrangeThings();
+		}
+
+		pickThing = null;
+		pickThingName = "";
 		return false;
 	}
 
@@ -195,6 +216,9 @@ public class Controller {
 	}
 
 
+
+
+
 	public static void setLevel(Level level) {
 		Controller.level = level;
 	}
@@ -215,17 +239,7 @@ public class Controller {
 
 
 
-	public static String getHitActor(Vector2 xy) {
-		if (level != null) {
-			HashMap<String, Thing> things = level.getThings();
-			for (Map.Entry<String, Thing> entry : things.entrySet()) {
-				if (entry.getValue().isHit(xy)) {
-					return entry.getKey();
-				}
-			}
-		}
-		return null;
-	}
+
 
 	public static void setTrunkControls() {
 		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 1.1f, 0.15f, new TrunkGestureListener(Controller.getLevel())));

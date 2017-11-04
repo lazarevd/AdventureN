@@ -1,4 +1,4 @@
-package ru.laz.game.model.things;
+package ru.laz.game.model.things.instances;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix3;
@@ -151,6 +151,12 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 
 	public float getHeight() {
 		return this.height;
+	}
+
+	@Override
+	public void setPosition(float x, float y) {
+		this.oX = x;
+		this.oY = y;
 	}
 
 	@Override

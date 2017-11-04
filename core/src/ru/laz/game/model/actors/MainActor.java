@@ -17,7 +17,7 @@ import java.util.HashMap;
 import ru.laz.game.model.math.MathGame;
 import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.instances.Thing;
 import ru.laz.game.view.render.RenderObject;
 
 

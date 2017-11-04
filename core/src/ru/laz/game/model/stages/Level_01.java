@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.laz.game.model.actors.MainActor;
-import ru.laz.game.model.things.Mug;
-import ru.laz.game.model.things.Rope;
+import ru.laz.game.model.things.instances.Mug;
+import ru.laz.game.model.things.instances.Rope;
 import ru.laz.game.model.things.StaticObject;
 
 

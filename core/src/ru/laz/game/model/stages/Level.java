@@ -7,11 +7,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.graph.GraphGame;
 import ru.laz.game.model.things.StaticObject;
-import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.instances.Thing;
 import ru.laz.game.view.render.RenderObject;
 import ru.laz.game.view.ui.UI;
 
@@ -65,6 +66,16 @@ public abstract class Level {
 		QSortRender();//сразу обновляем порядок отрисовки объектов	    
 	}
 
+
+	public String getHitActor(Vector2 xy) {;
+			for (Map.Entry<String, Thing> entry : things.entrySet()) {
+				//Gdx.app.log("TRUNK", "hit actor " + entry.getKey() + " " + entry.getValue().getX() + ":" + entry.getValue().getY());
+				if (entry.getValue().isHit(xy)) {
+					return entry.getKey();
+				}
+			}
+		return null;
+	}
 
 
 public void act(float delta) {

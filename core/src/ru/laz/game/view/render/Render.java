@@ -22,7 +22,7 @@ import ru.laz.game.model.graph.PointOnEdgeGame;
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.graph.Polygon4Game.DrawStat;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.instances.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
 
