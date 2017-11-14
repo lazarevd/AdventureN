@@ -7,7 +7,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="f947ad13136a5a96190e5e13906f1e8b36efb812">
+        sha1="c67be013a468a927b268c1098a9a85d0216f571f">
         <dex dex="C:\Java\Android\AdventureGame\android\build\intermediates\pre-dexed\debug\core-1.0_1f7e0c661dbbd2fcec18e568fee8f6be5e2db8e2.jar" />
     </item>
 

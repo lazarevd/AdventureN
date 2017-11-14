@@ -32,7 +32,7 @@ public class UI {
 	private static Trunk trunk;
 	public final static int UI_WIDTH = 640;//4x3 aspectratio i don`t know why, but it works
 	public final static int UI_HEIGHT = 480;//4x3 aspectratio i don`t know why, but it works
-	public static boolean GRAPH = true;
+	public static boolean GRAPH = false;
 	public static boolean BACK = false;
 
 
@@ -42,6 +42,7 @@ public class UI {
 
 
 	private static boolean TRUNK = false;
+	public static boolean useTHING = false;
 
 
 
@@ -133,8 +134,9 @@ public class UI {
 	
 
 
-	public static void setTRUNK(boolean TRUNK) {
-		UI.TRUNK = TRUNK;
+	public static void setTrunk(boolean trunk) {
+		UI.TRUNK = trunk;
+		useTHING = false;
 		if(UI.TRUNK)
 			Controller.setTrunkControls();
 	}

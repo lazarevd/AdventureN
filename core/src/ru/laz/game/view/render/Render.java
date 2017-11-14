@@ -68,18 +68,16 @@ public class Render {
 				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
 				TextureRegion tex = ro.getTexture();
 				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
-
+/*
 				for (Entry<String, Thing> th : level.getThings().entrySet()) {
-
 					for (Polygon4Game poly : th.getValue().bodyPolys) {
 						drawPolygon(poly, Colour.BLUE);
 					}
-
 					for (Polygon4Game poly : th.getValue().getWorldPolygons()) {
 						drawPolygon(poly, Colour.RED);
 					}
-
 				}
+			*/
 			}
 
 			if (UI.GRAPH) {
@@ -491,15 +489,20 @@ public class Render {
 	
 	public void drawTrunk() {
 		setUICameraMatrix();
-		drawTrunkBack();
-		int x0 = 100;
-		for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
-			TextureRegion tex = entry.getValue().getTexture();
-			Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
-			for (Polygon4Game poly : entry.getValue().bodyPolys) {
-				drawPolygon(poly, Colour.BLUE);
+		if (UI.useTHING & ui.getTrunk().getPickThing() != null) {
+			Thing pickThing = ui.getTrunk().getPickThing();
+			Render.drawActor(pickThing.getTexture(), pickThing.getX(), pickThing.getY(), pickThing.getWidth(), pickThing.getHeight());
+		} else {
+			drawTrunkBack();
+			int x0 = 100;
+			for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
+				TextureRegion tex = entry.getValue().getTexture();
+				Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
+				for (Polygon4Game poly : entry.getValue().bodyPolys) {
+					drawPolygon(poly, Colour.BLUE);
+				}
+				x0 += 100;
 			}
-			x0+=100;
 		}
 	}
 

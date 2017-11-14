@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import ru.laz.game.model.things.instances.Thing;
 
+import ru.laz.game.model.things.instances.Thing;
 
 public class Trunk {
 
@@ -16,7 +16,11 @@ public class Trunk {
     private int COLUMN_SHIFT = 100;
     private int ROWS_SHIFT = 100;
 
-    private HashMap<String, ru.laz.game.model.things.instances.Thing> things  = new HashMap<String, ru.laz.game.model.things.instances.Thing>();
+
+
+    private Thing pickThing = null;
+
+    private HashMap<String, Thing> things  = new HashMap<String, ru.laz.game.model.things.instances.Thing>();
     ThingsFabric thingsFabric = new ThingsFabric();
 
     public Trunk() {
@@ -73,6 +77,19 @@ public class Trunk {
                     }
 
   }
+    }
+
+
+    public Thing getPickThing() {
+        return pickThing;
+    }
+
+    public void setPickThing(Thing useThing) {
+        this.pickThing = useThing;
+    }
+
+    public void setPickThingName(String useThing) {
+        this.pickThing = things.get(useThing);
     }
 
 }
