@@ -101,11 +101,11 @@ public class Render {
 			drawButtons();
 
 			//UI.getUIStage().draw();//Перерисовываем сцену с интерфейсом
-			if (UI.isTRUNK()) {
+			if (UI.isTrunk()) {
 				drawTrunk();
 			}
 
-
+			drawPickObject();
 		}
 	}
 
@@ -303,7 +303,7 @@ public class Render {
 
 
 
-	public void drawEdge(EdgeGame edgeGame, Colour colour) {
+    private void drawEdge(EdgeGame edgeGame, Colour colour) {
 		
 		if (edgeGame != null) {
 		
@@ -346,7 +346,7 @@ public class Render {
 
 
 
-	public void drawPolygon(Polygon4Game polygon4Game, Colour colour) {
+    private void drawPolygon(Polygon4Game polygon4Game, Colour colour) {
 		
 		float[] vertices = polygon4Game.getVertices();
 		
@@ -392,8 +392,8 @@ public class Render {
 
 	
 	}
-	
-	public void drawPOE(PointOnEdgeGame poe) {
+
+    private void drawPOE(PointOnEdgeGame poe) {
 		poe.setPointPosition();
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(1, 0, 0, 1);
@@ -404,30 +404,30 @@ public class Render {
 	
 	/** Эти процедуры используются для преобразования объектов отрисовки из мировых координат в координаты камеры.
 		Всего исользуется 2 камеры - для интерфейса (неподвитжная) и для остальных объектов (подвижная) **/
-	
 
 
 
-	
-	
 
 
 
-	
-	
-	public static void setUICameraMatrix() {
+
+
+
+
+
+    private static void setUICameraMatrix() {
 		spriteBatch.setProjectionMatrix(UI.getUICamera().combined);//Set default stage camera here
 		shapeRenderer.setProjectionMatrix(UI.getUICamera().combined);//Set default stage camera here
 	}
-	
-	public static void setSceneCameraMatrix() {
+
+    private static void setSceneCameraMatrix() {
 		spriteBatch.setProjectionMatrix(UI.getSceneCamera().combined);//Set default stage camera here
 		shapeRenderer.setProjectionMatrix(UI.getSceneCamera().combined);//Set default stage camera here
 	}
 
 
-	
-	public void drawTrunkBack() {
+
+    private void drawTrunkBack() {
 		spriteBatch.begin();
 		trunkSprite.draw(spriteBatch);
 		spriteBatch.end();
@@ -441,7 +441,7 @@ public class Render {
 	}
 */
 
-	public Vector2 getCameraSpeed() {
+    private Vector2 getCameraSpeed() {
 
 		float x = 0,y = 0;
 
@@ -468,7 +468,7 @@ public class Render {
 
 
 
-	public void setCamKeyPosition(OrthographicCamera sceneCamera, Vector2 speedVector) {
+    private void setCamKeyPosition(OrthographicCamera sceneCamera, Vector2 speedVector) {
 
 		float x = sceneCamera.position.x;
 		float y = sceneCamera.position.y;
@@ -485,14 +485,15 @@ public class Render {
 	}
 
 
-
+	private void drawPickObject(){
+    	Thing pickThing = UI.getPickThing();
+    	if (pickThing != null) {
+			Render.drawActor(pickThing.getTexture(), pickThing.getX(), pickThing.getRenderY(), pickThing.getWidth(), pickThing.getHeight());
+		}
+	}
 	
-	public void drawTrunk() {
+	private void drawTrunk() {
 		setUICameraMatrix();
-		if (UI.useTHING & ui.getTrunk().getPickThing() != null) {
-			Thing pickThing = ui.getTrunk().getPickThing();
-			Render.drawActor(pickThing.getTexture(), pickThing.getX(), pickThing.getY(), pickThing.getWidth(), pickThing.getHeight());
-		} else {
 			drawTrunkBack();
 			int x0 = 100;
 			for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
@@ -503,20 +504,19 @@ public class Render {
 				}
 				x0 += 100;
 			}
-		}
 	}
 
 
 
-	public static void drawButtons() {
+    private static void drawButtons() {
 		for (Entry<String, UIButton> entry : UI.uiButtons.entrySet()) {
 			UIButton tButton = entry.getValue();
 			drawActor(tButton.getButtonTex(), tButton.getPosition().x, tButton.getPosition().y, tButton.getSize().x, tButton.getSize().y);
 		}
 	}
 
-	
-	public static void drawActor(TextureRegion tr, float x, float y, float w, float h) {
+
+    private static void drawActor(TextureRegion tr, float x, float y, float w, float h) {
 		/**Основной класс для отрисовки актера. Стараемся соблюдать MVC.
 		 * Для того, чтобы камера действовала на объект нужн оприменить к Batch объекта
 		 * матрицу трансформации координат требуемой камеры.

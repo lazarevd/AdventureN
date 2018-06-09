@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import ru.laz.game.controller.Controller;
 import ru.laz.game.model.things.Trunk;
+import ru.laz.game.model.things.instances.Thing;
 
 
 public class UI {
@@ -34,15 +35,15 @@ public class UI {
 	public final static int UI_HEIGHT = 480;//4x3 aspectratio i don`t know why, but it works
 	public static boolean GRAPH = false;
 	public static boolean BACK = false;
-
+	private static Thing pickThing = null;
+	private static String pickThingName = "";
 
 	public static HashMap<String, UIButton> uiButtons;
 
 
 
 
-	private static boolean TRUNK = false;
-	public static boolean useTHING = false;
+	private static boolean isTrunk = false;
 
 
 
@@ -118,12 +119,12 @@ public class UI {
 		UIButton uib = new UIButton(new Texture(Gdx.files.internal("backpack.png")), 0, 360, 60, 60) {
 			@Override
 			public void clicked() {
-				if (TRUNK) {
-					TRUNK = false;
+				if (isTrunk) {
+					isTrunk = false;
 					Controller.setSceneControls();
 				} else {
-					TRUNK = true;
-					Controller.setTrunkControls();
+					isTrunk = true;
+					Controller.setThingInteractionControls();
 				}
 			}
 		};
@@ -135,18 +136,27 @@ public class UI {
 
 
 	public static void setTrunk(boolean trunk) {
-		UI.TRUNK = trunk;
-		useTHING = false;
-		if(UI.TRUNK)
-			Controller.setTrunkControls();
+		UI.isTrunk = trunk;
+		//isUsingThing = false;
 	}
 
 
-	public static boolean isTRUNK() {
-		return TRUNK;
+	public static boolean isTrunk() {
+		return isTrunk;
 	}
-	
 
+	public static void setPickThing(String thingName, Thing useThing) {
+		pickThingName = thingName;
+		pickThing = useThing;
+	}
+
+	public static Thing getPickThing() {
+		return pickThing;
+	}
+
+	public static String getPickThingName() {
+		return pickThingName;
+	}
 
 	public static UI getUI() {
 		if (ui ==null) {

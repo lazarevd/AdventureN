@@ -17,8 +17,18 @@ public class Trunk {
     private int ROWS_SHIFT = 100;
 
 
+    public class HitItem {
+        public Thing hitThing;
+        public String hitThingString = "";
 
-    private Thing pickThing = null;
+        public HitItem(String name, Thing thing) {
+            this.hitThing=thing;
+            this.hitThingString=name;
+        }
+    }
+
+
+
 
     private HashMap<String, Thing> things  = new HashMap<String, ru.laz.game.model.things.instances.Thing>();
     ThingsFabric thingsFabric = new ThingsFabric();
@@ -33,10 +43,14 @@ public class Trunk {
     }
 
 
-    public HashMap<String, ru.laz.game.model.things.instances.Thing> getThings(){
-        return things;
+    public HashMap<String, Thing> getThings(){
+        return new HashMap<String, Thing>(things);
     }
 
+
+    public Thing getTrunkThing(String thingName) {
+        return things.get(thingName);
+    }
 
 
     public Thing genCompositeThing(String firstThing, String secondThing) {
@@ -50,8 +64,31 @@ public class Trunk {
     }
 
 
-    public String getHitActor(Vector2 xy) {
-            for (Map.Entry<String, ru.laz.game.model.things.instances.Thing> entry : things.entrySet()) {
+    public HitItem getHitItem(Vector2 xy) {
+        for (Map.Entry<String, Thing> entry : things.entrySet()) {
+            if (entry.getValue().isHit(xy)) {
+                return new HitItem(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return null;
+    }
+
+
+    public Thing getHitActor(Vector2 xy) {
+        for (Map.Entry<String, Thing> entry : things.entrySet()) {
+            //Gdx.app.log("TRUNK", "hit actor " + entry.getKey() + " " + entry.getValue().getX() + ":" + entry.getValue().getY());
+            if (entry.getValue().isHit(xy)) {
+                return entry.getValue();
+            }
+        }
+
+        return null;
+    }
+
+
+    public String getHitActorName(Vector2 xy) {
+            for (Map.Entry<String, Thing> entry : things.entrySet()) {
                 //Gdx.app.log("TRUNK", "hit actor " + entry.getKey() + " " + entry.getValue().getX() + ":" + entry.getValue().getY());
                 if (entry.getValue().isHit(xy)) {
                     return entry.getKey();
@@ -80,16 +117,8 @@ public class Trunk {
     }
 
 
-    public Thing getPickThing() {
-        return pickThing;
-    }
 
-    public void setPickThing(Thing useThing) {
-        this.pickThing = useThing;
-    }
 
-    public void setPickThingName(String useThing) {
-        this.pickThing = things.get(useThing);
-    }
+
 
 }
