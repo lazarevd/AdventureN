@@ -42,6 +42,9 @@ public abstract class UIButton {
         return ret;
     }
 
+    public Polygon4Game getPolygon() {
+        return poly;
+    }
 
     public Vector2 getSize() {
         return size;

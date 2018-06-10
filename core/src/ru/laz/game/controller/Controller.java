@@ -17,7 +17,6 @@ import ru.laz.game.view.ui.UIButton;
 import static ru.laz.game.controller.Controller.convertCoordinates;
 
 
-
 public class Controller {
 
     private static Level level;
@@ -81,7 +80,8 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector2 sceneCoords = convertCoordinates(x,y,true);
-		Gdx.app.log("SCENE TOUCH DOWN", x+ " " + y + " scene : " + sceneCoords.x + ";" + sceneCoords.y + " " + pointer + " " + button);
+		Vector2 uiCoords = convertCoordinates(x,y,false);
+		Gdx.app.log("SCENE TOUCH DOWN", x+ " " + y + " scene : " + sceneCoords.x + ";" + sceneCoords.y + " / " + uiCoords.x + " " + uiCoords.y);
 		return false;
 	}
 
@@ -254,8 +254,8 @@ class SceneThingGestureListener implements GestureDetector.GestureListener {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		Gdx.app.log("SCENE TAP ", "");
-		Vector2 touchPosL = convertCoordinates(x,y,false);
 
+		Vector2 touchPosL = convertCoordinates(x,y,false);
 		if (Controller.getHitButton(touchPosL) != null) return false;
 		Vector2 touchPosW = convertCoordinates(x,y,true);
 
@@ -284,7 +284,9 @@ class SceneThingGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		return false;
+        Vector2 touchPosL = convertCoordinates(x,y,false);
+        Gdx.app.log("SCENE ", "X: " + touchPosL.x + " Y: " + touchPosL.y);
+	    return false;
 	}
 
 	@Override

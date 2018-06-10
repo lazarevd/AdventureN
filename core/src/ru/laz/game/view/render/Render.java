@@ -347,7 +347,7 @@ public class Render {
 
 
 
-    private void drawPolygon(Polygon4Game polygon4Game, Colour colour) {
+    private static void drawPolygon(Polygon4Game polygon4Game, Colour colour) {
 		
 		float[] vertices = polygon4Game.getVertices();
 		
@@ -514,6 +514,7 @@ public class Render {
 		for (Entry<String, UIButton> entry : UI.uiButtons.entrySet()) {
 			UIButton tButton = entry.getValue();
 			drawActor(tButton.getButtonTex(), tButton.getPosition().x, tButton.getPosition().y, tButton.getSize().x, tButton.getSize().y);
+            drawPolygon(tButton.getPolygon(),Colour.BLUE);
 		}
 	}
 
