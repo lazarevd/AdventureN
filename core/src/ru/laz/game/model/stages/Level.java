@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.graph.GraphGame;
 import ru.laz.game.model.things.StaticObject;
@@ -67,11 +68,11 @@ public abstract class Level {
 	}
 
 
-	public String getHitActor(Vector2 xy) {;
+	public ThingContainer getHitActor(Vector2 xy) {;
 			for (Map.Entry<String, Thing> entry : things.entrySet()) {
 				//Gdx.app.log("TRUNK", "hit actor " + entry.getKey() + " " + entry.getValue().getX() + ":" + entry.getValue().getY());
 				if (entry.getValue().isHit(xy)) {
-					return entry.getKey();
+					return new ThingContainer(entry.getKey(), entry.getValue());
 				}
 			}
 		return null;

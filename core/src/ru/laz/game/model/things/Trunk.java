@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.things.instances.Thing;
 
 public class Trunk {
@@ -17,15 +18,6 @@ public class Trunk {
     private int ROWS_SHIFT = 100;
 
 
-    public class HitItem {
-        public Thing hitThing;
-        public String hitThingString = "";
-
-        public HitItem(String name, Thing thing) {
-            this.hitThing=thing;
-            this.hitThingString=name;
-        }
-    }
 
 
 
@@ -64,13 +56,12 @@ public class Trunk {
     }
 
 
-    public HitItem getHitItem(Vector2 xy) {
+    public ThingContainer getHitItem(Vector2 xy) {
         for (Map.Entry<String, Thing> entry : things.entrySet()) {
             if (entry.getValue().isHit(xy)) {
-                return new HitItem(entry.getKey(), entry.getValue());
+                return new ThingContainer(entry.getKey(), entry.getValue());
             }
         }
-
         return null;
     }
 

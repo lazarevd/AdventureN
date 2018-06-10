@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.Map.Entry;
 
+import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.graph.EdgeGame;
 import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.graph.PointOnEdgeGame;
@@ -486,9 +487,10 @@ public class Render {
 
 
 	private void drawPickObject(){
-    	Thing pickThing = UI.getPickThing();
-    	if (pickThing != null) {
-			Render.drawActor(pickThing.getTexture(), pickThing.getX(), pickThing.getRenderY(), pickThing.getWidth(), pickThing.getHeight());
+    	ThingContainer pickThingCon = UI.getPickThing();
+    	if (pickThingCon != null) {
+
+			Render.drawActor(pickThingCon.getThing().getTexture(), pickThingCon.getThing().getX(), pickThingCon.getThing().getRenderY(), pickThingCon.getThing().getWidth(), pickThingCon.getThing().getHeight());
 		}
 	}
 	

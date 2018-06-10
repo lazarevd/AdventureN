@@ -14,8 +14,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.HashMap;
 
 import ru.laz.game.controller.Controller;
+import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.things.Trunk;
-import ru.laz.game.model.things.instances.Thing;
 
 
 public class UI {
@@ -35,8 +35,7 @@ public class UI {
 	public final static int UI_HEIGHT = 480;//4x3 aspectratio i don`t know why, but it works
 	public static boolean GRAPH = false;
 	public static boolean BACK = false;
-	private static Thing pickThing = null;
-	private static String pickThingName = "";
+	private static ThingContainer pickThing = null;
 
 	public static HashMap<String, UIButton> uiButtons;
 
@@ -145,18 +144,14 @@ public class UI {
 		return isTrunk;
 	}
 
-	public static void setPickThing(String thingName, Thing useThing) {
-		pickThingName = thingName;
-		pickThing = useThing;
+
+	public static void setPickThing(ThingContainer thing) {
+		pickThing = thing;
 	}
 
-	public static Thing getPickThing() {
-		return pickThing;
-	}
-
-	public static String getPickThingName() {
-		return pickThingName;
-	}
+	public static ThingContainer getPickThing(){
+	    return pickThing;
+    }
 
 	public static UI getUI() {
 		if (ui ==null) {

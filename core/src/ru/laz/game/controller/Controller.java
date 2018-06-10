@@ -11,7 +11,6 @@ import ru.laz.game.model.actors.MoveWork;
 import ru.laz.game.model.actors.TakeWork;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Trunk;
-import ru.laz.game.model.things.instances.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
 
@@ -19,7 +18,56 @@ import static ru.laz.game.controller.Controller.convertCoordinates;
 
 
 
+public class Controller {
 
+    private static Level level;
+    private static Trunk trunk;
+
+    public static Vector2 convertCoordinates(float x, float y, boolean world) {
+        return convertCoordinates(new Vector2(x,y), world);
+    }
+
+    public static Vector2 convertCoordinates(Vector2 input, boolean world) {//convert device screen (pixel) coords to UI or World coords
+        Vector3 vec3 = new Vector3();
+
+        if (!world) {
+            vec3.set(UI.getViewportUI().unproject(new Vector3(input.x, input.y, 0)));
+        } else {
+            vec3.set(UI.getViewportScene().unproject(new Vector3(input.x, input.y, 0)));
+        }
+        Vector2 ret = new Vector2(vec3.x, vec3.y);
+        return ret;
+    }
+
+    public static void setLevel(Level level) {
+        Controller.level = level;
+    }
+
+    public static Level getLevel() {
+        return level;
+    }
+
+    public static String getHitButton(Vector2 xy) {
+        for (Map.Entry<String,UIButton> entry : UI.uiButtons.entrySet()) {
+            if(entry.getValue().isHit(xy)) {
+                entry.getValue().clicked();
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public static void setThingInteractionControls() {
+        Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new ThingInteractionListener(Controller.getLevel())));
+        Gdx.app.log("LISTNER", "SET TRUNK");
+    }
+
+    public static void setSceneControls() {
+        Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new SceneGestureListener(Controller.getLevel())));
+        Gdx.app.log("LISTNER", "SET SCENE");
+    }
+
+}
 
 
 class SceneGestureListener implements GestureDetector.GestureListener {
@@ -45,11 +93,11 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 		if (Controller.getHitButton(touchPosL) != null) return false;
 		Vector2 touchPosW = convertCoordinates(x,y,true);
 
-		String curThingName = level.getHitActor(touchPosW);
-		Thing curThing = level.getThings().get(curThingName);
+		ThingContainer curThing = null;
+        curThing = level.getHitActor(touchPosW);
 		if (curThing != null) {
-			level.getMainActor().addWork(new TakeWork(curThingName, level));
-			level.getMainActor().addWork(new MoveWork(curThing, touchPosW, level));
+			level.getMainActor().addWork(new TakeWork(curThing.getThingName(), level));
+			level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
 		}
 		else {
 			level.getMainActor().addWork(new MoveWork(touchPosW, level));
@@ -97,7 +145,7 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	Level level;
-	String pickThingName = null;
+
 
 	public ThingInteractionListener(Level level) {this.level = level;}
 
@@ -122,9 +170,9 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	public boolean longPress(float x, float y) {
 		Gdx.app.log("THING LONG PRESS", x+" "+ y);
 		if (UI.isTrunk()) {
-		    Trunk.HitItem th = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
-            Gdx.app.log("hit thing",th.hitThingString);
-			UI.setPickThing(th.hitThingString, th.hitThing);
+			ThingContainer th = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
+            Gdx.app.log("hit thing",th.getThingName());
+            UI.setPickThing(new ThingContainer(th.getThingName(), th.getThing()));
 		}
 			return false;
 	}
@@ -140,8 +188,8 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 		Gdx.app.log("THING PAN ", deltaX + " " + deltaY);
 		if (UI.getPickThing() != null) {
 			Vector2 uiCoords = convertCoordinates(x,y,false);
-			UI.getPickThing().setX(uiCoords.x);
-			UI.getPickThing().setY(uiCoords.y);
+			UI.getPickThing().getThing().setX(uiCoords.x);
+			UI.getPickThing().getThing().setY(uiCoords.y);
             if(uiCoords.x > (UI.UI_WIDTH-(UI.UI_WIDTH/6))) {
                 Gdx.app.log("HIDE TRUNK","");
                 UI.setTrunk(false);
@@ -152,18 +200,20 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean panStop(float x, float y, int pointer, int button) {
-		Gdx.app.log("TRUNK PAN STOP ", x + " " + y + " " + pointer + " " + button);
-		if (UI.getPickThing() != null && UI.isTrunk()) {
-            Trunk.HitItem th = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
-			String secondPickThingName = th.hitThingString;
-			if (pickThingName != null && pickThingName != "" && secondPickThingName != null && secondPickThingName != "") {
-				Thing newThing = UI.getTrunk().genCompositeThing(pickThingName, secondPickThingName);
-			} else {
-				UI.getTrunk().arrangeThings();
+		Gdx.app.log("THING PAN STOP ", x + " " + y + " " + pointer + " " + button);
+		if (UI.getPickThing() != null) {
+			if (UI.isTrunk()) {
+				ThingContainer secondPick = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
+				if (secondPick != null) {
+					UI.getTrunk().genCompositeThing(UI.getPickThing().getThingName(), secondPick.getThingName());
 			}
-		}
-		UI.setPickThing("",null);
-		pickThingName = "";
+			} else {
+				ThingContainer secondPick = level.getHitActor(convertCoordinates(x, y, true));
+				Controller.setSceneControls();
+			}
+			UI.getTrunk().arrangeThings();
+	}
+		UI.setPickThing(null);
 		return false;
 	}
 
@@ -209,11 +259,11 @@ class SceneThingGestureListener implements GestureDetector.GestureListener {
 		if (Controller.getHitButton(touchPosL) != null) return false;
 		Vector2 touchPosW = convertCoordinates(x,y,true);
 
-		String curThingName = level.getHitActor(touchPosW);
-		Thing curThing = level.getThings().get(curThingName);
+		ThingContainer curThing = null;
+        curThing = level.getHitActor(touchPosW);
 		if (curThing != null) {
-			level.getMainActor().addWork(new TakeWork(curThingName, level));
-			level.getMainActor().addWork(new MoveWork(curThing, touchPosW, level));
+			level.getMainActor().addWork(new TakeWork(curThing.getThingName(), level));
+			level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
 		}
 		else {
 			level.getMainActor().addWork(new MoveWork(touchPosW, level));
@@ -261,66 +311,4 @@ class SceneThingGestureListener implements GestureDetector.GestureListener {
 
 
 
-public class Controller {
 
-
-
-	private static Level level;
-	private static Trunk trunk;
-
-
-	public static Vector2 convertCoordinates(float x, float y, boolean world) {
-		return convertCoordinates(new Vector2(x,y), world);
-	}
-
-
-	public static Vector2 convertCoordinates(Vector2 input, boolean world) {//convert device screen (pixel) coords to UI or World coords
-		Vector3 vec3 = new Vector3();
-
-		if (!world) {
-			vec3.set(UI.getViewportUI().unproject(new Vector3(input.x, input.y, 0)));
-		} else {
-			vec3.set(UI.getViewportScene().unproject(new Vector3(input.x, input.y, 0)));
-		}
-		Vector2 ret = new Vector2(vec3.x, vec3.y);
-		return ret;
-	}
-
-
-
-
-
-	public static void setLevel(Level level) {
-		Controller.level = level;
-	}
-
-	public static Level getLevel() {
-		return level;
-	}
-
-	public static String getHitButton(Vector2 xy) {
-		for (Map.Entry<String,UIButton> entry : UI.uiButtons.entrySet()) {
-			if(entry.getValue().isHit(xy)) {
-				entry.getValue().clicked();
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
-
-
-
-
-	public static void setThingInteractionControls() {
-		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new ThingInteractionListener(Controller.getLevel())));
-		Gdx.app.log("LISTNER", "SET TRUNK");
-	}
-
-	public static void setSceneControls() {
-		Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new SceneGestureListener(Controller.getLevel())));
-		Gdx.app.log("LISTNER", "SET SCENE");
-	}
-
-
-	}
