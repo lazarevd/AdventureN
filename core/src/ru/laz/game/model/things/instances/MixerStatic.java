@@ -9,25 +9,23 @@ import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 
 /**
- * Created by Dmitry Lazarev on 01.10.2017.
+ * Created by Dmitry Lazarev on 23.06.2018.
  */
+public class MixerStatic extends Thing {
 
-public class Rope extends Thing {
-    public Rope(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
-        super(true,x, y, zDepth, h, w, nodeName, level);
-        Texture tex = new Texture(Gdx.files.internal("rope.png"));
+    public MixerStatic(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
+        super(false,x, y, zDepth, h, w, nodeName, level);
+        Texture tex = new Texture(Gdx.files.internal("dummy.png"));
         this.actorTex = new TextureRegion(tex);
-       // this.setBounds(x, y, w, h);
     }
 
     @Override
     public void actOnClick() {
-
+        Gdx.app.log("actOnClick","MixerStatic");
     }
 
     @Override
     public void actWithObject(ThingContainer otherThing) {
-
+        Gdx.app.log("actWithObject","otherThing");
     }
-
 }

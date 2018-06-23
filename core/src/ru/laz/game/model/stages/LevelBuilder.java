@@ -1,5 +1,7 @@
 package ru.laz.game.model.stages;
 
+import ru.laz.game.model.stages.Level_01.Level_01;
+
 public class LevelBuilder {
 
 	

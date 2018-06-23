@@ -16,9 +16,6 @@ public class StaticObject extends Group implements RenderObject {
 	private float renderScale = 1.0f;
 	private float parallaxFactor = 0.0f;
 
-
-
-	
 	
 	public StaticObject (TextureRegion textureRegion) {
 		this.textureRegion = textureRegion;
@@ -113,7 +110,6 @@ public class StaticObject extends Group implements RenderObject {
 	public float getRenderHeight() {
 		return this.renderHeigth*renderScale;
 	}
-
 
 	@Override
 	public float getRenderWidth() {

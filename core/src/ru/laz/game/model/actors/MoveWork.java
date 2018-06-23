@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import ru.laz.game.model.actors.MainActor.Dir;
 import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.instances.Thing;
+import ru.laz.game.model.things.Thing;
 
 public class MoveWork extends Work {
 	

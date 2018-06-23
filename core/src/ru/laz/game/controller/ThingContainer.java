@@ -1,6 +1,6 @@
 package ru.laz.game.controller;
 
-import ru.laz.game.model.things.instances.Thing;
+import ru.laz.game.model.things.Thing;
 
 /**
  * Created by Dmitry Lazarev on 10.06.2018.

@@ -96,8 +96,10 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 		ThingContainer curThing = null;
         curThing = level.getHitActor(touchPosW);
 		if (curThing != null) {
-			level.getMainActor().addWork(new TakeWork(curThing.getThingName(), level));
-			level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
+			if (curThing.getThing().isCanBeTaken()) {
+				level.getMainActor().addWork(new TakeWork(curThing.getThingName(), level));
+				level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
+			}
 		}
 		else {
 			level.getMainActor().addWork(new MoveWork(touchPosW, level));
@@ -235,7 +237,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	}
 }
 
-
+/*
 class SceneThingGestureListener implements GestureDetector.GestureListener {
 
 	private Level level;
@@ -309,6 +311,7 @@ class SceneThingGestureListener implements GestureDetector.GestureListener {
 
 	}
 }
+*/
 
 
 

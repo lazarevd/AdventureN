@@ -13,7 +13,7 @@ import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.graph.GraphGame;
 import ru.laz.game.model.things.StaticObject;
-import ru.laz.game.model.things.instances.Thing;
+import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.render.RenderObject;
 import ru.laz.game.view.ui.UI;
 
@@ -30,7 +30,7 @@ public abstract class Level {
 	private float height;
 
 	private Sprite backgroundSpt;
-	OrthographicCamera scCam;
+	protected OrthographicCamera scCam;
 
 
 

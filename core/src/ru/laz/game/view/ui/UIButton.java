@@ -26,7 +26,11 @@ public abstract class UIButton {
         this.position.y = y;
         this.size.x = h;
         this.size.y = w;
-        float[] nvertices = new float[]{x,y,x+w, x, x+w, y+h, x, y+h};
+        float[] nvertices = new float[]{
+                x,      y,//bot left
+                x+w,    y,
+                x+w,    y+h,
+                x,      y+h};
         poly.setVertices(nvertices);
     }
 

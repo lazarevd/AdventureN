@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import ru.laz.game.controller.ThingContainer;
-import ru.laz.game.model.things.instances.Thing;
 
 public class Trunk {
 
@@ -22,7 +21,7 @@ public class Trunk {
 
 
 
-    private HashMap<String, Thing> things  = new HashMap<String, ru.laz.game.model.things.instances.Thing>();
+    private HashMap<String, Thing> things  = new HashMap<String, Thing>();
     ThingsFabric thingsFabric = new ThingsFabric();
 
     public Trunk() {
@@ -95,7 +94,7 @@ public class Trunk {
         int tmpRowCount = 0;
         int tmpColCount = 0;
 
-        for(Entry<String, ru.laz.game.model.things.instances.Thing> entry : things.entrySet()) {
+        for(Entry<String, Thing> entry : things.entrySet()) {
                     entry.getValue().setXY(new Vector2(tmpCShift, tmpRShift));
                     tmpCShift+=COLUMN_SHIFT;
                     tmpColCount+=1;

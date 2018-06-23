@@ -23,7 +23,7 @@ import ru.laz.game.model.graph.PointOnEdgeGame;
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.graph.Polygon4Game.DrawStat;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.instances.Thing;
+import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
 
@@ -514,7 +514,7 @@ public class Render {
 		for (Entry<String, UIButton> entry : UI.uiButtons.entrySet()) {
 			UIButton tButton = entry.getValue();
 			drawActor(tButton.getButtonTex(), tButton.getPosition().x, tButton.getPosition().y, tButton.getSize().x, tButton.getSize().y);
-            drawPolygon(tButton.getPolygon(),Colour.BLUE);
+            //drawPolygon(tButton.getPolygon(),Colour.BLUE);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package ru.laz.game.model.things.instances;
+package ru.laz.game.model.things;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix3;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.view.render.RenderObject;
@@ -25,7 +26,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	public float zDepth = 0;
 	private float renderScale = 1.0f;
 	private Matrix4 transformMatrix;
-
+	private boolean canBeTaken = false;
 
 
 	private float parallaxFactor = 0.0f;
@@ -33,14 +34,13 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	private String nodeName = "";
 
 
-	TextureRegion actorTex;
+	protected TextureRegion actorTex;
 	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
 	Level level;
 	//private float heigth;
 
 
 	public Thing(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
-
 		this.setX(x);
 		this.setY(y);
 		this.width = w;
@@ -52,7 +52,11 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		bodyPolys = new Array<Polygon4Game>();
 		this.level = level;
 		defineBody();
+	}
 
+	public Thing(boolean canBeTaken, float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
+		this(x,y,zDepth,h,w,nodeName,level);
+		this.canBeTaken = canBeTaken;
 	}
 
 
@@ -75,7 +79,17 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	}
 
 
+	public boolean isCanBeTaken() {
+		return canBeTaken;
+	}
 
+	public void setCanBeTaken(boolean canBeTaken) {
+		this.canBeTaken = canBeTaken;
+	}
+
+	public abstract void  actOnClick();
+
+	public abstract void actWithObject(ThingContainer otherThing);
 
 	public TextureRegion getTexture() {
 		return this.actorTex;

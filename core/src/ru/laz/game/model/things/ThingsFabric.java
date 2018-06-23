@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ru.laz.game.model.things.instances.MugWRope;
-import ru.laz.game.model.things.instances.Thing;
 
 /**
  * Created by Dmitry Lazarev on 04.11.2017.
