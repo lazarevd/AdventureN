@@ -50,8 +50,8 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 		Rope rope  = new Rope(930,300, 1.5f, 120,60, "nodeRope", this);
 		addThing("rope",rope);
 
-		MixerStatic mixerStatix = new MixerStatic(800, 300, 1.2f, 60,60, "mixerStatic", this);
-		addThing("mixerStatix", mixerStatix);
+		MixerStatic mixerStatic = new MixerStatic(780, 210, 1.5f, 110,140, "mixerStatic", this);
+		addThing("mixerStatic", mixerStatic);
 	    
 	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
 

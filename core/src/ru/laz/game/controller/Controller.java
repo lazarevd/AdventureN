@@ -10,6 +10,7 @@ import java.util.Map;
 import ru.laz.game.model.actors.MoveWork;
 import ru.laz.game.model.actors.TakeWork;
 import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.things.Thing;
 import ru.laz.game.model.things.Trunk;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
@@ -21,6 +22,24 @@ public class Controller {
 
     private static Level level;
     private static Trunk trunk;
+
+
+    public static void moveThingWorldToTrunk(ThingContainer thingContainer) {
+        UI.getUI().getTrunk().addToTrunk(thingContainer);
+        level.removeThing(thingContainer.getThingName());
+    }
+
+    public static void moveThingTrunkToWorld(ThingContainer thingContainer, float x, float y, float zDepth, float h, float w, Level level) {
+        Thing thing = thingContainer.getThing();
+        thing.setX(x);
+        thing.setY(y);
+        thing.setzDepth(zDepth);
+        thing.setHeight(h);
+        thing.setWidth(w);
+        thing.setLevel(level);
+        level.addThing(thingContainer.getThingName(), thingContainer.getThing());
+        UI.getUI().getTrunk().removeFromTrunk(thingContainer);
+    }
 
     public static Vector2 convertCoordinates(float x, float y, boolean world) {
         return convertCoordinates(new Vector2(x,y), world);
@@ -97,7 +116,7 @@ class SceneGestureListener implements GestureDetector.GestureListener {
         curThing = level.getHitActor(touchPosW);
 		if (curThing != null) {
 			if (curThing.getThing().isCanBeTaken()) {
-				level.getMainActor().addWork(new TakeWork(curThing.getThingName(), level));
+				level.getMainActor().addWork(new TakeWork(curThing, level));
 				level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
 			}
 		}
@@ -207,10 +226,12 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 			if (UI.isTrunk()) {
 				ThingContainer secondPick = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
 				if (secondPick != null) {
-					UI.getTrunk().genCompositeThing(UI.getPickThing().getThingName(), secondPick.getThingName());
+					UI.getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
 			}
 			} else {
 				ThingContainer secondPick = level.getHitActor(convertCoordinates(x, y, true));
+				secondPick.getThing().actWithObject(UI.getPickThing());
+				UI.setPickThing(null);
 				Controller.setSceneControls();
 			}
 			UI.getTrunk().arrangeThings();
@@ -236,82 +257,6 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 		Gdx.app.log("PINCH STOP ", "");
 	}
 }
-
-/*
-class SceneThingGestureListener implements GestureDetector.GestureListener {
-
-	private Level level;
-
-	protected SceneThingGestureListener(Level gl) {
-		level = gl;
-	}
-
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		Vector2 sceneCoords = convertCoordinates(x,y,true);
-		Gdx.app.log("SCENE TOUCH DOWN", x+ " " + y + " scene : " + sceneCoords.x + ";" + sceneCoords.y + " " + pointer + " " + button);
-		return false;
-	}
-
-	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		Gdx.app.log("SCENE TAP ", "");
-
-		Vector2 touchPosL = convertCoordinates(x,y,false);
-		if (Controller.getHitButton(touchPosL) != null) return false;
-		Vector2 touchPosW = convertCoordinates(x,y,true);
-
-		ThingContainer curThing = null;
-        curThing = level.getHitActor(touchPosW);
-		if (curThing != null) {
-			level.getMainActor().addWork(new TakeWork(curThing.getThingName(), level));
-			level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
-		}
-		else {
-			level.getMainActor().addWork(new MoveWork(touchPosW, level));
-		}
-		return false;
-	}
-
-	@Override
-	public boolean longPress(float x, float y)
-	{ Gdx.app.log("SCENE LONG PRESS", "");
-		return false;
-	}
-
-	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean pan(float x, float y, float deltaX, float deltaY) {
-        Vector2 touchPosL = convertCoordinates(x,y,false);
-        Gdx.app.log("SCENE ", "X: " + touchPosL.x + " Y: " + touchPosL.y);
-	    return false;
-	}
-
-	@Override
-	public boolean panStop(float x, float y, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean zoom(float initialDistance, float distance) {
-		return false;
-	}
-
-	@Override
-	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-		return false;
-	}
-
-	@Override
-	public void pinchStop() {
-
-	}
-}
-*/
 
 
 

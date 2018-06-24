@@ -28,11 +28,16 @@ public class Trunk {
 
     }
 
-    public void addToTrunk(String name, Thing thing) {
-        things.put(name, thing);
+    public void addToTrunk(ThingContainer thingContainer) {
+        things.put(thingContainer.getThingName(), thingContainer.getThing());
         arrangeThings();
     }
 
+
+    public void removeFromTrunk(ThingContainer thingContainer) {
+        things.remove(thingContainer.getThingName());
+        arrangeThings();
+    }
 
     public HashMap<String, Thing> getThings(){
         return new HashMap<String, Thing>(things);
@@ -44,13 +49,12 @@ public class Trunk {
     }
 
 
-    public Thing genCompositeThing(String firstThing, String secondThing) {
-        Thing returnTh = null;
-        String newThingName = thingsFabric.getCompositeThingName(firstThing, secondThing);
-        returnTh = thingsFabric.genThing(newThingName);
-        things.remove(firstThing);
-        things.remove(secondThing);
-        addToTrunk (newThingName, returnTh);
+    public ThingContainer genCompositeThing(ThingContainer firstThing, ThingContainer secondThing) {
+        ThingContainer returnTh = null;
+        ThingContainer newThing = thingsFabric.getCompositeThing(firstThing.getThingName(), secondThing.getThingName());
+        things.remove(firstThing.getThingName());
+        things.remove(secondThing.getThingName());
+        addToTrunk (newThing);
         return returnTh;
     }
 

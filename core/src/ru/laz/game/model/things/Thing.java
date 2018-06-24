@@ -36,6 +36,9 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 
 	protected TextureRegion actorTex;
 	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
+
+
+
 	Level level;
 	//private float heigth;
 
@@ -225,7 +228,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		return this.zDepth;
 	}
 
-
+	public void setzDepth(float zDepth) {this.zDepth = zDepth;}
 
 	public float getRenderX() {
 		return oX+xShift;
@@ -236,6 +239,14 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		return oY+yShift;
 	}
 
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
 
 	public float getxShift() {
 		return xShift;

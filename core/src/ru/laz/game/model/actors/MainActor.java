@@ -272,7 +272,6 @@ public class MainActor extends Actor implements RenderObject {
 		//UI.getSceneCamera().position.x = this.oX;
 
 		//Gdx.app.log("ACTOR ", works.size +"");
-
 		if(works.size > 0) {
 			int i = works.size-1;
 			Work work = works.get(i);
@@ -280,9 +279,7 @@ public class MainActor extends Actor implements RenderObject {
 				works.removeIndex(i);
 				work.setActor(null);
 			}
-
 		}
-
 	}
 
 

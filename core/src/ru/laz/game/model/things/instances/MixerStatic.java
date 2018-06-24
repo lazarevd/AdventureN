@@ -31,6 +31,6 @@ public class MixerStatic extends Thing {
 
     @Override
     public void actWithObject(ThingContainer otherThing) {
-        Gdx.app.log("actWithObject","otherThing");
+        Gdx.app.log("actWithObject","otherThing: " + otherThing.getThingName());
     }
 }
