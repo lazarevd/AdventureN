@@ -87,6 +87,8 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		this.canBeTaken = canBeTaken;
 	}
 
+	public abstract void act(float delta);//use to define animations or something other on each frame
+
 	public abstract void  actOnClick();
 
 	public abstract void actWithObject(ThingContainer otherThing);

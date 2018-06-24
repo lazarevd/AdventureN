@@ -25,6 +25,5 @@ public interface RenderObject {
 	public float getRenderHeight();
 	
 	public float getRenderWidth();
-	
-	
+
 }

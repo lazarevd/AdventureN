@@ -81,6 +81,9 @@ public abstract class Level {
 
 public void act(float delta) {
 	mainActor.act(delta);
+	for (Map.Entry<String,Thing> th : things.entrySet()) {
+		th.getValue().act(delta);
+	}
 }
 
 

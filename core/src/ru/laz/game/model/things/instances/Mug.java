@@ -19,6 +19,11 @@ public class Mug extends Thing {
 	}
 
     @Override
+    public void act(float delta) {
+
+    }
+
+    @Override
     public void actOnClick() {
 
     }

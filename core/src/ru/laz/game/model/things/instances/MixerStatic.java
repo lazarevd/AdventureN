@@ -20,6 +20,11 @@ public class MixerStatic extends Thing {
     }
 
     @Override
+    public void act(float delta) {
+
+    }
+
+    @Override
     public void actOnClick() {
         Gdx.app.log("actOnClick","MixerStatic");
     }

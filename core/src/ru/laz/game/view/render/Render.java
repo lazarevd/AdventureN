@@ -69,16 +69,15 @@ public class Render {
 				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
 				TextureRegion tex = ro.getTexture();
 				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
-/*
-				for (Entry<String, Thing> th : level.getThings().entrySet()) {
-					for (Polygon4Game poly : th.getValue().bodyPolys) {
-						drawPolygon(poly, Colour.BLUE);
-					}
-					for (Polygon4Game poly : th.getValue().getWorldPolygons()) {
-						drawPolygon(poly, Colour.RED);
-					}
+			}
+
+			for (Entry<String, Thing> th : level.getThings().entrySet()) {
+				for (Polygon4Game poly : th.getValue().bodyPolys) {
+					drawPolygon(poly, Colour.BLUE);
 				}
-			*/
+				for (Polygon4Game poly : th.getValue().getWorldPolygons()) {
+					drawPolygon(poly, Colour.RED);
+				}
 			}
 
 			if (UI.GRAPH) {

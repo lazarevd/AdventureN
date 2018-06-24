@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.things.instances.MixerStatic;
 import ru.laz.game.model.things.instances.Mug;
 import ru.laz.game.model.things.instances.Rope;
 import ru.laz.game.model.things.StaticObject;
@@ -48,6 +49,9 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 
 		Rope rope  = new Rope(930,300, 1.5f, 120,60, "nodeRope", this);
 		addThing("rope",rope);
+
+		MixerStatic mixerStatix = new MixerStatic(800, 300, 1.2f, 60,60, "mixerStatic", this);
+		addThing("mixerStatix", mixerStatix);
 	    
 	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
 
