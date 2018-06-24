@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import ru.laz.game.controller.Controller;
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
@@ -32,5 +33,6 @@ public class MixerStatic extends Thing {
     @Override
     public void actWithObject(ThingContainer otherThing) {
         Gdx.app.log("actWithObject","otherThing: " + otherThing.getThingName());
+        Controller.moveThingTrunkToWorld(otherThing, 780, 210,1.5f, 110,140, Controller.getLevel());
     }
 }
