@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.Map;
 
 import ru.laz.game.model.actors.MoveWork;
+import ru.laz.game.model.actors.PutWork;
 import ru.laz.game.model.actors.TakeWork;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
@@ -26,6 +27,8 @@ public class Controller {
 
     public static void moveThingWorldToTrunk(ThingContainer thingContainer) {
         UI.getUI().getTrunk().addToTrunk(thingContainer);
+		thingContainer.getThing().setWidth(60);
+		thingContainer.getThing().setHeight(60);
         level.removeThing(thingContainer.getThingName());
     }
 
@@ -106,6 +109,7 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
+        level.getMainActor().clearWorks();
 		Gdx.app.log("SCENE TAP ", "");
 		Vector2 touchPosL = convertCoordinates(x,y,false);
 
@@ -229,8 +233,12 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 					UI.getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
 			}
 			} else {
-				ThingContainer secondPick = level.getHitActor(convertCoordinates(x, y, true));
-				secondPick.getThing().actWithObject(UI.getPickThing());
+				ThingContainer targetObject = level.getHitActor(convertCoordinates(x, y, true));
+                ThingContainer pickObject = UI.getPickThing();
+                Vector2 touchPosW = convertCoordinates(x,y,true);
+                level.getMainActor().addWork(new PutWork(pickObject,targetObject, level));
+                level.getMainActor().addWork(new MoveWork(targetObject.getThing(), touchPosW, level));
+
 				UI.setPickThing(null);
 				Controller.setSceneControls();
 			}

@@ -298,6 +298,9 @@ public class MainActor extends Actor implements RenderObject {
 		return walkFrames;
 	}
 
+	public void clearWorks() {
+		works.clear();
+	}
 
 	public void addWork (Work work) {
 		works.add(work);

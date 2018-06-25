@@ -33,6 +33,9 @@ public class MixerStatic extends Thing {
     @Override
     public void actWithObject(ThingContainer otherThing) {
         Gdx.app.log("actWithObject","otherThing: " + otherThing.getThingName());
-        Controller.moveThingTrunkToWorld(otherThing, 780, 210,1.5f, 110,140, Controller.getLevel());
+        if (otherThing.getThingName().equals("mug_with_rope")) {
+            otherThing.getThing().setCanBeTaken(true);
+            Controller.moveThingTrunkToWorld(otherThing, 780, 320, 1.5f, 110, 140, Controller.getLevel());
+        }
     }
 }

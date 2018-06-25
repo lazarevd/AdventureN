@@ -1,19 +1,21 @@
 package ru.laz.game.model.actors;
 
 
-import ru.laz.game.controller.Controller;
+import ru.laz.game.AGame;
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 
-public class TakeWork extends Work {
+public class PutWork extends Work {
 
+	private ThingContainer pickThing;
 	private ThingContainer targetThing;
-	
-	
-	public TakeWork(ThingContainer thing, Level level) {
+
+
+	public PutWork(ThingContainer pickThing, ThingContainer targetThing, Level level) {
 		super(level);
-		this.targetThing = thing;
+		this.targetThing = targetThing;
+		this.pickThing = pickThing;
 		//Gdx.app.log("TakeThingWork", "construct");
 	}
 	
@@ -25,9 +27,8 @@ public class TakeWork extends Work {
 	
 	@Override
 	public void act(float delta) {
-		Thing curThing = targetThing.getThing();
-		Controller.moveThingWorldToTrunk(new ThingContainer(targetThing.getThingName(), curThing));
-		level.removeThing(targetThing.getThingName());
+		Thing curThing = AGame.getGame().getGameScreen().getLevel().getThings().get(targetThing.getThingName());
+		targetThing.getThing().actWithObject(pickThing);
 		setStatus(WorkStatus.FINISHED);
 	}
 
