@@ -8,16 +8,17 @@ import ru.laz.game.controller.Controller;
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.ThingAction;
 
 /**
  * Created by Dmitry Lazarev on 23.06.2018.
  */
 public class MixerStatic extends Thing {
 
+    ThingAction thingAction = null;
+
     public MixerStatic(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
-        super(false,x, y, zDepth, h, w, nodeName, level);
-        Texture tex = new Texture(Gdx.files.internal("dummy.png"));
-        this.actorTex = new TextureRegion(tex);
+        super(false,x, y, zDepth, h, w, nodeName, new TextureRegion(new Texture(Gdx.files.internal("dummy.png"))), level);
     }
 
     @Override

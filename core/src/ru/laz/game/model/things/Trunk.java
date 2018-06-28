@@ -17,10 +17,6 @@ public class Trunk {
     private int ROWS_SHIFT = 100;
 
 
-
-
-
-
     private HashMap<String, Thing> things  = new HashMap<String, Thing>();
     ThingsFabric thingsFabric = new ThingsFabric();
 

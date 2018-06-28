@@ -9,14 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.instances.MixerStatic;
-import ru.laz.game.model.things.instances.Mug;
-import ru.laz.game.model.things.instances.Rope;
 import ru.laz.game.model.things.StaticObject;
-
-
-
-
+import ru.laz.game.model.things.Thing;
+import ru.laz.game.model.things.ThingAction;
 
 
 public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
@@ -44,14 +39,20 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 		fr3.setParallaxFactor(0.5f);
 		addStaticObject("fr3", fr3);
 	    
-	    Mug mug  = new Mug(520,200, 1.5f, 50,50, "nodeMug", this);
+	    Thing mug  = new Thing(true, 520,200, 1.5f, 50,50, "nodeMug", new TextureRegion(new Texture(Gdx.files.internal("mug.png"))), this);
 	    addThing("mug",mug);
 
-		Rope rope  = new Rope(930,300, 1.5f, 120,60, "nodeRope", this);
+		Thing rope  = new Thing(true,930,300, 1.5f, 120,60, "nodeRope", new TextureRegion(new Texture(Gdx.files.internal("rope.png"))), this);
 		addThing("rope",rope);
 
-		MixerStatic mixerStatic = new MixerStatic(780, 210, 1.5f, 110,140, "mixerStatic", this);
+		Thing mixerStatic = new Thing(780, 210, 1.5f, 110,140, "nodeRope", new TextureRegion(new Texture(Gdx.files.internal("dummy.png"))), this);
+		mixerStatic.setActWithObject(new ThingAction() {
+			@Override
+			public void run() {
+			}
+		});
 		addThing("mixerStatic", mixerStatic);
+
 	    
 	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
 

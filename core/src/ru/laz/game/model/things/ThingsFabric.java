@@ -1,10 +1,13 @@
 package ru.laz.game.model.things;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import ru.laz.game.controller.ThingContainer;
-import ru.laz.game.model.things.instances.MugWRope;
 
 /**
  * Created by Dmitry Lazarev on 04.11.2017.
@@ -38,7 +41,7 @@ import ru.laz.game.model.things.instances.MugWRope;
         thingsMethods.put("mug_with_rope", new Handler() {
             @Override
             public ThingContainer genThing() {
-                return new ThingContainer("mug_with_rope",new MugWRope(0,0, 1.0f, 50,100, "", null));
+                return new ThingContainer("mug_with_rope",new Thing(true, 0,0, 1.0f, 50,100, "", new TextureRegion(new Texture(Gdx.files.internal("mug_with_rope.png"))), null));
             }
         });
     }

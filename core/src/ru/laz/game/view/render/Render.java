@@ -523,9 +523,11 @@ public class Render {
 		 * Для того, чтобы камера действовала на объект нужн оприменить к Batch объекта
 		 * матрицу трансформации координат требуемой камеры.
 		**/
-		getSpriteBatch().begin();
-		getSpriteBatch().draw(tr,x, y, w, h);
-		getSpriteBatch().end();
+		if (tr != null) {
+			getSpriteBatch().begin();
+			getSpriteBatch().draw(tr, x, y, w, h);
+			getSpriteBatch().end();
+		}
 		//setUISBCameraMatrix();// Возвращаем дефолтную матрицу камеры, чтобы не двигался интерфейс и т.п.
 
 		

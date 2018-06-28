@@ -236,9 +236,10 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 				ThingContainer targetObject = level.getHitActor(convertCoordinates(x, y, true));
                 ThingContainer pickObject = UI.getPickThing();
                 Vector2 touchPosW = convertCoordinates(x,y,true);
-                level.getMainActor().addWork(new PutWork(pickObject,targetObject, level));
-                level.getMainActor().addWork(new MoveWork(targetObject.getThing(), touchPosW, level));
-
+                if (targetObject != null && pickObject != null) {
+					level.getMainActor().addWork(new PutWork(pickObject, targetObject, level));
+					level.getMainActor().addWork(new MoveWork(targetObject.getThing(), touchPosW, level));
+				}
 				UI.setPickThing(null);
 				Controller.setSceneControls();
 			}

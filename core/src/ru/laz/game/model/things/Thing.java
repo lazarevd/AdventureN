@@ -11,7 +11,7 @@ import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.view.render.RenderObject;
 
-public abstract class Thing implements RenderObject {//Наследуем от Group т.к. там есть удобные методы для трансформации объектов с помощью матриц
+public class Thing implements RenderObject {//Наследуем от Group т.к. там есть удобные методы для трансформации объектов с помощью матриц
 
 	private float oX;
 	private float oY;
@@ -27,14 +27,13 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	private float renderScale = 1.0f;
 	private Matrix4 transformMatrix;
 	private boolean canBeTaken = false;
-
-
 	private float parallaxFactor = 0.0f;
-
 	private String nodeName = "";
 
+	private ThingAction actOnClick = null;
+	private ThingAction actWithObject = null;
 
-	protected TextureRegion actorTex;
+    private TextureRegion actorTex;
 	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
 
 
@@ -43,7 +42,7 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 	//private float heigth;
 
 
-	public Thing(float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
+	public Thing(float x, float y, float zDepth, float h, float w, String nodeName, TextureRegion texture,  Level level) {
 		this.setX(x);
 		this.setY(y);
 		this.width = w;
@@ -54,11 +53,12 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		this.zDepth = zDepth;
 		bodyPolys = new Array<Polygon4Game>();
 		this.level = level;
+		this.actorTex = texture;
 		defineBody();
 	}
 
-	public Thing(boolean canBeTaken, float x, float y, float zDepth, float h, float w, String nodeName, Level level) {
-		this(x,y,zDepth,h,w,nodeName,level);
+	public Thing(boolean canBeTaken, float x, float y, float zDepth, float h, float w, String nodeName, TextureRegion texture, Level level) {
+		this(x,y,zDepth,h,w,nodeName,texture,level);
 		this.canBeTaken = canBeTaken;
 	}
 
@@ -69,6 +69,10 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		bodyPolys.add(poly);
 	}
 
+
+    public void setActorTex(TextureRegion actorTex) {
+        this.actorTex = actorTex;
+    }
 
 
 	public boolean isHit(Vector2 xy) {
@@ -81,6 +85,13 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		return ret;
 	}
 
+	public void setActOnClick(ThingAction actOnClick) {
+		this.actOnClick = actOnClick;
+	}
+
+	public void setActWithObject(ThingAction actWithObject) {
+		this.actWithObject = actWithObject;
+	}
 
 	public boolean isCanBeTaken() {
 		return canBeTaken;
@@ -90,11 +101,15 @@ public abstract class Thing implements RenderObject {//Наследуем от G
 		this.canBeTaken = canBeTaken;
 	}
 
-	public abstract void act(float delta);//use to define animations or something other on each frame
+	public void act(float delta) {};//use to define animations or something other on each frame
 
-	public abstract void  actOnClick();
+	public void actOnClick() {};
 
-	public abstract void actWithObject(ThingContainer otherThing);
+	public void actWithObject(ThingContainer otherThing) {
+		if (actWithObject != null && otherThing != null) {
+			actWithObject.run();
+		}
+	}
 
 	public TextureRegion getTexture() {
 		return this.actorTex;
