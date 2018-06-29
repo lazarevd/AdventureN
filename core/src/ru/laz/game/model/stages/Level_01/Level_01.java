@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import ru.laz.game.controller.Controller;
+import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.StaticObject;
 import ru.laz.game.model.things.Thing;
-import ru.laz.game.model.things.ThingAction;
+import ru.laz.game.model.things.ThingActionThing;
 
 
 public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
@@ -46,9 +48,17 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 		addThing("rope",rope);
 
 		Thing mixerStatic = new Thing(780, 210, 1.5f, 110,140, "nodeRope", new TextureRegion(new Texture(Gdx.files.internal("dummy.png"))), this);
-		mixerStatic.setActWithObject(new ThingAction() {
+
+		mixerStatic.setInteractionThing("mug_with_rope");
+
+		mixerStatic.setActWithObject(new ThingActionThing() {
 			@Override
-			public void run() {
+			public void run(Thing thisThing, ThingContainer otherThing) {
+				if (otherThing.getThingName().equals(thisThing.getInteractionThing())) {
+					otherThing.getThing().setCanBeTaken(true);
+					Controller.moveThingTrunkToWorld(otherThing, 780, 320, 1.5f, 110, 140, Controller.getLevel());
+				}
+
 			}
 		});
 		addThing("mixerStatic", mixerStatic);

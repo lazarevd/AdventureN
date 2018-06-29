@@ -5,6 +5,6 @@ package ru.laz.game.model.things;
  */
 public interface ThingAction {
 
+    public void run(Thing thisThing);
 
-    public void run();
 }

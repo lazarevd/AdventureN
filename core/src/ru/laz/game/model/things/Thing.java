@@ -1,5 +1,6 @@
 package ru.laz.game.model.things;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -31,7 +32,11 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 	private String nodeName = "";
 
 	private ThingAction actOnClick = null;
-	private ThingAction actWithObject = null;
+	private ThingActionThing actWithObject = null;
+
+
+
+	private String getInteractionThing = "";
 
     private TextureRegion actorTex;
 	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
@@ -55,6 +60,18 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 		this.level = level;
 		this.actorTex = texture;
 		defineBody();
+		actOnClick = new ThingAction() {
+			@Override
+			public void run(Thing thisThing) {
+				Gdx.app.log(thisThing.nodeName, "Click base action");
+			}
+		};
+		actWithObject = new ThingActionThing() {
+			@Override
+			public void run(Thing thisThing, ThingContainer otherThing) {
+				Gdx.app.log(thisThing.nodeName, "Click base action "+otherThing.getThingName());
+			}
+		};
 	}
 
 	public Thing(boolean canBeTaken, float x, float y, float zDepth, float h, float w, String nodeName, TextureRegion texture, Level level) {
@@ -89,8 +106,16 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 		this.actOnClick = actOnClick;
 	}
 
-	public void setActWithObject(ThingAction actWithObject) {
+	public void setActWithObject(ThingActionThing actWithObject) {
 		this.actWithObject = actWithObject;
+	}
+
+	public String getInteractionThing() {
+		return getInteractionThing;
+	}
+
+	public void setInteractionThing(String interactionThing) {
+		this.getInteractionThing = interactionThing;
 	}
 
 	public boolean isCanBeTaken() {
@@ -103,11 +128,15 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 
 	public void act(float delta) {};//use to define animations or something other on each frame
 
-	public void actOnClick() {};
+	public void actOnClick() {
+		if (actOnClick != null) {
+			actOnClick.run(this);
+		}
+	};
 
 	public void actWithObject(ThingContainer otherThing) {
 		if (actWithObject != null && otherThing != null) {
-			actWithObject.run();
+			actWithObject.run(this, otherThing);
 		}
 	}
 
