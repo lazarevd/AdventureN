@@ -38,6 +38,7 @@ public class Render {
 	private Level level;
 	private UI ui;
 
+    private boolean drawFrames = true;
 
 	
 	public enum Colour {YELLOW, BLUE, RED, WHITE, GREEN};
@@ -71,6 +72,9 @@ public class Render {
 				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
 			}
 
+
+			if (drawFrames) {
+
 			for (Entry<String, Thing> th : level.getThings().entrySet()) {
 				for (Polygon4Game poly : th.getValue().bodyPolys) {
 					drawPolygon(poly, Colour.BLUE);
@@ -78,6 +82,7 @@ public class Render {
 				for (Polygon4Game poly : th.getValue().getWorldPolygons()) {
 					drawPolygon(poly, Colour.RED);
 				}
+			}
 			}
 
 			if (UI.GRAPH) {
@@ -383,10 +388,10 @@ public class Render {
 
 		shapeRenderer.begin(ShapeType.Filled); //And this draw vertices.
 		shapeRenderer.setColor(1, 1, 0, 1);
-		shapeRenderer.circle(vertices[0], vertices[1], 5);
-		shapeRenderer.circle(vertices[2], vertices[3], 5);
-		shapeRenderer.circle(vertices[4], vertices[5], 5);
-		shapeRenderer.circle(vertices[6], vertices[7], 5);
+		shapeRenderer.circle(vertices[0], vertices[1], 2);
+		shapeRenderer.circle(vertices[2], vertices[3], 2);
+		shapeRenderer.circle(vertices[4], vertices[5], 2);
+		shapeRenderer.circle(vertices[6], vertices[7], 2);
 		  
 		shapeRenderer.end();
 

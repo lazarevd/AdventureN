@@ -248,9 +248,6 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 						level.getMainActor().addWork(new PutWork(pickObject, targetObject, level));
 						level.getMainActor().addWork(new MoveWork(targetObject.getThing(), touchPosW, level));
 					}
-					else {
-						Gdx.app.log("INFO", "Cant interact");
-					}
 				}
 				UI.setPickThing(null);
 				Controller.setSceneControls();

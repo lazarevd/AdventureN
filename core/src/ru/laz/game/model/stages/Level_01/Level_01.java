@@ -15,6 +15,7 @@ import ru.laz.game.model.things.StaticObject;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.model.things.ThingAction;
 import ru.laz.game.model.things.ThingActionThing;
+import ru.laz.game.view.ui.UI;
 
 
 public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
@@ -79,8 +80,24 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
         oil.setxShift(-14);
 	    addThing("oil", oil);
 
-	    Thing pan = new Thing(600,150,1.6f,60,10,"nodeRope", new TextureRegion(new Texture(Gdx.files.internal("dummy.png"))), Controller.getLevel());
-        
+	    Thing pan = new Thing(730,200,1.6f,30,70,"nodeRope", new TextureRegion(new Texture(Gdx.files.internal("dummy.png"))), Controller.getLevel());
+        pan.setRenderWidth(128);
+        pan.setxShift(-32);
+        pan.setRenderHeight(64);
+        pan.setInteractionThing("oil");
+        pan.setActWithObject(new ThingActionThing() {
+            @Override
+            public void run(Thing thisThing, ThingContainer otherThing) {
+                if (otherThing.getThingName().equals("oil")) {
+                    thisThing.setActorTex(new TextureRegion(new Texture(Gdx.files.internal("pan_with_oil.png"))));
+                    thisThing.setDone(true);
+                    UI.getTrunk().removeFromTrunk(otherThing);
+                }
+            }
+        });
+
+
+	    addThing("pan", pan);
 
 
 	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
