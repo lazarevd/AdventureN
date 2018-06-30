@@ -268,10 +268,6 @@ public class MainActor extends Actor implements RenderObject {
 	public void act(float delta) {
 		//Здесь получается, что встроенный batch мы не используем, т.к. с ним неудобно работать. Используем один Batch из класса Render.
 		currentFrame = getCurrentFrameTexture();
-		//DEBUG
-		//UI.getSceneCamera().position.x = this.oX;
-
-		//Gdx.app.log("ACTOR ", works.size +"");
 		if(works.size > 0) {
 			int i = works.size-1;
 			Work work = works.get(i);
@@ -373,4 +369,13 @@ public class MainActor extends Actor implements RenderObject {
 	}
 
 
+	@Override
+	public void setRenderWidth(float renderWidth) {
+		this.renderWidth = renderWidth;
+	}
+
+	@Override
+	public void setRenderHeight(float renderHeight) {
+		this.renderHeight = renderHeight;
+	}
 }

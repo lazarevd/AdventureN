@@ -45,13 +45,13 @@ public class Trunk {
     }
 
 
-    public ThingContainer genCompositeThing(ThingContainer firstThing, ThingContainer secondThing) {
-        ThingContainer returnTh = null;
+    public void genCompositeThing(ThingContainer firstThing, ThingContainer secondThing) {
         ThingContainer newThing = thingsFabric.getCompositeThing(firstThing.getThingName(), secondThing.getThingName());
-        things.remove(firstThing.getThingName());
-        things.remove(secondThing.getThingName());
-        addToTrunk (newThing);
-        return returnTh;
+        if (newThing != null) {
+            things.remove(firstThing.getThingName());
+            things.remove(secondThing.getThingName());
+            addToTrunk(newThing);
+        }
     }
 
 

@@ -8,7 +8,9 @@ public interface RenderObject {
 	
 	public void setPosition(float x, float y, float zDepth);
 	
-	public void setRenderScale(float scale);
+	public void setRenderWidth(float renderWidth);
+
+	public void setRenderHeight(float renderHeight);
 	
 	public TextureRegion getTexture();
 

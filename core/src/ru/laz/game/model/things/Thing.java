@@ -22,10 +22,9 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 	private float yShift;
 	private float width = 30;
 	private float height = 30;
-	private float renderWidth = 30;
+    private float renderWidth = 30;
 	private float renderHeight = 30;
 	public float zDepth = 0;
-	private float renderScale = 1.0f;
 	private Matrix4 transformMatrix;
 	private boolean canBeTaken = false;
 	private float parallaxFactor = 0.0f;
@@ -33,15 +32,13 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 
 	private ThingAction actOnClick = null;
 	private ThingActionThing actWithObject = null;
-
-
-
 	private String getInteractionThing = "";
 
     private TextureRegion actorTex;
-	public Array<Polygon4Game> bodyPolys;//Координаты в локальной системе
+	public Array<Polygon4Game> bodyPolys;//Coordinates in local system
 
 
+	private boolean isDone = false; //for story lifeline
 
 	Level level;
 	//private float heigth;
@@ -308,20 +305,32 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 		this.yShift = yShift;
 	}
 
-	@Override
-	public void setRenderScale(float scale) {
-		this.renderScale = scale;
-
-	}
 
 	@Override
 	public float getRenderHeight() {
-		return renderHeight*renderScale;
+		return renderHeight;
 	}
-
 
 	@Override
 	public float getRenderWidth() {
-		return renderWidth*renderScale;
+		return renderWidth;
 	}
+
+
+    public void setRenderWidth(float renderWidth) {
+        this.renderWidth = renderWidth;
+    }
+
+    public void setRenderHeight(float renderHeight) {
+        this.renderHeight = renderHeight;
+    }
+
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
 }

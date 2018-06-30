@@ -11,9 +11,8 @@ public class StaticObject extends Group implements RenderObject {
 	public float x, y, zDepth, width, heigth;
 	public TextureRegion textureRegion;
 
-	private float renderHeigth = 30;
+	private float renderHeight = 30;
 	private float renderWidth = 30;
-	private float renderScale = 1.0f;
 	private float parallaxFactor = 0.0f;
 
 	
@@ -30,7 +29,7 @@ public class StaticObject extends Group implements RenderObject {
 	
 	public StaticObject (TextureRegion textureRegion, float x, float y, float zDep, float width, float heigth) {
 		this(textureRegion, x, y, zDep);
-		this.renderHeigth = heigth;
+		this.renderHeight = heigth;
 		this.renderWidth = width;
 		this.width = width;
 		this.heigth = heigth;
@@ -97,23 +96,21 @@ public class StaticObject extends Group implements RenderObject {
 	}
 
 	@Override
-	public void setRenderScale(float scale) {
-		super.setScale(scale);
-		
-	}
-
-	public  float getRenderScale() {
-		return this.renderScale;
-	}
-
-	@Override
 	public float getRenderHeight() {
-		return this.renderHeigth*renderScale;
+		return this.renderHeight;
 	}
 
 	@Override
 	public float getRenderWidth() {
-		return this.renderWidth*renderScale;
+		return this.renderWidth;
 	}
 
+	public void setRenderHeight(float renderHeight) {
+		this.renderHeight = renderHeight;
+	}
+
+	@Override
+	public void setRenderWidth(float renderWidth) {
+		this.renderWidth = renderWidth;
+	}
 }

@@ -10,9 +10,9 @@ import java.util.Map;
 import ru.laz.game.model.actors.MoveWork;
 import ru.laz.game.model.actors.PutWork;
 import ru.laz.game.model.actors.TakeWork;
+import ru.laz.game.model.actors.ThingWork;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
-import ru.laz.game.model.things.Trunk;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
 
@@ -22,7 +22,6 @@ import static ru.laz.game.controller.Controller.convertCoordinates;
 public class Controller {
 
     private static Level level;
-    private static Trunk trunk;
 
 
     public static void moveThingWorldToTrunk(ThingContainer thingContainer) {
@@ -67,6 +66,11 @@ public class Controller {
     public static Level getLevel() {
         return level;
     }
+
+
+    public static boolean getThingDoneStatus(String thingName) {
+		return level.getThings().get(thingName).isDone();
+	}
 
     public static String getHitButton(Vector2 xy) {
         for (Map.Entry<String,UIButton> entry : UI.uiButtons.entrySet()) {
@@ -122,7 +126,10 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 			if (curThing.getThing().isCanBeTaken()) {
 				level.getMainActor().addWork(new TakeWork(curThing, level));
 				level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
-			}
+			} else {
+                level.getMainActor().addWork(new ThingWork(curThing, level));
+                level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
+            }
 		}
 		else {
 			level.getMainActor().addWork(new MoveWork(touchPosW, level));
