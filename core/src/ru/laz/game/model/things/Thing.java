@@ -1,11 +1,15 @@
 package ru.laz.game.model.things;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.HashMap;
 
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.graph.Polygon4Game;
@@ -36,6 +40,11 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 
     private TextureRegion actorTex;
 	public Array<Polygon4Game> bodyPolys;//Coordinates in local system
+
+	private HashMap<String, Animation> animations = new HashMap<String, Animation>();
+	private Animation currentAnimation = null;
+	private float animStateTime = 0;
+
 
 
 	private boolean isDone = false; //for story lifeline
@@ -84,6 +93,36 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 	}
 
 
+	public void addAnimation(String name, String filename, int columns, int rows, int tileWidth, int tileHeight, float frameDuration) {
+		Texture animationSheet;
+		Animation animation;
+		TextureRegion[] frames;
+
+		animationSheet = new Texture(Gdx.files.internal(filename));
+		frames = genTextureRegion(animationSheet, columns,rows, tileWidth, tileHeight);
+		animation = new Animation(frameDuration, frames);
+		animations.put(name, animation);
+	}
+
+    public void setCurrentAnimation(String currentAnimation) {
+        this.currentAnimation = animations.get(currentAnimation);
+    }
+
+    private TextureRegion[] genTextureRegion(Texture sheet, int cols, int rows, int tileWidth, int tileHeight) {
+
+		TextureRegion[] walkFrames;
+		TextureRegion[][] tmp = TextureRegion.split(sheet, tileWidth, tileHeight);
+
+		walkFrames = new TextureRegion[cols * rows];
+		int index = 0;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				walkFrames[index++] = tmp[i][j];
+			}
+		}
+		return walkFrames;
+	}
+
     public void setActorTex(TextureRegion actorTex) {
         this.actorTex = actorTex;
     }
@@ -123,7 +162,16 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 		this.canBeTaken = canBeTaken;
 	}
 
-	public void act(float delta) {};//use to define animations or something other on each frame
+	public void act(float delta) {
+	    if (this.currentAnimation != null) {
+            animStateTime += delta;
+            actorTex = (TextureRegion) currentAnimation.getKeyFrame(animStateTime, true);
+            if (currentAnimation.isAnimationFinished(animStateTime)) {
+                animStateTime=0;
+            }
+
+        }
+    };//use to define animations or something other on each frame
 
 	public void actOnClick() {
 		if (actOnClick != null) {

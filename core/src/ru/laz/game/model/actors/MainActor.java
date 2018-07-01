@@ -12,18 +12,15 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 
-import ru.laz.game.model.math.MathGame;
 import ru.laz.game.model.graph.NodeGame;
+import ru.laz.game.model.math.MathGame;
 import ru.laz.game.model.stages.Level;
-import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.render.RenderObject;
 
 
 public class MainActor extends Actor implements RenderObject {
 
-	private float sceneAngleFactor = 1f; //angle of camera to set correct Y component in screen coords
     private float oX, oY;	//idle position
     private final float RENDER_SHIFT_X = 0;
     private final float RENDER_SHIFT_Y = -0;
@@ -37,8 +34,6 @@ public class MainActor extends Actor implements RenderObject {
 
 	private float renderScale = 1.0f;
 	private float scaleFactor = 1.0f; //этим параметром можем подкорректировать размер для всей сцены
-
-    private HashMap<String, Thing> trunk;
 
     private Array<Work> works;
     //private Array<Vector2> targetPositions;
@@ -192,14 +187,7 @@ public class MainActor extends Actor implements RenderObject {
 			}
 
 			animationSheet = new Texture(Gdx.files.internal(filename));
-
 			walkFrames = genTextureRegion(animationSheet, 8,4);
-			/*
-
-			for(TextureRegion tr : walkFrames) {
-				tr.flip(false, true);
-			}
-			*/
 			walkAnimation = new Animation(0.025f, walkFrames);
 			ret.put(dir, walkAnimation);
 		}
@@ -211,13 +199,6 @@ public class MainActor extends Actor implements RenderObject {
 
 
 	public void moveControl(float delta) {
-
-
-		//Gdx.app.log("move","tx: " + tX + ", ty: " + tY + ", tz: " + tZ);
-		//Gdx.app.log("move","ox: " + oX + ", oy: " + oY + ", oz: " + oZ);
-		//long i = System.nanoTime();
-		//Gdx.app.log("moveLoop", System.nanoTime() + "");
-
 		if (isMoving == true) {
 			level.QSortRender();//Сортируем слои, чтобы актер перекрывал те что дальше него и перекрывался теми что ближе
 			if (targetWalkDatas.size > 0) {
@@ -226,19 +207,14 @@ public class MainActor extends Actor implements RenderObject {
 					oY = twd.getTargetPosition().y;
 					direction = twd.getTargetDirection();
 					renderScale = twd.getRenderScale();
-
-				//Gdx.app.log("Walker: ", direction + ":" + renderScale);
 				targetWalkDatas.removeValue(twd, true);
 				stateTime += delta;
 			}
 		}
 
 		if (targetWalkDatas.size == 0) {
-			//stateTime = 0.0f;//Обнуляем время анимации
 			isMoving = false;
 		}
-		//i -= System.nanoTime();
-		//Gdx.app.log("moveLoop_fin", i + "");
 	}
 
 
@@ -308,14 +284,6 @@ public class MainActor extends Actor implements RenderObject {
 		if (works.removeValue(work, true)) work.setActor(null);
 	}
 
-
-	public void addToTrunk(String name, Thing thing) {
-		trunk.put(name, thing);
-	}
-
-	public void removeFromTrunk(String name) {
-		trunk.remove(name);
-	}
 
 	@Override
 	public void draw(Batch batch, float alpha) {

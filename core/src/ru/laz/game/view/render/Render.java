@@ -38,7 +38,7 @@ public class Render {
 	private Level level;
 	private UI ui;
 
-    private boolean drawFrames = true;
+    private boolean drawFrames = false;
 
 	
 	public enum Colour {YELLOW, BLUE, RED, WHITE, GREEN};

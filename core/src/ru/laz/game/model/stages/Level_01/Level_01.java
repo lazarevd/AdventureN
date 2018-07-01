@@ -58,7 +58,7 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 			public void run(Thing thisThing, ThingContainer otherThing) {
 				if (otherThing.getThingName().equals(thisThing.getInteractionThing())) {
 					otherThing.getThing().setCanBeTaken(false);
-					Controller.moveThingTrunkToWorld(otherThing, 780, 320, 1.5f, 110, 140, Controller.getLevel());
+					Controller.moveThingTrunkToWorld(otherThing, 780, 300, 1.5f, 110, 140, Controller.getLevel());
 					otherThing.getThing().setDone(true);
 				}
 			}
@@ -85,6 +85,9 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
         pan.setxShift(-32);
         pan.setRenderHeight(64);
         pan.setInteractionThing("oil");
+
+        pan.addAnimation("oil_boils", "pan_with_oil_ani.png", 3,1,512,256, 0.3f);
+        pan.setCurrentAnimation("oil_boils");
         pan.setActWithObject(new ThingActionThing() {
             @Override
             public void run(Thing thisThing, ThingContainer otherThing) {
