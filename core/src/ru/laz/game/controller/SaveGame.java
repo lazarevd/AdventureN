@@ -56,6 +56,7 @@ public class SaveGame {
         Level level = fromSave(Level_01.class);
         level.init();
         AGame.getGame().getGameScreen().setLevel(level);
+        AGame.getGame().getGameScreen().init();
     }
 
     public static void saveAll() {

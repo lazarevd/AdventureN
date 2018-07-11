@@ -35,7 +35,6 @@ public class Render {
     static BitmapFont font;    
     CharSequence str = "default name";
 	Sprite trunkSprite;
-	private Level level;
 	private UI ui;
 
     private boolean drawFrames = true;
@@ -49,13 +48,10 @@ public class Render {
 		spriteBatch = getSpriteBatch();//single instance
 		shapeRenderer = getShapeRenderer();//single instance
 	    font = new BitmapFont();
+		trunkSprite = new Sprite(ui.getTrunkTex());
 	    this.ui = ui;//В конструкторе, потому что UI рисуем всегда
 	}
-	
-	public void setLevel(Level level) {
-		this.level = level;
-	    trunkSprite = new Sprite(ui.getTrunkTex());
-	}
+
 
 
 	public void drawObjects(Level level) {

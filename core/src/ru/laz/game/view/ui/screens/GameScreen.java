@@ -34,10 +34,11 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	}
 
 	public void init() {
-		this.level = LevelBuilder.createGameLevel(1);
+		if (this.level == null) {
+			this.level = LevelBuilder.createGameLevel(1);
+		}
 		Controller.setLevel(this.level);
 		Controller.setSceneControls();
-		render.setLevel(level);
 	}
 	
 
