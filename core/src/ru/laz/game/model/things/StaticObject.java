@@ -1,5 +1,6 @@
 package ru.laz.game.model.things;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
@@ -9,26 +10,34 @@ public class StaticObject extends Group implements RenderObject {
 
 	
 	public float x, y, zDepth, width, heigth;
-	public TextureRegion textureRegion;
-
 	private float renderHeight = 30;
 	private float renderWidth = 30;
 	private float parallaxFactor = 0.0f;
+	private String currentTextureName  = "";
+	private String currentAnimationName = "";
 
-	
-	public StaticObject (TextureRegion textureRegion) {
-		this.textureRegion = textureRegion;
+	private transient Animation currentAnimation;   //default static texture
+	private transient TextureRegion currentTexture; //animation
+	private transient TextureRegion renderTexture; //return this to render
+
+
+
+    public StaticObject () {}
+
+
+    public StaticObject (String texture) {
+        this.currentTextureName = texture;
 	}
 	
-	public StaticObject (TextureRegion textureRegion, float x, float y, float zDep) {
-		this(textureRegion);
+	public StaticObject (String texture, float x, float y, float zDep) {
+		this(texture);
 		this.x = x;
 		this.y = y;
 		this.zDepth = zDep;
 	}
 	
-	public StaticObject (TextureRegion textureRegion, float x, float y, float zDep, float width, float heigth) {
-		this(textureRegion, x, y, zDep);
+	public StaticObject (String texture, float x, float y, float zDep, float width, float heigth) {
+		this(texture, x, y, zDep);
 		this.renderHeight = heigth;
 		this.renderWidth = width;
 		this.width = width;
@@ -37,8 +46,8 @@ public class StaticObject extends Group implements RenderObject {
 	}
 	
 	@Override
-	public TextureRegion getTexture() {
-		return this.textureRegion;
+	public TextureRegion getRenderTexture() {
+		return this.currentTexture;
 	}
 
 	@Override
@@ -113,4 +122,31 @@ public class StaticObject extends Group implements RenderObject {
 	public void setRenderWidth(float renderWidth) {
 		this.renderWidth = renderWidth;
 	}
+
+	@Override
+	public String getCurrentTextureName() {
+		return currentTextureName;
+	}
+
+	@Override
+	public void setCurrentTextureName(String textureName) {
+		this.currentTextureName = textureName;
+	}
+
+	@Override
+	public String getCurrentAnimationName() {
+		return currentAnimationName;
+	}
+
+    @Override
+    public void setCurrentAnimation(Animation animation) {
+        this.currentAnimation = animation;
+    }
+
+	@Override
+    public void setCurrentTexture(TextureRegion textureRegion) {
+        this.currentTexture = textureRegion;
+    }
+
+
 }

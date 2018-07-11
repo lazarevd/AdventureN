@@ -2,7 +2,6 @@ package ru.laz.game.model.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -22,26 +21,21 @@ public abstract class Level {
 	
 	private MainActor mainActor;
 	private GraphGame graph;
-
-
-
-
-	private float width;
-	private float height;
-
-	private Sprite backgroundSpt;
+	private float width = 1024;
+	private float height = 768;
+	private HashMap<String, Thing> things;
+	private HashMap<String, StaticObject> staticObjects;
 	protected OrthographicCamera scCam;
-
-
-
 	private Vector2 initalSceneCameraPosition; //need for parallax calculating
-	
-	HashMap<String, Thing> things;
-	HashMap<String, StaticObject> staticObjects;
 	private Array<RenderObject> renderObjects;
 
-	
-	
+
+	public Level() {
+        staticObjects = new HashMap<String, StaticObject>();
+        renderObjects = new Array<RenderObject>();
+
+    }
+	/*
 	public Level(float width, float height) {
 		this.width = width;
 		this.height = height;
@@ -49,7 +43,7 @@ public abstract class Level {
 		renderObjects = new Array<RenderObject>();
 
 	}
-
+*/
 
 
 	
@@ -57,13 +51,8 @@ public abstract class Level {
 	public void init() {
 		graph = new GraphGame();// create graph here (it belongs to this stage)
 		graph.loadGraph();
-		
 	    things = new HashMap<String, Thing>();
-	    
 	    scCam = UI.getSceneCamera();
-	    
-
-		
 		QSortRender();//сразу обновляем порядок отрисовки объектов	    
 	}
 
@@ -165,13 +154,6 @@ do {
 	public void setGraph(GraphGame graph) {
 		this.graph = graph;
 	}
-
-
-
-	public Sprite getBackground() {
-		return backgroundSpt;
-	}
-
 
 
 	public HashMap<String, Thing> getThings() {

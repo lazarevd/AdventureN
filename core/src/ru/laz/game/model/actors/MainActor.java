@@ -27,42 +27,31 @@ public class MainActor extends Actor implements RenderObject {
 	private float renderWidth = 88;
 	private float renderHeight = 176;
 	private float parallaxFactor = 0;
-
-    private float speed;
-
-
-
+    private transient float speed;
 	private float renderScale = 1.0f;
 	private float scaleFactor = 1.0f; //этим параметром можем подкорректировать размер для всей сцены
+	private float zDepth;
 
-    private Array<Work> works;
+	private transient Array<Work> works;
     //private Array<Vector2> targetPositions;
     //private Array<Dir> targetDirections;//все направления актера
-
-	private Array<WalkData> targetWalkDatas;
-
-    private Level level;
-
-	private boolean isMoving;
-    private float zDepth;
-
-
-	public Array<Vector2> printVec;//DEBUG
-
-	public TextureRegion currentFrame;
-
-	EnumMap<Dir, Animation> moveAniSet; //Набор анимаций движения для 8 сторон.
-	Dir direction;
-
+	private transient Array<WalkData> targetWalkDatas;
+    private transient Level level;
+	private transient boolean isMoving;
+	public transient Array<Vector2> printVec;//DEBUG
+	public transient TextureRegion currentFrame;
+	private transient EnumMap<Dir, Animation> moveAniSet; //Набор анимаций движения для 8 сторон.
+	private transient Dir direction;
 	enum Dir {L,FL,F,FR,R,BR,B,BL};
+	transient float  stateTime;
+	private transient Animation currentAnimation;   //default static texture
+	private transient TextureRegion currentTexture; //animation
+	private transient TextureRegion renderTexture; //return this to render
 
-	float stateTime;
-
-	private MainActor(Level level) {
+	private MainActor() {
 		this.zDepth = 1;
 		targetWalkDatas = new Array<WalkData>();
 		targetWalkDatas.ordered = true;
-
 		this.isMoving = false;
 		this.speed = 2;
 		this.oX = 100;
@@ -72,13 +61,15 @@ public class MainActor extends Actor implements RenderObject {
 		works = new Array<Work>();
 		currentFrame = getCurrentFrameTexture();
 		printVec = new Array<Vector2>();//DEBUG
-		this.level = level;
 	}
 
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
-
-	public MainActor(Level level, float x, float y, float zDepth, float scaleFactor) {
-		this(level);
+    public MainActor(Level level, float x, float y, float zDepth, float scaleFactor) {
+		this();
+		this.level = level;
 		this.oX = x;
 		this.oY = y;
 		this.zDepth = zDepth;
@@ -96,7 +87,7 @@ public class MainActor extends Actor implements RenderObject {
 
 
 	@Override
-	public TextureRegion getTexture() {
+	public TextureRegion getRenderTexture() {
 		return this.currentFrame;
 	}
 
@@ -346,4 +337,30 @@ public class MainActor extends Actor implements RenderObject {
 	public void setRenderHeight(float renderHeight) {
 		this.renderHeight = renderHeight;
 	}
+
+	@Override
+	public String getCurrentTextureName() {
+		return null;
+	}
+
+	@Override
+	public String getCurrentAnimationName() {
+		return null;
+	}
+
+	@Override
+	public void setCurrentAnimation(Animation animation) {
+		this.currentAnimation = animation;
+	}
+
+	@Override
+	public void setCurrentTextureName(String textureName) {
+
+	}
+
+	@Override
+	public void setCurrentTexture(TextureRegion textureRegion) {
+		this.currentTexture = textureRegion;
+	}
+
 }

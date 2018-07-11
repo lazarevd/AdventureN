@@ -1,9 +1,5 @@
 package ru.laz.game.model.things;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,42 +15,41 @@ import ru.laz.game.controller.ThingContainer;
         ThingContainer genThing();
     }
 
-    private HashMap<String , String []> mixThings = new HashMap<String, String[]>();
-    private HashMap<String,Handler> thingsMethods = new HashMap<String,Handler>();
+    private static HashMap<String , String []> mixThings = new HashMap<String, String[]>();
+    private static HashMap<String,Handler> thingsMethods = new HashMap<String,Handler>();
 
 
-    private void genComplThingsRules(){
+    private static void genComplThingsRules(){
         addRule("mug", "rope", "mug_with_rope");
     }
 
-    public void addRule(String firstThing, String secondThing, String resultThing) {
+    public static void addRule(String firstThing, String secondThing, String resultThing) {
         String [] pair = {firstThing, secondThing};
         mixThings.put(resultThing, pair);
     }
 
-    public ThingsFabric() {
+    public static void init() {
         genComplThingsRules();
         genMethods();
     }
 
-    private void genMethods(){
+    private static void genMethods(){
         thingsMethods.put("mug_with_rope", new Handler() {
             @Override
             public ThingContainer genThing() {
-                return new ThingContainer("mug_with_rope",new Thing(true, 0,0, 1.0f, 50,100, "", new TextureRegion(new Texture(Gdx.files.internal("mug_with_rope.png"))), null));
+                return new ThingContainer("mug_with_rope",new Thing(true, 0,0, 1.0f, 50,100, "", "mug_with_rope.png"));
             }
         });
     }
 
 
-    public ThingContainer genThing(String thingName) {
-        Thing ret = null;
+    public static ThingContainer genThing(String thingName) {
         return thingsMethods.get(thingName).genThing();
     }
 
 
 
-    public ThingContainer getCompositeThing(String firstThing, String secondThing) {
+    public  static ThingContainer getCompositeThing(String firstThing, String secondThing) {
         for (Map.Entry<String, String[]> entry : mixThings.entrySet()) {
             String[] tmpArr = entry.getValue();
             if(firstThing.equals(tmpArr[0]) && secondThing.equals(tmpArr[1]) || firstThing.equals(tmpArr[1]) && secondThing.equals(tmpArr[0])) {

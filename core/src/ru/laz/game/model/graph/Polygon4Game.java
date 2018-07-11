@@ -14,12 +14,9 @@ public class Polygon4Game extends Polygon {
 	
 	
 	Array<String> pointsOnEdges;
-	public enum DrawStat {NORMAL, SELECTED, HIGHLIGHT}; 
-	public DrawStat drawStat;
-
+	public enum DrawStat {NORMAL, SELECTED, HIGHLIGHT};
+	public transient DrawStat drawStat;
 	private float renderScale = 1.0f;
-
-	float zHeight; //Use height for ladders for example
 	private float distance;//the same for hero size
 	private Array<String> childNodes = new Array<String>();
 

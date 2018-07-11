@@ -31,14 +31,13 @@ public class Controller {
         level.removeThing(thingContainer.getThingName());
     }
 
-    public static void moveThingTrunkToWorld(ThingContainer thingContainer, float x, float y, float zDepth, float h, float w, Level level) {
+    public static void moveThingTrunkToWorld(ThingContainer thingContainer, float x, float y, float zDepth, float h, float w) {
         Thing thing = thingContainer.getThing();
         thing.setX(x);
         thing.setY(y);
         thing.setzDepth(zDepth);
         thing.setHeight(h);
         thing.setWidth(w);
-        thing.setLevel(level);
         level.addThing(thingContainer.getThingName(), thingContainer.getThing());
         UI.getUI().getTrunk().removeFromTrunk(thingContainer);
     }

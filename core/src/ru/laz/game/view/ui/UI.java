@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.HashMap;
 
 import ru.laz.game.controller.Controller;
+import ru.laz.game.controller.SaveGame;
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.things.Trunk;
 
@@ -129,6 +130,23 @@ public class UI {
 		};
 		uiButtons.put("mugButton", uib);
 
+
+		UIButton json = new UIButton(new Texture(Gdx.files.internal("oil.png")), 80, 360, 60, 60) {
+			@Override
+			public void clicked() {
+				SaveGame.saveAll();
+			}
+		};
+		uiButtons.put("jsonButton", json);
+
+        UIButton fromJson = new UIButton(new Texture(Gdx.files.internal("mug.png")), 160, 360, 60, 60) {
+            @Override
+            public void clicked() {
+                SaveGame.loadAll();
+            }
+        };
+
+        uiButtons.put("fromJson", fromJson);
 	}
 	
 	

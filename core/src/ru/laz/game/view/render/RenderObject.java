@@ -1,5 +1,6 @@
 package ru.laz.game.view.render;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public interface RenderObject {
@@ -12,7 +13,17 @@ public interface RenderObject {
 
 	public void setRenderHeight(float renderHeight);
 	
-	public TextureRegion getTexture();
+	public String getCurrentTextureName();
+
+	public String getCurrentAnimationName();
+
+	public void setCurrentAnimation(Animation animation);
+
+	public void setCurrentTextureName(String textureName);
+
+	public void setCurrentTexture(TextureRegion textureRegion);
+
+	public TextureRegion getRenderTexture();
 
 	public void setParallaxFactor(float parallaxFactor);
 

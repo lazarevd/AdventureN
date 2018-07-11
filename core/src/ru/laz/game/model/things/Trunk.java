@@ -18,10 +18,9 @@ public class Trunk {
 
 
     private HashMap<String, Thing> things  = new HashMap<String, Thing>();
-    ThingsFabric thingsFabric = new ThingsFabric();
 
     public Trunk() {
-
+        ThingsFabric.init();
     }
 
     public void addToTrunk(ThingContainer thingContainer) {
@@ -46,7 +45,7 @@ public class Trunk {
 
 
     public void genCompositeThing(ThingContainer firstThing, ThingContainer secondThing) {
-        ThingContainer newThing = thingsFabric.getCompositeThing(firstThing.getThingName(), secondThing.getThingName());
+        ThingContainer newThing = ThingsFabric.getCompositeThing(firstThing.getThingName(), secondThing.getThingName());
         if (newThing != null) {
             things.remove(firstThing.getThingName());
             things.remove(secondThing.getThingName());

@@ -38,13 +38,14 @@ public class Render {
 	private Level level;
 	private UI ui;
 
-    private boolean drawFrames = false;
+    private boolean drawFrames = true;
 
 	
 	public enum Colour {YELLOW, BLUE, RED, WHITE, GREEN};
 	
 	
 	public Render(UI ui) {
+		TextureFabric.init();
 		spriteBatch = getSpriteBatch();//single instance
 		shapeRenderer = getShapeRenderer();//single instance
 	    font = new BitmapFont();
@@ -60,7 +61,6 @@ public class Render {
 	public void drawObjects(Level level) {
 
 
-
 		if (level != null) {
 			setSceneCameraMatrix();
 			setCamKeyPosition(UI.getSceneCamera(), getCameraSpeed());
@@ -68,8 +68,10 @@ public class Render {
 			for (RenderObject ro : level.getRenderObjects()) {
 				Vector2 tmpCurrentPositionVector = new Vector2(UI.getSceneCamera().position.x, UI.getSceneCamera().position.y);
 				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
-				TextureRegion tex = ro.getTexture();
-				Render.drawActor(tex, ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
+				//set render textures/anims
+				ro.setCurrentTexture(TextureFabric.getTexture(ro.getCurrentTextureName()));
+				ro.setCurrentAnimation(TextureFabric.getAnimatedTexture(ro.getCurrentAnimationName()));
+				Render.drawActor(ro.getRenderTexture(), ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
 			}
 
 
@@ -493,8 +495,7 @@ public class Render {
 	private void drawPickObject(){
     	ThingContainer pickThingCon = UI.getPickThing();
     	if (pickThingCon != null) {
-
-			Render.drawActor(pickThingCon.getThing().getTexture(), pickThingCon.getThing().getX(), pickThingCon.getThing().getRenderY(), pickThingCon.getThing().getWidth(), pickThingCon.getThing().getHeight());
+			Render.drawActor(TextureFabric.getTexture(pickThingCon.getThing().getCurrentTextureName()), pickThingCon.getThing().getX(), pickThingCon.getThing().getRenderY(), pickThingCon.getThing().getWidth(), pickThingCon.getThing().getHeight());
 		}
 	}
 	
@@ -503,7 +504,7 @@ public class Render {
 			drawTrunkBack();
 			int x0 = 100;
 			for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
-				TextureRegion tex = entry.getValue().getTexture();
+				TextureRegion tex = TextureFabric.getTexture(entry.getValue().getCurrentTextureName());
 				Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
 				for (Polygon4Game poly : entry.getValue().bodyPolys) {
 					drawPolygon(poly, Colour.BLUE);

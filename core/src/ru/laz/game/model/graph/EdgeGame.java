@@ -8,10 +8,7 @@ public class EdgeGame {
 	
 	
 	private Array<String> nodesToLink;
-
-
-
-	GraphGame graph;
+	private transient GraphGame graph;
 
 	private EdgeGame() {}
 	

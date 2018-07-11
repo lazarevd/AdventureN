@@ -13,10 +13,7 @@ public class PointOnEdgeGame {
 	private float edgePosition;
 	private String parentPoly;
 	private String childNode;
-
-
-
-	GraphGame graph;
+	private transient GraphGame graph;
 
 
     public PointOnEdgeGame() {

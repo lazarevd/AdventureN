@@ -28,8 +28,11 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	public Level getLevel() {
 		return this.level;
 	}
-	
-	
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
 	public void init() {
 		this.level = LevelBuilder.createGameLevel(1);
 		Controller.setLevel(this.level);

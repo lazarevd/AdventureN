@@ -18,7 +18,7 @@ import  ru.laz.game.model.graph.dataexchange.GraphSource;
 public class GraphGame {
 		
 	
-	public HashMap<String, NodeGame> nodes;
+	public  HashMap<String, NodeGame> nodes;
 	private HashMap<String, EdgeGame> edges;
 	private HashMap<String, Polygon4Game> polygons;
 	private HashMap<String, PointOnEdgeGame> poes;
