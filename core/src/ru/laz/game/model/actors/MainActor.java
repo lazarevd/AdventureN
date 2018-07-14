@@ -54,8 +54,6 @@ public class MainActor extends Actor implements RenderObject {
 		targetWalkDatas.ordered = true;
 		this.isMoving = false;
 		this.speed = 2;
-		this.oX = 100;
-		this.oY = 200;
 		this.direction = Dir.L;
 		moveAniSet = defineMoveAnimations();//Грузим все анимации походки
 		works = new Array<Work>();

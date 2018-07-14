@@ -27,7 +27,8 @@ public abstract class Level {
 	private HashMap<String, StaticObject> staticObjects;
 	protected OrthographicCamera scCam;
 	private Vector2 initalSceneCameraPosition; //need for parallax calculating
-	private Array<RenderObject> renderObjects;
+
+	private transient Array<RenderObject> renderObjects;
 
 
 	public Level() {
@@ -46,6 +47,13 @@ public abstract class Level {
 */
 
 
+	public void initSaved() {
+        init();
+        for (Map.Entry<String,Thing> th : things.entrySet()) {
+            renderObjects.add(th.getValue());
+        }
+        renderObjects.add(mainActor);
+    }
 	
 
 	public void init() {
@@ -168,8 +176,8 @@ do {
 
 	public void setMainActor(MainActor mainActor) {
 		this.mainActor = mainActor;
+		Gdx.app.log("LEVEL ", "Adding main actor to render");
 		renderObjects.add(this.mainActor);
-		
 	}
 
 
@@ -178,7 +186,6 @@ do {
 	public void addThing(String name, Thing thing) {
 		things.put(name, thing);
 		renderObjects.add(thing);
-		
 	}
 
 

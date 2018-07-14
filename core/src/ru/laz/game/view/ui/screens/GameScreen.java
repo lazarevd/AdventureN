@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 
 import ru.laz.game.controller.Controller;
+import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.stages.LevelBuilder;
 import ru.laz.game.view.render.Render;
@@ -37,10 +38,17 @@ public class GameScreen extends ScreenAdapter implements Screen {
 		if (this.level == null) {
 			this.level = LevelBuilder.createGameLevel(1);
 		}
+        this.level.setMainActor(new MainActor(this.level, 1000, 100, 20, 2));
 		Controller.setLevel(this.level);
 		Controller.setSceneControls();
 	}
-	
+
+
+	public void initSaved(Level level) {
+	    this.level = level;
+		Controller.setLevel(this.level);
+		Controller.setSceneControls();
+	}
 
 	
 	@Override

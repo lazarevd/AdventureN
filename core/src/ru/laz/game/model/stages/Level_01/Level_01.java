@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.StaticObject;
 import ru.laz.game.model.things.instances.MixerStatic;
@@ -29,7 +28,10 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 		//super(1024, 768);
         super();
 	}	
-	
+
+
+
+
 	@Override
 	public void init() {
 		super.init();
@@ -79,7 +81,6 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 	    addThing("pan", pan);
 
 
-	    setMainActor(new MainActor(this, 1000, 100, 20, 2));
 
 	    scCam.position.x = 800.0f;
 		scCam.position.y = 245.0f;
