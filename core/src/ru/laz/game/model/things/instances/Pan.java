@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.things.Thing;
-import ru.laz.game.view.ui.UI;
+import ru.laz.game.view.ui.screens.GameScreen;
 
 /**
  * Created by Dmitry Lazarev on 06.07.2018.
@@ -34,7 +34,7 @@ public class Pan extends Thing {
         if (otherThing.getThingName().equals("oil")) {
             this.setCurrentTexture(new TextureRegion(new Texture(Gdx.files.internal("pan_with_oil.png"))));
             this.setDone(true);
-            UI.getTrunk().removeFromTrunk(otherThing);
+            GameScreen.getTrunk().removeFromTrunk(otherThing);
         }
     }
 

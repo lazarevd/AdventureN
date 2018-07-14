@@ -9,6 +9,7 @@ import ru.laz.game.controller.Controller;
 import ru.laz.game.model.actors.MainActor;
 import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.stages.LevelBuilder;
+import ru.laz.game.model.things.Trunk;
 import ru.laz.game.view.render.Render;
 import ru.laz.game.view.ui.UI;
 
@@ -16,10 +17,11 @@ import ru.laz.game.view.ui.UI;
 public class GameScreen extends ScreenAdapter implements Screen {
 
 
-	Level level;
+    private static Trunk trunk;
+    Level level;
 
-	static Render render;
-	static UI ui;
+	static transient Render render;
+	static transient UI ui;
 	
 	public GameScreen() {
 		ui = UI.getUI();
@@ -35,6 +37,7 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	}
 
 	public void init() {
+	    trunk = new Trunk();
 		if (this.level == null) {
 			this.level = LevelBuilder.createGameLevel(1);
 		}
@@ -44,12 +47,15 @@ public class GameScreen extends ScreenAdapter implements Screen {
 	}
 
 
-	public void initSaved(Level level) {
-	    this.level = level;
+	public void initSaved() {
 		Controller.setLevel(this.level);
 		Controller.setSceneControls();
 	}
 
+
+	public static Trunk getTrunk() {
+	    return trunk;
+    }
 	
 	@Override
 	public void show() {

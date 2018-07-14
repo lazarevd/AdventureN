@@ -26,6 +26,7 @@ import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
+import ru.laz.game.view.ui.screens.GameScreen;
 
 public class Render {
 	
@@ -499,7 +500,7 @@ public class Render {
 		setUICameraMatrix();
 			drawTrunkBack();
 			int x0 = 100;
-			for (Entry<String, Thing> entry : ui.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
+			for (Entry<String, Thing> entry : GameScreen.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
 				TextureRegion tex = TextureFabric.getTexture(entry.getValue().getCurrentTextureName());
 				Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
 				for (Polygon4Game poly : entry.getValue().bodyPolys) {

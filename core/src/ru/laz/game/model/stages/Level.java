@@ -34,7 +34,7 @@ public abstract class Level {
 	public Level() {
         staticObjects = new HashMap<String, StaticObject>();
         renderObjects = new Array<RenderObject>();
-
+        things = new HashMap<String, Thing>();
     }
 	/*
 	public Level(float width, float height) {
@@ -48,18 +48,24 @@ public abstract class Level {
 
 
 	public void initSaved() {
-        init();
+        graph = new GraphGame();// create graph here (it belongs to this stage)
+        graph.loadGraph();
+        scCam = UI.getSceneCamera();
         for (Map.Entry<String,Thing> th : things.entrySet()) {
             renderObjects.add(th.getValue());
         }
+
+        for (Map.Entry<String,StaticObject> th : staticObjects.entrySet()) {
+            renderObjects.add(th.getValue());
+        }
         renderObjects.add(mainActor);
+        QSortRender();//сразу обновляем порядок отрисовки объектов
     }
 	
 
 	public void init() {
 		graph = new GraphGame();// create graph here (it belongs to this stage)
 		graph.loadGraph();
-	    things = new HashMap<String, Thing>();
 	    scCam = UI.getSceneCamera();
 		QSortRender();//сразу обновляем порядок отрисовки объектов	    
 	}
@@ -176,7 +182,6 @@ do {
 
 	public void setMainActor(MainActor mainActor) {
 		this.mainActor = mainActor;
-		Gdx.app.log("LEVEL ", "Adding main actor to render");
 		renderObjects.add(this.mainActor);
 	}
 

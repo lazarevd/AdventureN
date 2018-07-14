@@ -15,6 +15,7 @@ import ru.laz.game.model.stages.Level;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
+import ru.laz.game.view.ui.screens.GameScreen;
 
 import static ru.laz.game.controller.Controller.convertCoordinates;
 
@@ -25,7 +26,7 @@ public class Controller {
 
 
     public static void moveThingWorldToTrunk(ThingContainer thingContainer) {
-        UI.getUI().getTrunk().addToTrunk(thingContainer);
+		GameScreen.getTrunk().addToTrunk(thingContainer);
 		thingContainer.getThing().setWidth(60);
 		thingContainer.getThing().setHeight(60);
         level.removeThing(thingContainer.getThingName());
@@ -39,7 +40,7 @@ public class Controller {
         thing.setHeight(h);
         thing.setWidth(w);
         level.addThing(thingContainer.getThingName(), thingContainer.getThing());
-        UI.getUI().getTrunk().removeFromTrunk(thingContainer);
+		GameScreen.getTrunk().removeFromTrunk(thingContainer);
     }
 
     public static Vector2 convertCoordinates(float x, float y, boolean world) {
@@ -201,7 +202,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	public boolean longPress(float x, float y) {
 		Gdx.app.log("THING LONG PRESS", x+" "+ y);
 		if (UI.isTrunk()) {
-			ThingContainer th = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
+			ThingContainer th = GameScreen.getTrunk().getHitItem(convertCoordinates(x, y, false));
             Gdx.app.log("hit thing",th.getThingName());
             UI.setPickThing(new ThingContainer(th.getThingName(), th.getThing()));
 		}
@@ -234,9 +235,9 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 		Gdx.app.log("THING PAN STOP ", x + " " + y + " " + pointer + " " + button);
 		if (UI.getPickThing() != null) {
 			if (UI.isTrunk()) {
-				ThingContainer secondPick = UI.getTrunk().getHitItem(convertCoordinates(x, y, false));
+				ThingContainer secondPick = GameScreen.getTrunk().getHitItem(convertCoordinates(x, y, false));
 				if (secondPick != null) {
-					UI.getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
+					GameScreen.getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
 			}
 			} else {
 				ThingContainer targetObject = level.getHitActor(convertCoordinates(x, y, true));
@@ -251,7 +252,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 				UI.setPickThing(null);
 				Controller.setSceneControls();
 			}
-			UI.getTrunk().arrangeThings();
+			GameScreen.getTrunk().arrangeThings();
 	}
 		UI.setPickThing(null);
 		return false;

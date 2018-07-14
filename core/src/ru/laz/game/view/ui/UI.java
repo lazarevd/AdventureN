@@ -16,7 +16,6 @@ import java.util.HashMap;
 import ru.laz.game.controller.Controller;
 import ru.laz.game.controller.SaveGame;
 import ru.laz.game.controller.ThingContainer;
-import ru.laz.game.model.things.Trunk;
 
 
 public class UI {
@@ -31,7 +30,6 @@ public class UI {
 	private static Viewport viewportScene;
 	private static Viewport viewportUI;
 	private static UI ui; //singletone
-	private static Trunk trunk;
 	public final static int UI_WIDTH = 640;//4x3 aspectratio i don`t know why, but it works
 	public final static int UI_HEIGHT = 480;//4x3 aspectratio i don`t know why, but it works
 	public static boolean GRAPH = false;
@@ -63,7 +61,6 @@ public class UI {
 	private UI() {
        // renderShapes.setBackgroundSprite(gameLevel.getBackground());
 		uiButtons = new HashMap<String, UIButton>();
-        trunk = new Trunk();
         UI.trunkTex = new Texture(Gdx.files.internal("ui/trunk.png"));
 		uiCam = new OrthographicCamera();
 		uiCam.setToOrtho(false);
@@ -107,10 +104,6 @@ public class UI {
 
 	}
 
-
-    public static Trunk getTrunk() {
-        return trunk;
-    }
 
 
 	

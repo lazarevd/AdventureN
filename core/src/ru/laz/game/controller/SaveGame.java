@@ -56,7 +56,8 @@ public class SaveGame {
         Level level = fromSave(Level_01.class);
         level.initSaved();
         level.getMainActor().setLevel(level);
-        AGame.getGame().getGameScreen().initSaved(level);
+        AGame.getGame().getGameScreen().setLevel(level);
+        AGame.getGame().getGameScreen().initSaved();
     }
 
     public static void saveAll() {
