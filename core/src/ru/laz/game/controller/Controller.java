@@ -7,29 +7,29 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.Map;
 
+import ru.laz.game.AGame;
 import ru.laz.game.model.actors.MoveWork;
 import ru.laz.game.model.actors.PutWork;
 import ru.laz.game.model.actors.TakeWork;
 import ru.laz.game.model.actors.ThingWork;
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.stages.Location;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
-import ru.laz.game.view.ui.screens.GameScreen;
 
 import static ru.laz.game.controller.Controller.convertCoordinates;
 
 
 public class Controller {
 
-    private static Level level;
+    private static Location location;
 
 
     public static void moveThingWorldToTrunk(ThingContainer thingContainer) {
-		GameScreen.getTrunk().addToTrunk(thingContainer);
+		AGame.getGame().getGameScreen().getTrunk().addToTrunk(thingContainer);
 		thingContainer.getThing().setWidth(60);
 		thingContainer.getThing().setHeight(60);
-        level.removeThing(thingContainer.getThingName());
+        location.removeThing(thingContainer.getThingName());
     }
 
     public static void moveThingTrunkToWorld(ThingContainer thingContainer, float x, float y, float zDepth, float h, float w) {
@@ -39,8 +39,8 @@ public class Controller {
         thing.setzDepth(zDepth);
         thing.setHeight(h);
         thing.setWidth(w);
-        level.addThing(thingContainer.getThingName(), thingContainer.getThing());
-		GameScreen.getTrunk().removeFromTrunk(thingContainer);
+        location.addThing(thingContainer);
+        AGame.getGame().getGameScreen().getTrunk().removeFromTrunk(thingContainer);
     }
 
     public static Vector2 convertCoordinates(float x, float y, boolean world) {
@@ -59,17 +59,17 @@ public class Controller {
         return ret;
     }
 
-    public static void setLevel(Level level) {
-        Controller.level = level;
+    public static void setLocation(Location location) {
+        Controller.location = location;
     }
 
-    public static Level getLevel() {
-        return level;
+    public static Location getLocation() {
+        return location;
     }
 
 
     public static boolean getThingDoneStatus(String thingName) {
-		return level.getThings().get(thingName).isDone();
+		return location.getThings().get(thingName).isDone();
 	}
 
     public static String getHitButton(Vector2 xy) {
@@ -83,12 +83,12 @@ public class Controller {
     }
 
     public static void setThingInteractionControls() {
-        Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new ThingInteractionListener(Controller.getLevel())));
+        Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new ThingInteractionListener(Controller.getLocation())));
         Gdx.app.log("LISTNER", "SET TRUNK");
     }
 
     public static void setSceneControls() {
-        Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new SceneGestureListener(Controller.getLevel())));
+        Gdx.input.setInputProcessor(new GestureDetector(20, 0.4f, 0.7f, 0.15f, new SceneGestureListener(Controller.getLocation())));
         Gdx.app.log("LISTNER", "SET SCENE");
     }
 
@@ -97,10 +97,10 @@ public class Controller {
 
 class SceneGestureListener implements GestureDetector.GestureListener {
 
-	private Level level;
+	private Location location;
 
-	protected SceneGestureListener(Level gl) {
-		level = gl;
+	protected SceneGestureListener(Location gl) {
+		location = gl;
 	}
 
 	@Override
@@ -113,7 +113,7 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-        level.getMainActor().clearWorks();
+        location.getMainActor().clearWorks();
 		Gdx.app.log("SCENE TAP ", "");
 		Vector2 touchPosL = convertCoordinates(x,y,false);
 
@@ -121,18 +121,18 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 		Vector2 touchPosW = convertCoordinates(x,y,true);
 
 		ThingContainer curThing = null;
-        curThing = level.getHitActor(touchPosW);
+        curThing = location.getHitActor(touchPosW);
 		if (curThing != null) {
 			if (curThing.getThing().isCanBeTaken()) {
-				level.getMainActor().addWork(new TakeWork(curThing, level));
-				level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
+				location.getMainActor().addWork(new TakeWork(curThing, location));
+				location.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, location));
 			} else {
-                level.getMainActor().addWork(new ThingWork(curThing, level));
-                level.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, level));
+                location.getMainActor().addWork(new ThingWork(curThing, location));
+                location.getMainActor().addWork(new MoveWork(curThing.getThing(), touchPosW, location));
             }
 		}
 		else {
-			level.getMainActor().addWork(new MoveWork(touchPosW, level));
+			location.getMainActor().addWork(new MoveWork(touchPosW, location));
 		}
 		return false;
 	}
@@ -176,10 +176,10 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 class ThingInteractionListener implements GestureDetector.GestureListener {
 
-	Level level;
+	Location location;
 
 
-	public ThingInteractionListener(Level level) {this.level = level;}
+	public ThingInteractionListener(Location location) {this.location = location;}
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
@@ -202,7 +202,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	public boolean longPress(float x, float y) {
 		Gdx.app.log("THING LONG PRESS", x+" "+ y);
 		if (UI.isTrunk()) {
-			ThingContainer th = GameScreen.getTrunk().getHitItem(convertCoordinates(x, y, false));
+			ThingContainer th = AGame.getGame().getGameScreen().getTrunk().getHitItem(convertCoordinates(x, y, false));
             Gdx.app.log("hit thing",th.getThingName());
             UI.setPickThing(new ThingContainer(th.getThingName(), th.getThing()));
 		}
@@ -235,24 +235,24 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 		Gdx.app.log("THING PAN STOP ", x + " " + y + " " + pointer + " " + button);
 		if (UI.getPickThing() != null) {
 			if (UI.isTrunk()) {
-				ThingContainer secondPick = GameScreen.getTrunk().getHitItem(convertCoordinates(x, y, false));
+				ThingContainer secondPick = AGame.getGame().getGameScreen().getTrunk().getHitItem(convertCoordinates(x, y, false));
 				if (secondPick != null) {
-					GameScreen.getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
+                    AGame.getGame().getGameScreen().getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
 			}
 			} else {
-				ThingContainer targetObject = level.getHitActor(convertCoordinates(x, y, true));
+				ThingContainer targetObject = location.getHitActor(convertCoordinates(x, y, true));
                 ThingContainer pickObject = UI.getPickThing();
                 Vector2 touchPosW = convertCoordinates(x,y,true);
                 if (targetObject != null && pickObject != null) {
                 	if (targetObject.getThing().getInteractionThing().equals(pickObject.getThingName())) {
-						level.getMainActor().addWork(new PutWork(pickObject, targetObject, level));
-						level.getMainActor().addWork(new MoveWork(targetObject.getThing(), touchPosW, level));
+						location.getMainActor().addWork(new PutWork(pickObject, targetObject, location));
+						location.getMainActor().addWork(new MoveWork(targetObject.getThing(), touchPosW, location));
 					}
 				}
 				UI.setPickThing(null);
 				Controller.setSceneControls();
 			}
-			GameScreen.getTrunk().arrangeThings();
+            AGame.getGame().getGameScreen().getTrunk().arrangeThings();
 	}
 		UI.setPickThing(null);
 		return false;

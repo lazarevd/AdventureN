@@ -16,17 +16,17 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.Map.Entry;
 
+import ru.laz.game.AGame;
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.graph.EdgeGame;
 import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.graph.PointOnEdgeGame;
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.model.graph.Polygon4Game.DrawStat;
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.stages.Location;
 import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
-import ru.laz.game.view.ui.screens.GameScreen;
 
 public class Render {
 	
@@ -55,16 +55,16 @@ public class Render {
 
 
 
-	public void drawObjects(Level level) {
+	public void drawObjects(Location location) {
 
 
-		if (level != null) {
+		if (location != null) {
 			setSceneCameraMatrix();
 			setCamKeyPosition(UI.getSceneCamera(), getCameraSpeed());
-			level.QSortRender();
-			for (RenderObject ro : level.getRenderObjects()) {
+			location.QSortRender();
+			for (RenderObject ro : location.getRenderObjects()) {
 				Vector2 tmpCurrentPositionVector = new Vector2(UI.getSceneCamera().position.x, UI.getSceneCamera().position.y);
-				Vector2 finalPosition = level.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
+				Vector2 finalPosition = location.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
 				//set render textures/anims
 				ro.setCurrentTexture(TextureFabric.getTexture(ro.getCurrentTextureName()));
 				ro.setCurrentAnimation(TextureFabric.getAnimatedTexture(ro.getCurrentAnimationName()));
@@ -74,7 +74,7 @@ public class Render {
 
 			if (drawFrames) {
 
-			for (Entry<String, Thing> th : level.getThings().entrySet()) {
+			for (Entry<String, Thing> th : location.getThings().entrySet()) {
 				for (Polygon4Game poly : th.getValue().bodyPolys) {
 					drawPolygon(poly, Colour.BLUE);
 				}
@@ -85,16 +85,16 @@ public class Render {
 			}
 
 			if (UI.GRAPH) {
-				for (Entry<String, EdgeGame> entry : level.getGraph().getEdges().entrySet()) {
+				for (Entry<String, EdgeGame> entry : location.getGraph().getEdges().entrySet()) {
 					drawEdge(entry.getValue(), Colour.WHITE);
 				}
-				for (Entry<String, NodeGame> entry : level.getGraph().getNodes().entrySet()) {
+				for (Entry<String, NodeGame> entry : location.getGraph().getNodes().entrySet()) {
 					drawNode(entry.getValue(), Colour.GREEN, 2);
 				}
 
 				//drawNode(level.getGraph().getStart(), Colour.RED, 3);
 				//drawNode(level.getGraph().getFinish(), Colour.BLUE, 3);
-				for (Entry<String, Polygon4Game> entry : level.getGraph().getPolygons().entrySet()) {
+				for (Entry<String, Polygon4Game> entry : location.getGraph().getPolygons().entrySet()) {
 					drawPolygon(entry.getValue(), Colour.BLUE);
 				}
 
@@ -497,10 +497,10 @@ public class Render {
 	}
 	
 	private void drawTrunk() {
+        drawTrunkBack();
 		setUICameraMatrix();
-			drawTrunkBack();
 			int x0 = 100;
-			for (Entry<String, Thing> entry : GameScreen.getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
+			for (Entry<String, Thing> entry : AGame.getGame().getGameScreen().getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
 				TextureRegion tex = TextureFabric.getTexture(entry.getValue().getCurrentTextureName());
 				Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
 				for (Polygon4Game poly : entry.getValue().bodyPolys) {
@@ -508,6 +508,7 @@ public class Render {
 				}
 				x0 += 100;
 			}
+
 	}
 
 

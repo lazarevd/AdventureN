@@ -1,5 +1,6 @@
 package ru.laz.game.model.things;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class Trunk {
     private HashMap<String, Thing> things  = new HashMap<String, Thing>();
 
     public Trunk() {
-        ThingsFabric.init();
+
     }
 
     public void addToTrunk(ThingContainer thingContainer) {
@@ -95,6 +96,7 @@ public class Trunk {
 
         for(Entry<String, Thing> entry : things.entrySet()) {
                     entry.getValue().setXY(new Vector2(tmpCShift, tmpRShift));
+                    Gdx.app.log("Arrange", entry.getKey() + " " + entry.getValue().getXY().toString());
                     tmpCShift+=COLUMN_SHIFT;
                     tmpColCount+=1;
                     if (tmpColCount >= COLUMNS) {
@@ -104,10 +106,6 @@ public class Trunk {
 
   }
     }
-
-
-
-
 
 
 }

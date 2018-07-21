@@ -41,10 +41,10 @@ public class GraphGame {
 
 	
 	
-	public void loadGraph() {
+	public void loadGraph(String path) {
 		
 		
-		FileHandle file = Gdx.files.internal("source.graph");
+		FileHandle file = Gdx.files.internal(path);
     	String scores = file.readString();
     	Json json = new Json();
     	GraphSource graphSource = json.fromJson(GraphSource.class, scores);

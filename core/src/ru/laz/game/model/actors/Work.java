@@ -1,6 +1,6 @@
 package ru.laz.game.model.actors;
 
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.stages.Location;
 
 
 
@@ -8,15 +8,15 @@ import ru.laz.game.model.stages.Level;
 public class Work{
 
 	protected MainActor mActor;
-	protected Level level;
+	protected Location location;
 
 	public enum WorkStatus {INIT, PROCESS, FINISHED};
 	
 	private WorkStatus status;
 
 	
-	public Work(Level level) {
-		this.level = level;
+	public Work(Location location) {
+		this.location = location;
 		setStatus(WorkStatus.INIT);
 	}
 	

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,25 +18,26 @@ import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.render.RenderObject;
 import ru.laz.game.view.ui.UI;
 
-public abstract class Level {
+public class Location implements Json.Serializable {
 
 	
 	private MainActor mainActor;
-	private GraphGame graph;
 	private float width = 1024;
 	private float height = 768;
 	private HashMap<String, Thing> things;
 	private HashMap<String, StaticObject> staticObjects;
 	protected OrthographicCamera scCam;
 	private Vector2 initalSceneCameraPosition; //need for parallax calculating
+	private String graphName = "source.graph";
 
 	private transient Array<RenderObject> renderObjects;
+	private transient GraphGame graph;
 
-
-	public Level() {
+	public Location() {
         staticObjects = new HashMap<String, StaticObject>();
         renderObjects = new Array<RenderObject>();
         things = new HashMap<String, Thing>();
+		graph = new GraphGame();// create graph here (it belongs to this stage)
     }
 	/*
 	public Level(float width, float height) {
@@ -46,10 +49,12 @@ public abstract class Level {
 	}
 */
 
+	public void initSceneCamera() {
+
+	}
 
 	public void initSaved() {
-        graph = new GraphGame();// create graph here (it belongs to this stage)
-        graph.loadGraph();
+        Gdx.app.log("initing ", "base class");
         scCam = UI.getSceneCamera();
         for (Map.Entry<String,Thing> th : things.entrySet()) {
             renderObjects.add(th.getValue());
@@ -59,13 +64,13 @@ public abstract class Level {
             renderObjects.add(th.getValue());
         }
         renderObjects.add(mainActor);
+        graph.loadGraph(graphName);
         QSortRender();//сразу обновляем порядок отрисовки объектов
     }
 	
 
 	public void init() {
-		graph = new GraphGame();// create graph here (it belongs to this stage)
-		graph.loadGraph();
+		graph.loadGraph(graphName);
 	    scCam = UI.getSceneCamera();
 		QSortRender();//сразу обновляем порядок отрисовки объектов	    
 	}
@@ -188,9 +193,9 @@ do {
 
 
 
-	public void addThing(String name, Thing thing) {
-		things.put(name, thing);
-		renderObjects.add(thing);
+	public void addThing(ThingContainer thingContainer) {
+		things.put(thingContainer.getThingName(), thingContainer.getThing());
+		renderObjects.add(thingContainer.getThing());
 	}
 
 
@@ -230,10 +235,20 @@ do {
 
 
 	public void setInitalSceneCameraPosition(Vector2 initalSceneCameraPosition) {
-		Gdx.app.log("Setting cam pos ", initalSceneCameraPosition.toString());
 		this.initalSceneCameraPosition = initalSceneCameraPosition;
-		Gdx.app.log("Setting cam pos ", this.initalSceneCameraPosition.toString());
 	}
 
-	
+
+    @Override
+    public void write(Json json) {
+        Gdx.app.log("writing", this.getClass().getName());
+        json.writeFields(this);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        Gdx.app.log("initing location", "initSaved");
+        json.readFields(this,jsonData);
+        initSaved();
+    }
 }

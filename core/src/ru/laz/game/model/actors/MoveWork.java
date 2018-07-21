@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 
 import ru.laz.game.model.actors.MainActor.Dir;
 import ru.laz.game.model.graph.NodeGame;
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.stages.Location;
 import ru.laz.game.model.things.Thing;
 
 public class MoveWork extends Work {
@@ -15,14 +15,14 @@ public class MoveWork extends Work {
 	Dir direction;
 	Vector2 xy;
 	
-	public MoveWork (Vector2 xy, Level level) {
-		super(level);
+	public MoveWork (Vector2 xy, Location location) {
+		super(location);
 		this.xy = xy;
 	}
 
-	public MoveWork (Thing toThing, Vector2 defaultPosition, Level level) {
-		super(level);
-		NodeGame nod = level.getGraph().getNodes().get(toThing.getNodeName());
+	public MoveWork (Thing toThing, Vector2 defaultPosition, Location location) {
+		super(location);
+		NodeGame nod = location.getGraph().getNodes().get(toThing.getNodeName());
 
 		if(nod == null || nod.equals("")) {//Если ноду не нашли, то идем по умолчанию
 			this.xy = defaultPosition;
@@ -39,7 +39,7 @@ public class MoveWork extends Work {
 		//gameLevel.getGraph().clearNodes();
 		//gameLevel.getGraph().fillNodesGrid(mActor.getX()-50, mActor.getY() - 50, 200, 100, 6, 3);
 		
-		level.getGraph().addStartFinishNodes(new Vector2(mActor.getX(), mActor.getY()), xy, mActor.getRenderScale());
+		location.getGraph().addStartFinishNodes(new Vector2(mActor.getX(), mActor.getY()), xy, mActor.getRenderScale());
 		Gdx.app.log("Actor xy", mActor.getX() + " " + mActor.getY());
 		mActor.genMovePath(xy.x, xy.y);
 	setStatus(WorkStatus.PROCESS);

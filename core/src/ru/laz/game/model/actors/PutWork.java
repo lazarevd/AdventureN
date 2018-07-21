@@ -2,7 +2,7 @@ package ru.laz.game.model.actors;
 
 
 import ru.laz.game.controller.ThingContainer;
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.stages.Location;
 
 public class PutWork extends Work {
 
@@ -10,8 +10,8 @@ public class PutWork extends Work {
 	private ThingContainer targetThing;
 
 
-	public PutWork(ThingContainer pickThing, ThingContainer targetThing, Level level) {
-		super(level);
+	public PutWork(ThingContainer pickThing, ThingContainer targetThing, Location location) {
+		super(location);
 		this.targetThing = targetThing;
 		this.pickThing = pickThing;
 		//Gdx.app.log("TakeThingWork", "construct");

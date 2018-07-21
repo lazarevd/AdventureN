@@ -15,7 +15,7 @@ import java.util.EnumMap;
 
 import ru.laz.game.model.graph.NodeGame;
 import ru.laz.game.model.math.MathGame;
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.model.stages.Location;
 import ru.laz.game.view.render.RenderObject;
 
 
@@ -36,7 +36,7 @@ public class MainActor extends Actor implements RenderObject {
     //private Array<Vector2> targetPositions;
     //private Array<Dir> targetDirections;//все направления актера
 	private transient Array<WalkData> targetWalkDatas;
-    private transient Level level;
+    private transient Location location;
 	private transient boolean isMoving;
 	public transient Array<Vector2> printVec;//DEBUG
 	public transient TextureRegion currentFrame;
@@ -61,13 +61,13 @@ public class MainActor extends Actor implements RenderObject {
 		printVec = new Array<Vector2>();//DEBUG
 	}
 
-    public void setLevel(Level level) {
-        this.level = level;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public MainActor(Level level, float x, float y, float zDepth, float scaleFactor) {
+    public MainActor(Location location, float x, float y, float zDepth, float scaleFactor) {
 		this();
-		this.level = level;
+		this.location = location;
 		this.oX = x;
 		this.oY = y;
 		this.zDepth = zDepth;
@@ -119,16 +119,16 @@ public class MainActor extends Actor implements RenderObject {
 
 	public void genMovePath(float x, float y) {//Fills path (targetPos array)
 
-		level.getGraph().updateStatus();//Update edges, etc..
+		location.getGraph().updateStatus();//Update edges, etc..
 
-		ArrayList<String> astarPath = level.getGraph().AStarSearch();// Запускаем расчет AStar
+		ArrayList<String> astarPath = location.getGraph().AStarSearch();// Запускаем расчет AStar
 		targetWalkDatas.clear();
 
-		NodeGame curNode = level.getGraph().nodes.get("start");
+		NodeGame curNode = location.getGraph().nodes.get("start");
 
 		for (String nod : astarPath) {
 			//Цикл по всем нодам из astar
-			NodeGame nexNode = level.getGraph().nodes.get(nod);
+			NodeGame nexNode = location.getGraph().nodes.get(nod);
 
 			Array<Vector2> moveVectors = MathGame.separateVector(new Vector2(curNode.getX(),curNode.getY()), new Vector2(nexNode.getX(), nexNode.getY()), speed);
 			Array<Float> scales = MathGame.getArrayOfFloats(curNode.getRenderScale(), nexNode.getRenderScale(), moveVectors.size);
@@ -189,7 +189,7 @@ public class MainActor extends Actor implements RenderObject {
 
 	public void moveControl(float delta) {
 		if (isMoving == true) {
-			level.QSortRender();//Сортируем слои, чтобы актер перекрывал те что дальше него и перекрывался теми что ближе
+			location.QSortRender();//Сортируем слои, чтобы актер перекрывал те что дальше него и перекрывался теми что ближе
 			if (targetWalkDatas.size > 0) {
 					WalkData twd = targetWalkDatas.first();
 					oX = twd.getTargetPosition().x;

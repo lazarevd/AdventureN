@@ -1,4 +1,4 @@
-package ru.laz.game.model.stages.Level_01;
+package ru.laz.game.model.stages.Locations;
 
 
 import com.badlogic.gdx.Gdx;
@@ -7,26 +7,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.laz.game.model.stages.Level;
+import ru.laz.game.AGame;
+import ru.laz.game.model.stages.Location;
 import ru.laz.game.model.things.StaticObject;
-import ru.laz.game.model.things.instances.MixerStatic;
-import ru.laz.game.model.things.instances.Mug;
-import ru.laz.game.model.things.instances.Oil;
-import ru.laz.game.model.things.instances.Pan;
-import ru.laz.game.model.things.instances.Rope;
-import ru.laz.game.model.things.instances.Stove;
+import ru.laz.game.model.things.ThingsFabric;
 import ru.laz.game.view.render.TextureFabric;
 
 
-public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stage stuff.
+public class LocationGalley extends Location {//Wrapper for Gdx Stage, Graph and all stage stuff.
 
 
 	private transient Music rainMusic;
 
 
-	public Level_01 () {	
+	public LocationGalley() {
 		//super(1024, 768);
         super();
+		AGame.getGame().getGameScreen().addLocation("galley", this);
 	}	
 
 
@@ -48,14 +45,11 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
 		addStaticObject("fr3", fr3);
 
 
-		TextureFabric.addTexture("mug", new TextureRegion(new Texture(Gdx.files.internal("mug.png"))));
-	    Mug mug  = new Mug(500,200, 1.5f, 50,50, "nodeMug", "mug");
-	    addThing("mug",mug);
+	    addThing(ThingsFabric.genThing("mug"));
 
-	    TextureFabric.addTexture("rope", new TextureRegion(new Texture(Gdx.files.internal("rope.png"))));
-		Rope rope  = new Rope(930,300, 1.5f, 120,60, "nodeRope", "rope");
-		addThing("rope",rope);
 
+		addThing(ThingsFabric.genThing("rope"));
+/*
 		MixerStatic mixerStatic = new MixerStatic(790, 230, 1.5f, 90,130, "nodeRope", "dummy.png" );
 		mixerStatic.setInteractionThing("mug_with_rope");
 		addThing("mixerStatic", mixerStatic);
@@ -80,7 +74,7 @@ public class Level_01 extends Level {//Wrapper for Gdx Stage, Graph and all stag
         pan.setCurrentAnimationName("oil_boils");
 	    addThing("pan", pan);
 
-
+*/
 
 	    scCam.position.x = 800.0f;
 		scCam.position.y = 245.0f;

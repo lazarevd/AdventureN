@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.graph.Polygon4Game;
 import ru.laz.game.view.render.RenderObject;
 
-public class Thing implements RenderObject {//Наследуем от Group т.к. там есть удобные методы для трансформации объектов с помощью матриц
+public class Thing implements RenderObject, Json.Serializable {//Наследуем от Group т.к. там есть удобные методы для трансформации объектов с помощью матриц
 
 	private float oX;
 	private float oY;
@@ -61,6 +63,16 @@ public class Thing implements RenderObject {//Наследуем от Group т.�
 		this.canBeTaken = canBeTaken;
 	}
 
+
+	@Override
+	public void write(Json json) {
+		json.writeFields(this);
+	}
+
+	@Override
+	public void read(Json json, JsonValue jsonData) {
+		json.readFields(this,jsonData);
+	}
 
 	public void init() {
 	}

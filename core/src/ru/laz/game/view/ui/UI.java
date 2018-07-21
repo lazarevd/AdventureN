@@ -66,10 +66,10 @@ public class UI {
 		uiCam.setToOrtho(false);
 		uiCam.position.x = UI_WIDTH/2;
 		uiCam.position.y = UI_HEIGHT/2;
+		viewportUI = new FillViewport(UI_WIDTH, UI_HEIGHT, uiCam);
         scCam = new OrthographicCamera();
         scCam.setToOrtho(false);
 		viewportScene = new FillViewport(UI_WIDTH, UI_HEIGHT, scCam); //4x3 aspectratio i don`t know why, but it works
-		viewportUI = new FillViewport(UI_WIDTH, UI_HEIGHT, uiCam);
 		//Gdx.app.log("MATRIX SCENE", scCam.projection.toString());
 		//Gdx.app.log("MATRIX UI", uiCam.projection.toString());
 		fillUI();
