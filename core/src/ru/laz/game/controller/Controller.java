@@ -107,14 +107,14 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector2 sceneCoords = convertCoordinates(x,y,true);
 		Vector2 uiCoords = convertCoordinates(x,y,false);
-		Gdx.app.log("SCENE TOUCH DOWN", x+ " " + y + " scene : " + sceneCoords.x + ";" + sceneCoords.y + " / " + uiCoords.x + " " + uiCoords.y);
+		//Gdx.app.log("SCENE TOUCH DOWN", x+ " " + y + " scene : " + sceneCoords.x + ";" + sceneCoords.y + " / " + uiCoords.x + " " + uiCoords.y);
 		return false;
 	}
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
         location.getMainActor().clearWorks();
-		Gdx.app.log("SCENE TAP ", "");
+		//Gdx.app.log("SCENE TAP ", "");
 		Vector2 touchPosL = convertCoordinates(x,y,false);
 
 		if (Controller.getHitButton(touchPosL) != null) return false;
@@ -139,7 +139,8 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean longPress(float x, float y)
-	{ Gdx.app.log("SCENE LONG PRESS", "");
+	{
+		//Gdx.app.log("SCENE LONG PRESS", "");
 		return false;
 	}
 
@@ -188,7 +189,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		Gdx.app.log("THING TAP", x+" "+ y + " " + count + " " + button);
+		//Gdx.app.log("THING TAP", x+" "+ y + " " + count + " " + button);
 		Vector2 uiCoords = convertCoordinates(x,y,false);
 		if(uiCoords.x > (UI.UI_WIDTH-(UI.UI_WIDTH/6))) {
 			Gdx.app.log("HIDE TRUNK","");
@@ -200,7 +201,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		Gdx.app.log("THING LONG PRESS", x+" "+ y);
+		//Gdx.app.log("THING LONG PRESS", x+" "+ y);
 		if (UI.isTrunk()) {
 			ThingContainer th = AGame.getGame().getGameScreen().getTrunk().getHitItem(convertCoordinates(x, y, false));
             Gdx.app.log("hit thing",th.getThingName());
@@ -211,13 +212,13 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean fling(float velocityX, float velocityY, int button) {
-		Gdx.app.log("THING FLING ", velocityX + " " + velocityY + " "+ button);
+		//Gdx.app.log("THING FLING ", velocityX + " " + velocityY + " "+ button);
 		return false;
 	}
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		Gdx.app.log("THING PAN ", deltaX + " " + deltaY);
+		//Gdx.app.log("THING PAN ", deltaX + " " + deltaY);
 		if (UI.getPickThing() != null) {
 			Vector2 uiCoords = convertCoordinates(x,y,false);
 			UI.getPickThing().getThing().setX(uiCoords.x);
@@ -232,7 +233,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean panStop(float x, float y, int pointer, int button) {
-		Gdx.app.log("THING PAN STOP ", x + " " + y + " " + pointer + " " + button);
+		//Gdx.app.log("THING PAN STOP ", x + " " + y + " " + pointer + " " + button);
 		if (UI.getPickThing() != null) {
 			if (UI.isTrunk()) {
 				ThingContainer secondPick = AGame.getGame().getGameScreen().getTrunk().getHitItem(convertCoordinates(x, y, false));
@@ -260,19 +261,20 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
-		Gdx.app.log("TRUNK ZOOM ", initialDistance + " " + distance);
+		//Gdx.app.log("TRUNK ZOOM ", initialDistance + " " + distance);
 		return false;
 	}
 
 	@Override
 	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-		Gdx.app.log("trunk PINCH ", initialPointer1 + " " + initialPointer2 + " " +pointer1 + " " + pointer2);
+		//Gdx.app.log("trunk PINCH ", initialPointer1 + " " + initialPointer2 + " " +pointer1 + " " + pointer2);
 		return false;
 	}
 
 	@Override
 	public void pinchStop() {
-		Gdx.app.log("PINCH STOP ", "");
+
+		//Gdx.app.log("PINCH STOP ", "");
 	}
 }
 

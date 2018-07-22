@@ -85,7 +85,7 @@ public class MainActor extends Actor implements RenderObject {
 
 
 	@Override
-	public TextureRegion getRenderTexture() {
+	public TextureRegion getCurrentAnimationTexture() {
 		return this.currentFrame;
 	}
 

@@ -38,7 +38,7 @@ public class Render {
 	Sprite trunkSprite;
 	private UI ui;
 
-    private boolean drawFrames = true;
+    private boolean drawFrames = false;
 
 	
 	public enum Colour {YELLOW, BLUE, RED, WHITE, GREEN};
@@ -68,7 +68,7 @@ public class Render {
 				//set render textures/anims
 				ro.setCurrentTexture(TextureFabric.getTexture(ro.getCurrentTextureName()));
 				ro.setCurrentAnimation(TextureFabric.getAnimatedTexture(ro.getCurrentAnimationName()));
-				Render.drawActor(ro.getRenderTexture(), ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
+				Render.drawActor(ro.getCurrentAnimationTexture(), ro.getRenderX()+finalPosition.x, ro.getRenderY()+finalPosition.y, ro.getRenderWidth(), ro.getRenderHeight());
 			}
 
 
@@ -499,8 +499,6 @@ public class Render {
 	private void drawTrunk() {
         drawTrunkBack();
 		setUICameraMatrix();
-        Gdx.app.log("Render trunk ", AGame.getGame().getGameScreen().getTrunk().toString());
-        Gdx.app.log("Render location", AGame.getGame().getGameScreen().toString());
 			for (Entry<String, Thing> entry : AGame.getGame().getGameScreen().getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
 				TextureRegion tex = TextureFabric.getTexture(entry.getValue().getCurrentTextureName());
 				Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());

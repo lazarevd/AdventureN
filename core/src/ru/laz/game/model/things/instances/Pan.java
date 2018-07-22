@@ -1,8 +1,6 @@
 package ru.laz.game.model.things.instances;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ru.laz.game.AGame;
 import ru.laz.game.controller.ThingContainer;
@@ -31,9 +29,14 @@ public class Pan extends Thing {
 
     @Override
     public void actWithObject(ThingContainer otherThing) {
+        Gdx.app.log("oil", "actWObj");
         if (otherThing.getThingName().equals("oil")) {
-            this.setCurrentTexture(new TextureRegion(new Texture(Gdx.files.internal("pan_with_oil.png"))));
-            this.setDone(true);
+            if  (AGame.getGame().getGameScreen().getCurrentLocation().getThings().get("stove").isDone()) {
+                this.setCurrentAnimationName("oil_boils");
+                this.setDone(true);
+            } else {
+                this.setCurrentTextureName("pan_with_oil");
+            }
             AGame.getGame().getGameScreen().getTrunk().removeFromTrunk(otherThing);
         }
     }

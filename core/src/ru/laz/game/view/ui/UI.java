@@ -124,22 +124,22 @@ public class UI {
 		uiButtons.put("mugButton", uib);
 
 
-		UIButton json = new UIButton(new Texture(Gdx.files.internal("oil.png")), 80, 360, 60, 60) {
+		UIButton json = new UIButton(new Texture(Gdx.files.internal("ui/S.png")), 80, 390, 30, 30) {
 			@Override
 			public void clicked() {
 				SaveGame.saveAll();
 			}
 		};
-		uiButtons.put("jsonButton", json);
+		uiButtons.put("saveBtn", json);
 
-        UIButton fromJson = new UIButton(new Texture(Gdx.files.internal("mug.png")), 160, 360, 60, 60) {
+        UIButton fromJson = new UIButton(new Texture(Gdx.files.internal("ui/L.png")), 160, 390, 30, 30) {
             @Override
             public void clicked() {
                 SaveGame.loadAll();
             }
         };
 
-        uiButtons.put("fromJson", fromJson);
+        uiButtons.put("loadBtn", fromJson);
 	}
 	
 	

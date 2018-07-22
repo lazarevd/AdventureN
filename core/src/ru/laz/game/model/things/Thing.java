@@ -36,7 +36,7 @@ public class Thing implements RenderObject, Json.Serializable {//Наследу�
 	private transient float animStateTime = 0;
 	private transient Animation currentAnimation;   //default static texture
 	private transient TextureRegion currentTexture; //animation
-    private transient TextureRegion renderTexture; //return this to render
+    private transient TextureRegion currentAnimationTexture; //return this to render
 	//private float heigth;
 //
 
@@ -146,17 +146,22 @@ public class Thing implements RenderObject, Json.Serializable {//Наследу�
 	}
 
 	public void act(float delta) {
+
 		if (currentAnimation != null) {
 			animStateTime +=delta;
-                renderTexture = (TextureRegion) currentAnimation.getKeyFrame(animStateTime, true);
+            currentAnimationTexture = (TextureRegion) currentAnimation.getKeyFrame(animStateTime, true);
 			if (currentAnimation.isAnimationFinished(animStateTime)) {
 				animStateTime = 0;
 			}
 		}
     }
 
-    public TextureRegion getRenderTexture() {
-        return currentTexture;
+    public TextureRegion getCurrentAnimationTexture() {
+
+	    if (currentAnimation != null) {
+	        return currentAnimationTexture;
+        }
+		return currentTexture;
     }
 
     ;//use to define animations or something other on each frame

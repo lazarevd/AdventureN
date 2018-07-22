@@ -1,5 +1,6 @@
 package ru.laz.game.model.things.instances;
 
+import ru.laz.game.AGame;
 import ru.laz.game.controller.ThingContainer;
 import ru.laz.game.model.things.Thing;
 
@@ -20,6 +21,10 @@ public class Stove extends Thing {
 
     public void actOnClick() {
         this.setCurrentTextureName("stove_on");
+        Thing pan = AGame.getGame().getGameScreen().getCurrentLocation().getThings().get("pan");
+        if (pan.getCurrentTextureName().equals("pan_with_oil")) {
+            pan.setCurrentAnimationName("oil_boils");
+        }
         this.setDone(true);
     }
 

@@ -23,7 +23,7 @@ public interface RenderObject {
 
 	public void setCurrentTexture(TextureRegion textureRegion);
 
-	public TextureRegion getRenderTexture();
+	public TextureRegion getCurrentAnimationTexture();
 
 	public void setParallaxFactor(float parallaxFactor);
 
