@@ -38,7 +38,7 @@ public class Thing implements RenderObject, Json.Serializable {//Наследу�
 	private transient TextureRegion currentTexture; //animation
     private transient TextureRegion renderTexture; //return this to render
 	//private float heigth;
-
+//
 
 	public Thing() {}
 
