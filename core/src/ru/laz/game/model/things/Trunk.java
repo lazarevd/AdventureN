@@ -2,14 +2,17 @@ package ru.laz.game.model.things;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import ru.laz.game.AGame;
 import ru.laz.game.controller.ThingContainer;
 
-public class Trunk {
+public class Trunk implements Json.Serializable {
 
 
     private int COLUMNS = 6;
@@ -39,6 +42,9 @@ public class Trunk {
         return new HashMap<String, Thing>(things);
     }
 
+    public void setThings(HashMap<String, Thing> things) {
+        this.things = things;
+    }
 
     public Thing getTrunkThing(String thingName) {
         return things.get(thingName);
@@ -79,7 +85,6 @@ public class Trunk {
 
     public String getHitActorName(Vector2 xy) {
             for (Map.Entry<String, Thing> entry : things.entrySet()) {
-                //Gdx.app.log("TRUNK", "hit actor " + entry.getKey() + " " + entry.getValue().getX() + ":" + entry.getValue().getY());
                 if (entry.getValue().isHit(xy)) {
                     return entry.getKey();
                 }
@@ -103,9 +108,20 @@ public class Trunk {
                         tmpRShift += ROWS_SHIFT;
                         tmpCShift = COLUMN_SHIFT;
                     }
-
   }
     }
 
 
+    @Override
+    public void write(Json json) {
+        Gdx.app.log("trunk ", "write " + things.size());
+        json.writeFields(this);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        json.readFields(this,jsonData);
+        Gdx.app.log("trunk ", "read " + things.size() + " " + this.toString());
+        Gdx.app.log("game screen ", "read " + AGame.getGame().getGameScreen().toString());
+    }
 }

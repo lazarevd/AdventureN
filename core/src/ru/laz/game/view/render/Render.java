@@ -499,14 +499,16 @@ public class Render {
 	private void drawTrunk() {
         drawTrunkBack();
 		setUICameraMatrix();
-			int x0 = 100;
+        Gdx.app.log("Render trunk ", AGame.getGame().getGameScreen().getTrunk().toString());
+        Gdx.app.log("Render location", AGame.getGame().getGameScreen().toString());
 			for (Entry<String, Thing> entry : AGame.getGame().getGameScreen().getTrunk().getThings().entrySet()) {//Рисуем объекты в сундуке
 				TextureRegion tex = TextureFabric.getTexture(entry.getValue().getCurrentTextureName());
 				Render.drawActor(tex, entry.getValue().getX(), entry.getValue().getY(), entry.getValue().getWidth(), entry.getValue().getHeight());
-				for (Polygon4Game poly : entry.getValue().bodyPolys) {
-					drawPolygon(poly, Colour.BLUE);
+				if (drawFrames) {
+					for (Polygon4Game poly : entry.getValue().bodyPolys) {
+						drawPolygon(poly, Colour.BLUE);
+					}
 				}
-				x0 += 100;
 			}
 
 	}

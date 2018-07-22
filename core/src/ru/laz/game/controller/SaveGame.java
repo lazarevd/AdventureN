@@ -26,52 +26,13 @@ public class SaveGame {
         FileHandle file = Gdx.files.local("savegame.txt");
         String serialized = file.readString();
         Gdx.app.log("reading file ", serialized);
- /*
-        json.setSerializer(Thing.class, new Json.Serializer<Thing>() {
-            @Override
-            public void write(Json json, Thing object, Class knownType) {
-                Gdx.app.log("writing", "write");
-                json.writeObjectStart();
-                json.writeFields(object);
-                json.writeObjectEnd();
-            }
-
-            @Override
-            public Thing read(Json json, JsonValue jsonData, Class type) {
-                Gdx.app.log("initing thing", "initSaved");
-                Thing thing = new Thing();
-                json.readFields(thing,jsonData);
-                thing.init();
-                return thing;
-            }
-        });
-
-        json.setSerializer(Location.class, new Json.Serializer<Location>() {
-            @Override
-            public void write(Json json, Location object, Class knownType) {
-                json.writeObjectStart();
-                json.writeFields(object);
-                json.writeObjectEnd();
-            }
-
-            @Override
-            public Location read(Json json, JsonValue jsonData, Class type) {
-                Gdx.app.log("initing ", "initSaved");
-                Location location = new Location();
-                json.readFields(location,jsonData);
-                location.initSaved();
-                return location;
-            }
-        });
-
-*/
         return json.fromJson(type, serialized);
     }
 
 
     public static void loadAll() {
         GameScreen gameScreen = fromSave(GameScreen.class);
-        AGame.getGame().setScreen(gameScreen);
+        AGame.getGame().setGameScreen(gameScreen);
     }
 /*
     public static void loadAll() {

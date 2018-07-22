@@ -57,28 +57,28 @@ public class GraphGame {
 		
 		for (Entry<String, NodeGame> ns : graphSource.nodes.entrySet()) {
 			if (ns.getValue().nodeType == NodeGame.NodeType.STANDART)//Standart nodes
-			Gdx.app.log("addnode S ", ns.getKey());
+			//Gdx.app.log("addnode S ", ns.getKey());
 			addNode(ns.getKey(), ns.getValue());
 		}
 		
 		for (Entry<String, EdgeGame> ed : graphSource.edges.entrySet()) {
-			Gdx.app.log("addedge ", ed.getKey());
+			//Gdx.app.log("addedge ", ed.getKey());
 			addEdge(ed.getKey(), ed.getValue());
 		}
 			
 		for (Entry<String, Polygon4Game> ps : graphSource.polys.entrySet()) {
-			Gdx.app.log("addpoly ", ps.getKey());
+			//Gdx.app.log("addpoly ", ps.getKey());
 			addPolygon(ps.getKey(), ps.getValue());
 		}
 		
 		for(Entry<String, PointOnEdgeGame> poe : graphSource.poes.entrySet()) {
-			Gdx.app.log("addPOE ", poe.getKey());
+			//Gdx.app.log("addPOE ", poe.getKey());
 			addPointOnEdge(poe.getValue().getParentPolygon(), poe.getValue().getParentEdge(), poe.getValue().getEdgePosition(), poe.getKey());
 		}
 				
 		for (Entry<String,NodeGame> ns : graphSource.nodes.entrySet()) {
 			if (ns.getValue().nodeType == NodeGame.NodeType.POE)//POE nodes
-				Gdx.app.log("addnode P ", ns.getKey());
+				//Gdx.app.log("addnode P ", ns.getKey());
 				addNode(ns.getKey(), ns.getValue());
 			}	
 		

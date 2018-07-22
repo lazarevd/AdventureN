@@ -1,6 +1,5 @@
 package ru.laz.game.model.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -54,7 +53,7 @@ public class Location implements Json.Serializable {
 	}
 
 	public void initSaved() {
-        Gdx.app.log("initing ", "base class");
+       //Gdx.app.log("initing ", "base class");
         scCam = UI.getSceneCamera();
         for (Map.Entry<String,Thing> th : things.entrySet()) {
             renderObjects.add(th.getValue());
@@ -241,13 +240,13 @@ do {
 
     @Override
     public void write(Json json) {
-        Gdx.app.log("writing", this.getClass().getName());
+        //Gdx.app.log("writing", this.getClass().getName());
         json.writeFields(this);
     }
 
     @Override
     public void read(Json json, JsonValue jsonData) {
-        Gdx.app.log("initing location", "initSaved");
+        //Gdx.app.log("initing location", "initSaved");
         json.readFields(this,jsonData);
         initSaved();
     }

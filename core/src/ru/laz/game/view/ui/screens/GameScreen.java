@@ -35,19 +35,7 @@ public class GameScreen extends ScreenAdapter implements Screen, Json.Serializab
 		render = new Render(ui);
 	}
 
-    @Override
-    public void write(Json json) {
-        Gdx.app.log("GameScreen", "write()");
-        json.writeFields(this);
-    }
 
-    @Override
-    public void read(Json json, JsonValue jsonData) {
-        Gdx.app.log("GameScreen", "read()");
-        json.readFields(this,jsonData);
-        this.currentLocation.getMainActor().setLocation(this.currentLocation);
-        initSaved();
-    }
 
 	public Location getCurrentLocation() {
 		return this.currentLocation;
@@ -77,9 +65,9 @@ public class GameScreen extends ScreenAdapter implements Screen, Json.Serializab
 
 
 	public void initSaved() {
-		Gdx.app.log("Gamescreen", "init saved " + trunk.getThings().size());
 		Controller.setLocation(this.currentLocation);
 		Controller.setSceneControls();
+		Gdx.app.log("Gamescreen", "init saved trunk " + trunk.getThings().size());
 	}
 
 
@@ -112,5 +100,19 @@ public class GameScreen extends ScreenAdapter implements Screen, Json.Serializab
 	//??????????? ?????? ?????? ????????, ????? ?? ?? ????????.
 	}
 
+    @Override
+    public void write(Json json) {
+        Gdx.app.log("GameScreen", "write()");
+        json.writeFields(this);
+    }
 
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        json.readFields(this,jsonData);
+        Gdx.app.log("game screen", this.toString());
+        Gdx.app.log("after loc ", currentLocation.toString());
+        Gdx.app.log("after trnk ", trunk.toString());
+        this.currentLocation.getMainActor().setLocation(this.currentLocation);
+        initSaved();
+    }
 }
