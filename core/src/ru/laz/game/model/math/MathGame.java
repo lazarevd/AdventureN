@@ -49,6 +49,7 @@ public class MathGame {
 	}
 
 
+
 	public static Array<Vector2> separateVector(Vector2 start, Vector2 finish, float speed) {
         Array<Vector2> retArr = new Array<Vector2>();
 

@@ -25,9 +25,7 @@ public class UI {
 	private Skin skin;
 	private TextureAtlas buttonAtlas;
 	private static OrthographicCamera uiCam;
-	private static OrthographicCamera  scCam;
 	private static Texture trunkTex;
-	private static Viewport viewportScene;
 	private static Viewport viewportUI;
 	private static UI ui; //singletone
 	public final static int UI_WIDTH = 640;//4x3 aspectratio i don`t know why, but it works
@@ -67,14 +65,12 @@ public class UI {
 		uiCam.position.x = UI_WIDTH/2;
 		uiCam.position.y = UI_HEIGHT/2;
 		viewportUI = new FillViewport(UI_WIDTH, UI_HEIGHT, uiCam);
-        scCam = new OrthographicCamera();
-        scCam.setToOrtho(false);
-		viewportScene = new FillViewport(UI_WIDTH, UI_HEIGHT, scCam); //4x3 aspectratio i don`t know why, but it works
 		//Gdx.app.log("MATRIX SCENE", scCam.projection.toString());
 		//Gdx.app.log("MATRIX UI", uiCam.projection.toString());
 		fillUI();
-
 	}
+
+
 
 	
 	public Texture getTrunkTex() {
@@ -83,18 +79,12 @@ public class UI {
 
 
 
-	public static Viewport getViewportScene() {
-		return UI.viewportScene;
-	}
+
 
 	public static Viewport getViewportUI() {
 		return UI.viewportUI;
 	}
 
-	public static OrthographicCamera getSceneCamera() {
-		return UI.scCam;
-	}
-	
 	public static OrthographicCamera getUICamera() {
 		return UI.uiCam;
 	}

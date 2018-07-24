@@ -59,11 +59,11 @@ public class Render {
 
 
 		if (location != null) {
-			setSceneCameraMatrix();
-			setCamKeyPosition(UI.getSceneCamera(), getCameraSpeed());
+			setSceneCameraMatrix(location);
+			setCamKeyPosition(location.getSceneCamera(), getCameraSpeed());
 			location.QSortRender();
 			for (RenderObject ro : location.getRenderObjects()) {
-				Vector2 tmpCurrentPositionVector = new Vector2(UI.getSceneCamera().position.x, UI.getSceneCamera().position.y);
+				Vector2 tmpCurrentPositionVector = new Vector2(location.getSceneCamera().position.x, location.getSceneCamera().position.y);
 				Vector2 finalPosition = location.getInitalSceneCameraPosition().cpy().sub(tmpCurrentPositionVector).scl(ro.getParallaxFactor());
 				//set render textures/anims
 				ro.setCurrentTexture(TextureFabric.getTexture(ro.getCurrentTextureName()));
@@ -424,9 +424,10 @@ public class Render {
 		shapeRenderer.setProjectionMatrix(UI.getUICamera().combined);//Set default stage camera here
 	}
 
-    private static void setSceneCameraMatrix() {
-		spriteBatch.setProjectionMatrix(UI.getSceneCamera().combined);//Set default stage camera here
-		shapeRenderer.setProjectionMatrix(UI.getSceneCamera().combined);//Set default stage camera here
+
+    private static void setSceneCameraMatrix(Location location) {
+		spriteBatch.setProjectionMatrix(location.getSceneCamera().combined);//Set default stage camera here
+		shapeRenderer.setProjectionMatrix(location.getSceneCamera().combined);//Set default stage camera here
 	}
 
 

@@ -17,7 +17,6 @@ import ru.laz.game.model.things.Thing;
 import ru.laz.game.view.ui.UI;
 import ru.laz.game.view.ui.UIButton;
 
-import static ru.laz.game.controller.Controller.convertCoordinates;
 
 
 public class Controller {
@@ -43,17 +42,16 @@ public class Controller {
         AGame.getGame().getGameScreen().getTrunk().removeFromTrunk(thingContainer);
     }
 
-    public static Vector2 convertCoordinates(float x, float y, boolean world) {
-        return convertCoordinates(new Vector2(x,y), world);
+    public static Vector2 convertCoordinates(float x, float y,Location location, boolean world) {
+        return convertCoordinates(new Vector2(x,y), location, world);
     }
 
-    public static Vector2 convertCoordinates(Vector2 input, boolean world) {//convert device screen (pixel) coords to UI or World coords
+    public static Vector2 convertCoordinates(Vector2 input, Location location, boolean world) {//convert device screen (pixel) coords to UI or World coords
         Vector3 vec3 = new Vector3();
-
         if (!world) {
             vec3.set(UI.getViewportUI().unproject(new Vector3(input.x, input.y, 0)));
         } else {
-            vec3.set(UI.getViewportScene().unproject(new Vector3(input.x, input.y, 0)));
+            vec3.set(location.getViewportScene().unproject(new Vector3(input.x, input.y, 0)));
         }
         Vector2 ret = new Vector2(vec3.x, vec3.y);
         return ret;
@@ -105,8 +103,8 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		Vector2 sceneCoords = convertCoordinates(x,y,true);
-		Vector2 uiCoords = convertCoordinates(x,y,false);
+		Vector2 sceneCoords = Controller.convertCoordinates(x,y,location,true);
+		Vector2 uiCoords = Controller.convertCoordinates(x,y,location,false);
 		//Gdx.app.log("SCENE TOUCH DOWN", x+ " " + y + " scene : " + sceneCoords.x + ";" + sceneCoords.y + " / " + uiCoords.x + " " + uiCoords.y);
 		return false;
 	}
@@ -115,10 +113,10 @@ class SceneGestureListener implements GestureDetector.GestureListener {
 	public boolean tap(float x, float y, int count, int button) {
         location.getMainActor().clearWorks();
 		//Gdx.app.log("SCENE TAP ", "");
-		Vector2 touchPosL = convertCoordinates(x,y,false);
+		Vector2 touchPosL = Controller.convertCoordinates(x,y,location,false);
 
 		if (Controller.getHitButton(touchPosL) != null) return false;
-		Vector2 touchPosW = convertCoordinates(x,y,true);
+		Vector2 touchPosW = Controller.convertCoordinates(x,y,location,true);
 
 		ThingContainer curThing = null;
         curThing = location.getHitActor(touchPosW);
@@ -190,7 +188,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		//Gdx.app.log("THING TAP", x+" "+ y + " " + count + " " + button);
-		Vector2 uiCoords = convertCoordinates(x,y,false);
+		Vector2 uiCoords = Controller.convertCoordinates(x,y,location,false);
 		if(uiCoords.x > (UI.UI_WIDTH-(UI.UI_WIDTH/6))) {
 			Gdx.app.log("HIDE TRUNK","");
 			UI.setTrunk(false);
@@ -203,7 +201,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	public boolean longPress(float x, float y) {
 		//Gdx.app.log("THING LONG PRESS", x+" "+ y);
 		if (UI.isTrunk()) {
-			ThingContainer th = AGame.getGame().getGameScreen().getTrunk().getHitItem(convertCoordinates(x, y, false));
+			ThingContainer th = AGame.getGame().getGameScreen().getTrunk().getHitItem(Controller.convertCoordinates(x, y,location, false));
             Gdx.app.log("hit thing",th.getThingName());
             UI.setPickThing(new ThingContainer(th.getThingName(), th.getThing()));
 		}
@@ -220,7 +218,7 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		//Gdx.app.log("THING PAN ", deltaX + " " + deltaY);
 		if (UI.getPickThing() != null) {
-			Vector2 uiCoords = convertCoordinates(x,y,false);
+			Vector2 uiCoords = Controller.convertCoordinates(x,y,location,false);
 			UI.getPickThing().getThing().setX(uiCoords.x);
 			UI.getPickThing().getThing().setY(uiCoords.y);
             if(uiCoords.x > (UI.UI_WIDTH-(UI.UI_WIDTH/6))) {
@@ -236,14 +234,14 @@ class ThingInteractionListener implements GestureDetector.GestureListener {
 		//Gdx.app.log("THING PAN STOP ", x + " " + y + " " + pointer + " " + button);
 		if (UI.getPickThing() != null) {
 			if (UI.isTrunk()) {
-				ThingContainer secondPick = AGame.getGame().getGameScreen().getTrunk().getHitItem(convertCoordinates(x, y, false));
+				ThingContainer secondPick = AGame.getGame().getGameScreen().getTrunk().getHitItem(Controller.convertCoordinates(x, y, location, false));
 				if (secondPick != null) {
                     AGame.getGame().getGameScreen().getTrunk().genCompositeThing(UI.getPickThing(), secondPick);
 			}
 			} else {
-				ThingContainer targetObject = location.getHitActor(convertCoordinates(x, y, true));
+				ThingContainer targetObject = location.getHitActor(Controller.convertCoordinates(x, y, location, true));
                 ThingContainer pickObject = UI.getPickThing();
-                Vector2 touchPosW = convertCoordinates(x,y,true);
+                Vector2 touchPosW = Controller.convertCoordinates(x,y, location,true);
                 if (targetObject != null && pickObject != null) {
                 	if (targetObject.getThing().getInteractionThing().equals(pickObject.getThingName())) {
 						location.getMainActor().addWork(new PutWork(pickObject, targetObject, location));

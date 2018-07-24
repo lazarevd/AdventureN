@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,10 +27,13 @@ public class Location implements Json.Serializable {
 	private float height = 768;
 	private HashMap<String, Thing> things;
 	private HashMap<String, StaticObject> staticObjects;
-	protected OrthographicCamera scCam;
+    private static Viewport viewportScene;
+    private static OrthographicCamera scCam;
 	private Vector2 initalSceneCameraPosition; //need for parallax calculating
 	private String graphName = "source.graph";
+	private Array<Vector2> cameraStaticPositions;
 
+	private transient Array<Vector2> cameraMoveSpeedVectors;
 	private transient Array<RenderObject> renderObjects;
 	private transient GraphGame graph;
 
@@ -37,24 +42,16 @@ public class Location implements Json.Serializable {
         renderObjects = new Array<RenderObject>();
         things = new HashMap<String, Thing>();
 		graph = new GraphGame();// create graph here (it belongs to this stage)
-    }
-	/*
-	public Level(float width, float height) {
-		this.width = width;
-		this.height = height;
-		staticObjects = new HashMap<String, StaticObject>();
-		renderObjects = new Array<RenderObject>();
+        cameraStaticPositions = new Array<Vector2>();
+        cameraMoveSpeedVectors = new Array<Vector2>();
+   }
 
-	}
-*/
 
-	public void initSceneCamera() {
 
-	}
 
-	public void initSaved() {
+    public void initSaved() {
        //Gdx.app.log("initing ", "base class");
-        scCam = UI.getSceneCamera();
+        viewportScene = new FillViewport(UI.UI_WIDTH, UI.UI_HEIGHT, scCam); //4x3 aspectratio i don`t know why, but it works
         for (Map.Entry<String,Thing> th : things.entrySet()) {
             renderObjects.add(th.getValue());
         }
@@ -69,11 +66,18 @@ public class Location implements Json.Serializable {
 	
 
 	public void init() {
-		graph.loadGraph(graphName);
-	    scCam = UI.getSceneCamera();
+        scCam = new OrthographicCamera();
+        scCam.setToOrtho(false);
+        viewportScene = new FillViewport(UI.UI_WIDTH, UI.UI_HEIGHT, scCam); //4x3 aspectratio i don`t know why, but it works
+        graph.loadGraph(graphName);
 		QSortRender();//сразу обновляем порядок отрисовки объектов	    
 	}
 
+
+	public void setCameraPosition(float x, float y) {
+        scCam.position.x=x;
+        scCam.position.y=y;
+    }
 
 	public ThingContainer getHitActor(Vector2 xy) {;
 			for (Map.Entry<String, Thing> entry : things.entrySet()) {
@@ -84,6 +88,27 @@ public class Location implements Json.Serializable {
 			}
 		return null;
 	}
+
+
+	private void defineCameraMove() {
+
+	    Vector2 tmpVector = new Vector2();
+	    float distance = 9999.9f;
+	    for (int i = 0; i < cameraStaticPositions.size; i++) {
+            float tmpDist = sceneCameraPosition().dst(cameraStaticPositions.get(i));
+            if(tmpDist <= distance) {
+                distance = tmpDist;
+                tmpVector = cameraStaticPositions.get(i);
+            }
+        }
+
+        
+
+    }
+
+    public Vector2 sceneCameraPosition() {
+	    return new Vector2(scCam.position.x, scCam.position.y);
+    }
 
 
 public void act(float delta) {
@@ -103,12 +128,19 @@ public void act(float delta) {
 	}
 
 
+    public static Viewport getViewportScene() {
+        return viewportScene;
+    }
 
-public void QSortRender() {
-	Array<RenderObject> inObj = renderObjects;
-	Array<RenderObject> retObj = QsortRo(inObj, 0, renderObjects.size - 1);
-	renderObjects = retObj;
-}
+    public static OrthographicCamera getSceneCamera() {
+        return scCam;
+    }
+
+    public void QSortRender() {
+        Array<RenderObject> inObj = renderObjects;
+        Array<RenderObject> retObj = QsortRo(inObj, 0, renderObjects.size - 1);
+        renderObjects = retObj;
+    }
 
 private static  Array<RenderObject> QsortRo (Array<RenderObject> arr, int l, int r) {
 
@@ -233,10 +265,13 @@ do {
 	}
 
 
-	public void setInitalSceneCameraPosition(Vector2 initalSceneCameraPosition) {
-		this.initalSceneCameraPosition = initalSceneCameraPosition;
+	public void setInitalSceneCameraPosition(float x, float y) {
+		this.initalSceneCameraPosition = new Vector2(x,y);
 	}
 
+	public void setCurrentCameraZoom(float zoom) {
+        this.scCam.zoom = zoom;
+    }
 
     @Override
     public void write(Json json) {

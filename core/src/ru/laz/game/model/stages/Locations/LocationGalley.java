@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 import ru.laz.game.AGame;
 import ru.laz.game.model.stages.Location;
@@ -44,7 +43,6 @@ public class LocationGalley extends Location {//Wrapper for Gdx Stage, Graph and
 		fr3.setParallaxFactor(0.5f);
 		addStaticObject("fr3", fr3);
 
-
 	    addThing(ThingsFabric.genThing("mug"));
 	    addThing(ThingsFabric.genThing("rope"));
 		addThing(ThingsFabric.genThing("mixerStatic"));
@@ -52,12 +50,9 @@ public class LocationGalley extends Location {//Wrapper for Gdx Stage, Graph and
 	    addThing(ThingsFabric.genThing("oil"));
 	    addThing(ThingsFabric.genThing("pan"));
 
-
-
-	    scCam.position.x = 800.0f;
-		scCam.position.y = 245.0f;
-		scCam.zoom = 1.0f;
-		this.setInitalSceneCameraPosition(new Vector2(scCam.position.x,scCam.position.y));
+		this.setCameraPosition(800.0f, 245.0f);
+		this.setInitalSceneCameraPosition(800.0f, 245.0f);
+		this.setCurrentCameraZoom(1.0f);
 	}
 	
 	
