@@ -53,7 +53,7 @@ public class AGame extends Game {
 		this.gameScreen = gameScreen;
 		this.setScreen(gameScreen);
 	}
-
+//1
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
